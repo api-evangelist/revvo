@@ -1,0 +1,436 @@
+openapi: 3.0.1
+info:
+  title: revvo-api Api-keys Fleet API
+  version: '0.0'
+  description: Api key management (requires admin access)
+tags:
+- name: Fleet
+  description: The Fleet API
+paths:
+  /fleet/{fleetId}:
+    get:
+      tags:
+      - Fleet
+      summary: Get details of all vehicles in the fleet
+      description: Get details of all vehicles in the fleet
+      operationId: getFleetStatus
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: timestamp
+        in: query
+        description: 'Optionally retrieve fleet data at a given point in time. Point in time is expressed as seconds since epoch.
+
+          This option depends on periodic snapshots of the fleet status being saved. Closest available snapshot within a 24h period of the target timestamp will be selected.
+
+          An error will occur if no snapshot is available within that 24h period
+
+          '
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          nullable: true
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetFleetStatus200Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+components:
+  schemas:
+    internalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
+    EventListInner:
+      type: object
+      properties:
+        vin:
+          type: string
+          description: VIN
+          nullable: true
+          example: WVGBV75N19W507096
+        tirePosition:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        eventTime:
+          type: integer
+          description: Timestamp in epoch seconds
+          format: int64
+          nullable: true
+          example: 1577836800
+        type:
+          description: Get type
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/type'
+        resolutionTime:
+          type: integer
+          description: Timestamp in epoch seconds or null if the event is not resolved
+          format: int64
+          nullable: true
+          example: 1577836800
+      description: EventListInner
+    tirePosition_1:
+      type: string
+      description: 'Tire position on the vehicle: \[SIDE\]_\[AXLE_NUMBER\] with an optional _\[INNER/OUTER\] suffix, plus SPARE_\[N\].'
+      enum:
+      - LEFT_1
+      - LEFT_1_INNER
+      - LEFT_1_OUTER
+      - RIGHT_1
+      - RIGHT_1_INNER
+      - RIGHT_1_OUTER
+      - LEFT_2
+      - LEFT_2_INNER
+      - LEFT_2_OUTER
+      - RIGHT_2
+      - RIGHT_2_INNER
+      - RIGHT_2_OUTER
+      - LEFT_3
+      - LEFT_3_INNER
+      - LEFT_3_OUTER
+      - RIGHT_3
+      - RIGHT_3_INNER
+      - RIGHT_3_OUTER
+      - LEFT_4
+      - LEFT_4_INNER
+      - LEFT_4_OUTER
+      - RIGHT_4
+      - RIGHT_4_INNER
+      - RIGHT_4_OUTER
+      - LEFT_5
+      - LEFT_5_INNER
+      - LEFT_5_OUTER
+      - RIGHT_5
+      - RIGHT_5_INNER
+      - RIGHT_5_OUTER
+      - LEFT_6
+      - LEFT_6_INNER
+      - LEFT_6_OUTER
+      - RIGHT_6
+      - RIGHT_6_INNER
+      - RIGHT_6_OUTER
+      - LEFT_7
+      - LEFT_7_INNER
+      - LEFT_7_OUTER
+      - RIGHT_7
+      - RIGHT_7_INNER
+      - RIGHT_7_OUTER
+      - LEFT_8
+      - LEFT_8_INNER
+      - LEFT_8_OUTER
+      - RIGHT_8
+      - RIGHT_8_INNER
+      - RIGHT_8_OUTER
+      - LEFT_9
+      - LEFT_9_INNER
+      - LEFT_9_OUTER
+      - RIGHT_9
+      - RIGHT_9_INNER
+      - RIGHT_9_OUTER
+      - LEFT_10
+      - LEFT_10_INNER
+      - LEFT_10_OUTER
+      - RIGHT_10
+      - RIGHT_10_INNER
+      - RIGHT_10_OUTER
+      - LEFT_11
+      - LEFT_11_INNER
+      - LEFT_11_OUTER
+      - RIGHT_11
+      - RIGHT_11_INNER
+      - RIGHT_11_OUTER
+      - LEFT_12
+      - LEFT_12_INNER
+      - LEFT_12_OUTER
+      - RIGHT_12
+      - RIGHT_12_INNER
+      - RIGHT_12_OUTER
+      - SPARE_1
+      - SPARE_2
+      - SPARE_3
+      - SPARE_4
+      - SPARE_5
+      - SPARE_6
+      - LEFT_1_OUTER_OUTER
+      - LEFT_1_OUTER_INNER
+      - LEFT_1_INNER_OUTER
+      - LEFT_1_INNER_INNER
+      - RIGHT_1_OUTER_OUTER
+      - RIGHT_1_OUTER_INNER
+      - RIGHT_1_INNER_OUTER
+      - RIGHT_1_INNER_INNER
+      - LEFT_2_OUTER_OUTER
+      - LEFT_2_OUTER_INNER
+      - LEFT_2_INNER_OUTER
+      - LEFT_2_INNER_INNER
+      - RIGHT_2_OUTER_OUTER
+      - RIGHT_2_OUTER_INNER
+      - RIGHT_2_INNER_OUTER
+      - RIGHT_2_INNER_INNER
+      - LEFT_3_OUTER_OUTER
+      - LEFT_3_OUTER_INNER
+      - LEFT_3_INNER_OUTER
+      - LEFT_3_INNER_INNER
+      - RIGHT_3_OUTER_OUTER
+      - RIGHT_3_OUTER_INNER
+      - RIGHT_3_INNER_OUTER
+      - RIGHT_3_INNER_INNER
+      - LEFT_4_OUTER_OUTER
+      - LEFT_4_OUTER_INNER
+      - LEFT_4_INNER_OUTER
+      - LEFT_4_INNER_INNER
+      - RIGHT_4_OUTER_OUTER
+      - RIGHT_4_OUTER_INNER
+      - RIGHT_4_INNER_OUTER
+      - RIGHT_4_INNER_INNER
+      - LEFT_5_OUTER_OUTER
+      - LEFT_5_OUTER_INNER
+      - LEFT_5_INNER_OUTER
+      - LEFT_5_INNER_INNER
+      - RIGHT_5_OUTER_OUTER
+      - RIGHT_5_OUTER_INNER
+      - RIGHT_5_INNER_OUTER
+      - RIGHT_5_INNER_INNER
+      - LEFT_6_OUTER_OUTER
+      - LEFT_6_OUTER_INNER
+      - LEFT_6_INNER_OUTER
+      - LEFT_6_INNER_INNER
+      - RIGHT_6_OUTER_OUTER
+      - RIGHT_6_OUTER_INNER
+      - RIGHT_6_INNER_OUTER
+      - RIGHT_6_INNER_INNER
+      - LEFT_7_OUTER_OUTER
+      - LEFT_7_OUTER_INNER
+      - LEFT_7_INNER_OUTER
+      - LEFT_7_INNER_INNER
+      - RIGHT_7_OUTER_OUTER
+      - RIGHT_7_OUTER_INNER
+      - RIGHT_7_INNER_OUTER
+      - RIGHT_7_INNER_INNER
+      - LEFT_8_OUTER_OUTER
+      - LEFT_8_OUTER_INNER
+      - LEFT_8_INNER_OUTER
+      - LEFT_8_INNER_INNER
+      - RIGHT_8_OUTER_OUTER
+      - RIGHT_8_OUTER_INNER
+      - RIGHT_8_INNER_OUTER
+      - RIGHT_8_INNER_INNER
+      - LEFT_9_OUTER_OUTER
+      - LEFT_9_OUTER_INNER
+      - LEFT_9_INNER_OUTER
+      - LEFT_9_INNER_INNER
+      - RIGHT_9_OUTER_OUTER
+      - RIGHT_9_OUTER_INNER
+      - RIGHT_9_INNER_OUTER
+      - RIGHT_9_INNER_INNER
+      - LEFT_10_OUTER_OUTER
+      - LEFT_10_OUTER_INNER
+      - LEFT_10_INNER_OUTER
+      - LEFT_10_INNER_INNER
+      - RIGHT_10_OUTER_OUTER
+      - RIGHT_10_OUTER_INNER
+      - RIGHT_10_INNER_OUTER
+      - RIGHT_10_INNER_INNER
+      - LEFT_11_OUTER_OUTER
+      - LEFT_11_OUTER_INNER
+      - LEFT_11_INNER_OUTER
+      - LEFT_11_INNER_INNER
+      - RIGHT_11_OUTER_OUTER
+      - RIGHT_11_OUTER_INNER
+      - RIGHT_11_INNER_OUTER
+      - RIGHT_11_INNER_INNER
+      - LEFT_12_OUTER_OUTER
+      - LEFT_12_OUTER_INNER
+      - LEFT_12_INNER_OUTER
+      - LEFT_12_INNER_INNER
+      - RIGHT_12_OUTER_OUTER
+      - RIGHT_12_OUTER_INNER
+      - RIGHT_12_INNER_OUTER
+      - RIGHT_12_INNER_INNER
+      x-type: String
+    GetFleetStatus200Response:
+      type: object
+      properties:
+        value:
+          type: array
+          description: Get value
+          nullable: true
+          items:
+            $ref: '#/components/schemas/VehicleStatus'
+        valueTimestamp:
+          type: integer
+          description: The actual timestamp of the data returned in the value property (as seconds since epoch)
+          format: int64
+          nullable: true
+        displayErrorMessage:
+          type: string
+          description: Get displayErrorMessage
+          nullable: true
+          example: Error contacting servers. Please try again later.
+        internalErrorMessage:
+          type: string
+          description: Get internalErrorMessage
+          nullable: true
+          example: Failed loading tires, please contact the server team.
+        internalErrorCode:
+          description: Get internalErrorCode
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/internalErrorCode'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+      description: GetFleetStatus200Response
+    type:
+      type: string
+      description: Event type
+      enum:
+      - LOW_PRESSURE
+      - CRITICAL_LOW_PRESSURE
+      - LOW_PRESSURE_IN_MOTION
+      - CRITICAL_LOW_PRESSURE_IN_MOTION
+      - LOW_TREAD
+      - CRITICAL_LOW_TREAD
+      - LOW_PRESSURE_FROM_TEMP
+      - INVALID_SENSOR_DATA
+      - DEFLATED
+      - LEAK
+      - HIGH_TEMPERATURE
+      - HIGH_PRESSURE
+      - SUSPECTED_SERVICE_FROM_DEFLATION
+      - SUSPECTED_TIRE_ROTATION
+      x-type: String
+    geolocation:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          description: Timestamp in epoch seconds
+          format: int64
+          nullable: true
+          example: 1577836800
+        latitude:
+          type: number
+          description: Latitude
+          nullable: true
+          example: 37.5550874
+        longitude:
+          type: number
+          description: Longitude
+          nullable: true
+          example: -122.3000345
+      description: Geolocation
+    treadClass:
+      type: string
+      description: Tread class
+      enum:
+      - CRITICAL_LOW
+      - LOW
+      - MEDIUM
+      - HIGH
+      - UNKNOWN
+      x-type: String
+    VehicleStatus:
+      type: object
+      properties:
+        vin:
+          type: string
+          description: VIN
+          nullable: true
+          example: WVGBV75N19W507096
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        geolocation:
+          description: Get geolocation
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/geolocation'
+        tires:
+          type: array
+          description: Get tires
+          nullable: true
+          items:
+            $ref: '#/components/schemas/TireStatusListInner'
+      description: VehicleStatus
+    TireStatusListInner:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          description: Timestamp in epoch seconds
+          format: int64
+          nullable: true
+          example: 1577836800
+        tirePosition:
+          description: Get tirePosition
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        sensorId:
+          type: string
+          description: Get sensorId
+          nullable: true
+        pressure:
+          type: number
+          description: Pressure in PSI
+          nullable: true
+          example: 31.5
+        temperature:
+          type: number
+          description: Temperature in Celsius
+          nullable: true
+          example: 27.2
+        treadClass:
+          description: Get treadClass
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/treadClass'
+        treadInMm:
+          type: number
+          format: double
+          nullable: true
+        tireTotalKm:
+          type: number
+          format: double
+          nullable: true
+        openEvents:
+          type: array
+          description: Get openEvents
+          nullable: true
+          items:
+            $ref: '#/components/schemas/EventListInner'
+        resolvedEvents:
+          type: array
+          description: Get resolvedEvents
+          nullable: true
+          items:
+            $ref: '#/components/schemas/EventListInner'
+      description: TireStatusListInner
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

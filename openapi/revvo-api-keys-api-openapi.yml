@@ -1,0 +1,112 @@
+openapi: 3.0.1
+info:
+  title: revvo-api Api-keys API
+  version: '0.0'
+  description: Api key management (requires admin access)
+tags:
+- name: Api-keys
+  description: Api key management (requires admin access)
+paths:
+  /api-keys/fleet/{fleetId}:
+    get:
+      tags:
+      - Api-keys
+      summary: Get details of existing API keys
+      description: List all existing API keys
+      operationId: getApiKeys
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetApiKey200Response'
+        '401':
+          description: Unauthorized
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Api-keys
+      summary: Creates a new API key
+      description: Creates a new API key
+      operationId: addApiKey
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: the generated API key
+          content:
+            text/plain:
+              schema:
+                type: string
+      security:
+      - bearerAuth: []
+  /api-keys/fleet/{fleetId}/key-id/{keyId}:
+    delete:
+      tags:
+      - Api-keys
+      summary: Delete an existing API key
+      description: Delete an existing API key
+      operationId: deleteApiKey
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        description: Key id to delete, must be one of the values returned bu the get method
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: deleteApiKey 200 response
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    GetApiKey200Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeyData'
+    ApiKeyData:
+      required:
+      - creationTimestamp
+      - expirationTimestamp
+      - keyId
+      type: object
+      properties:
+        keyId:
+          type: string
+        creationTimestamp:
+          type: integer
+          format: int64
+        expirationTimestamp:
+          type: integer
+          format: int64
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

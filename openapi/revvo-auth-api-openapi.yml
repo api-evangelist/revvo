@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: revvo-api Api-keys Auth API
+  version: '0.0'
+  description: Api key management (requires admin access)
+tags:
+- name: Auth
+  description: Get authorization token using an API key
+paths:
+  /auth:
+    post:
+      tags:
+      - Auth
+      summary: Get a JWT authentication token
+      operationId: authToken
+      parameters:
+      - name: X-API-KEY
+        in: header
+        description: Supplied API key
+        required: true
+      responses:
+        '200':
+          description: A JWT token to use in the other endpoints
+          content:
+            text/plain: {}
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

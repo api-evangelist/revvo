@@ -1,0 +1,975 @@
+openapi: 3.0.1
+info:
+  title: revvo-api Api-keys Device API
+  version: '0.0'
+  description: Api key management (requires admin access)
+tags:
+- name: Device
+  description: The Device API
+paths:
+  /fleet/{fleetId}/devices/register:
+    post:
+      tags:
+      - Device
+      summary: Register devices (gateway and/or sensors) to vehicle
+      description: Register devices (gateway and/or sensors) to vehicle
+      operationId: registerDevicesForVehicle
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Register devices for vehicle details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDevicesForVehicleBody'
+      responses:
+        '200':
+          description: Registered devices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration200Response'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration400Response'
+        '404':
+          description: Device or Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration404Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/gateway/register:
+    post:
+      tags:
+      - Device
+      summary: Register gateway to vehicle
+      description: Register gateway to vehicle
+      operationId: registerGateway
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Register gateway details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterGatewayBody'
+      responses:
+        '200':
+          description: Registered gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration200Response'
+        '304':
+          description: Registration was unsuccessful
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration400Response'
+        '404':
+          description: Device or Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration404Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/sensor:
+    get:
+      tags:
+      - Device
+      summary: Get details about the sensor
+      operationId: getSensor
+      parameters:
+      - name: fleetId
+        in: path
+        description: Fleet identifier
+        required: true
+      - name: externalId
+        in: query
+        description: External ID
+        required: false
+      - name: macAddress
+        in: query
+        description: MAC Address
+        required: false
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDevices200Response'
+        '400':
+          description: Error processing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDevices400Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/sensor/register:
+    post:
+      tags:
+      - Device
+      summary: Register sensor to vehicle tire
+      description: Register sensor to vehicle tire
+      operationId: registerSensor
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Register sensor details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterSensorBody'
+      responses:
+        '200':
+          description: Registered sensor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration200Response'
+        '304':
+          description: Registration was unsuccessful
+          content:
+            application/json: {}
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration400Response'
+        '404':
+          description: Device or Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceRegistration404Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+components:
+  schemas:
+    RegisterGatewayBody:
+      required:
+      - assetId
+      - gatewayLocation
+      type: object
+      properties:
+        gatewayId:
+          type: string
+          description: ID of the gateway
+          nullable: true
+          example: T1161230000
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        gatewayLocation:
+          description: Location of the gateway installation
+          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+          allOf:
+          - $ref: '#/components/schemas/gatewayLocation'
+      description: RegisterGatewayBody
+    RegisterDevicesForVehicleBody:
+      required:
+      - assetId
+      type: object
+      properties:
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+        gatewayMacAddress:
+          type: string
+          description: Optional gateway MAC address; if provided, gatewayInstallLocation is required
+          nullable: true
+        gatewayInstallLocation:
+          description: Install location for the gateway; required when gatewayMacAddress is provided
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/gatewayInstallLocation'
+        tirePositionToSensorMacAddress:
+          type: object
+          description: Map of tire position (e.g. LEFT_1, RIGHT_1) to sensor MAC address; all positions must exist on the vehicle
+          nullable: true
+          allOf:
+          - type: object
+            properties:
+              FRONT_LEFT:
+                type: string
+              FRONT_RIGHT:
+                type: string
+              REAR_LEFT:
+                type: string
+              REAR_RIGHT:
+                type: string
+              EXTERNAL:
+                type: string
+              OBD2:
+                type: string
+              DEVICE:
+                type: string
+              UNKNOWN:
+                type: string
+              FRONT:
+                type: string
+              REAR:
+                type: string
+              LEFT_1:
+                type: string
+              LEFT_1_OUTER:
+                type: string
+              LEFT_1_INNER:
+                type: string
+              RIGHT_1:
+                type: string
+              RIGHT_1_INNER:
+                type: string
+              RIGHT_1_OUTER:
+                type: string
+              LEFT_2:
+                type: string
+              LEFT_2_OUTER:
+                type: string
+              LEFT_2_INNER:
+                type: string
+              RIGHT_2:
+                type: string
+              RIGHT_2_INNER:
+                type: string
+              RIGHT_2_OUTER:
+                type: string
+              LEFT_3:
+                type: string
+              LEFT_3_OUTER:
+                type: string
+              LEFT_3_INNER:
+                type: string
+              RIGHT_3:
+                type: string
+              RIGHT_3_INNER:
+                type: string
+              RIGHT_3_OUTER:
+                type: string
+              LEFT_4:
+                type: string
+              LEFT_4_OUTER:
+                type: string
+              LEFT_4_INNER:
+                type: string
+              RIGHT_4:
+                type: string
+              RIGHT_4_INNER:
+                type: string
+              RIGHT_4_OUTER:
+                type: string
+              LEFT_5:
+                type: string
+              LEFT_5_OUTER:
+                type: string
+              LEFT_5_INNER:
+                type: string
+              RIGHT_5:
+                type: string
+              RIGHT_5_INNER:
+                type: string
+              RIGHT_5_OUTER:
+                type: string
+              LEFT_6:
+                type: string
+              LEFT_6_OUTER:
+                type: string
+              LEFT_6_INNER:
+                type: string
+              RIGHT_6:
+                type: string
+              RIGHT_6_INNER:
+                type: string
+              RIGHT_6_OUTER:
+                type: string
+              LEFT_7:
+                type: string
+              LEFT_7_OUTER:
+                type: string
+              LEFT_7_INNER:
+                type: string
+              RIGHT_7:
+                type: string
+              RIGHT_7_INNER:
+                type: string
+              RIGHT_7_OUTER:
+                type: string
+              LEFT_8:
+                type: string
+              LEFT_8_OUTER:
+                type: string
+              LEFT_8_INNER:
+                type: string
+              RIGHT_8:
+                type: string
+              RIGHT_8_INNER:
+                type: string
+              RIGHT_8_OUTER:
+                type: string
+              LEFT_9:
+                type: string
+              LEFT_9_OUTER:
+                type: string
+              LEFT_9_INNER:
+                type: string
+              RIGHT_9:
+                type: string
+              RIGHT_9_INNER:
+                type: string
+              RIGHT_9_OUTER:
+                type: string
+              LEFT_10:
+                type: string
+              LEFT_10_OUTER:
+                type: string
+              LEFT_10_INNER:
+                type: string
+              RIGHT_10:
+                type: string
+              RIGHT_10_INNER:
+                type: string
+              RIGHT_10_OUTER:
+                type: string
+              LEFT_11:
+                type: string
+              LEFT_11_OUTER:
+                type: string
+              LEFT_11_INNER:
+                type: string
+              RIGHT_11:
+                type: string
+              RIGHT_11_INNER:
+                type: string
+              RIGHT_11_OUTER:
+                type: string
+              LEFT_12:
+                type: string
+              LEFT_12_OUTER:
+                type: string
+              LEFT_12_INNER:
+                type: string
+              RIGHT_12:
+                type: string
+              RIGHT_12_INNER:
+                type: string
+              RIGHT_12_OUTER:
+                type: string
+              SPARE_1:
+                type: string
+              SPARE_2:
+                type: string
+              SPARE_3:
+                type: string
+              SPARE_4:
+                type: string
+              SPARE_5:
+                type: string
+              SPARE_6:
+                type: string
+              LEFT_1_OUTER_OUTER:
+                type: string
+              LEFT_1_OUTER_INNER:
+                type: string
+              LEFT_1_INNER_OUTER:
+                type: string
+              LEFT_1_INNER_INNER:
+                type: string
+              RIGHT_1_OUTER_OUTER:
+                type: string
+              RIGHT_1_OUTER_INNER:
+                type: string
+              RIGHT_1_INNER_OUTER:
+                type: string
+              RIGHT_1_INNER_INNER:
+                type: string
+              LEFT_2_OUTER_OUTER:
+                type: string
+              LEFT_2_OUTER_INNER:
+                type: string
+              LEFT_2_INNER_OUTER:
+                type: string
+              LEFT_2_INNER_INNER:
+                type: string
+              RIGHT_2_OUTER_OUTER:
+                type: string
+              RIGHT_2_OUTER_INNER:
+                type: string
+              RIGHT_2_INNER_OUTER:
+                type: string
+              RIGHT_2_INNER_INNER:
+                type: string
+              LEFT_3_OUTER_OUTER:
+                type: string
+              LEFT_3_OUTER_INNER:
+                type: string
+              LEFT_3_INNER_OUTER:
+                type: string
+              LEFT_3_INNER_INNER:
+                type: string
+              RIGHT_3_OUTER_OUTER:
+                type: string
+              RIGHT_3_OUTER_INNER:
+                type: string
+              RIGHT_3_INNER_OUTER:
+                type: string
+              RIGHT_3_INNER_INNER:
+                type: string
+              LEFT_4_OUTER_OUTER:
+                type: string
+              LEFT_4_OUTER_INNER:
+                type: string
+              LEFT_4_INNER_OUTER:
+                type: string
+              LEFT_4_INNER_INNER:
+                type: string
+              RIGHT_4_OUTER_OUTER:
+                type: string
+              RIGHT_4_OUTER_INNER:
+                type: string
+              RIGHT_4_INNER_OUTER:
+                type: string
+              RIGHT_4_INNER_INNER:
+                type: string
+              LEFT_5_OUTER_OUTER:
+                type: string
+              LEFT_5_OUTER_INNER:
+                type: string
+              LEFT_5_INNER_OUTER:
+                type: string
+              LEFT_5_INNER_INNER:
+                type: string
+              RIGHT_5_OUTER_OUTER:
+                type: string
+              RIGHT_5_OUTER_INNER:
+                type: string
+              RIGHT_5_INNER_OUTER:
+                type: string
+              RIGHT_5_INNER_INNER:
+                type: string
+              LEFT_6_OUTER_OUTER:
+                type: string
+              LEFT_6_OUTER_INNER:
+                type: string
+              LEFT_6_INNER_OUTER:
+                type: string
+              LEFT_6_INNER_INNER:
+                type: string
+              RIGHT_6_OUTER_OUTER:
+                type: string
+              RIGHT_6_OUTER_INNER:
+                type: string
+              RIGHT_6_INNER_OUTER:
+                type: string
+              RIGHT_6_INNER_INNER:
+                type: string
+              LEFT_7_OUTER_OUTER:
+                type: string
+              LEFT_7_OUTER_INNER:
+                type: string
+              LEFT_7_INNER_OUTER:
+                type: string
+              LEFT_7_INNER_INNER:
+                type: string
+              RIGHT_7_OUTER_OUTER:
+                type: string
+              RIGHT_7_OUTER_INNER:
+                type: string
+              RIGHT_7_INNER_OUTER:
+                type: string
+              RIGHT_7_INNER_INNER:
+                type: string
+              LEFT_8_OUTER_OUTER:
+                type: string
+              LEFT_8_OUTER_INNER:
+                type: string
+              LEFT_8_INNER_OUTER:
+                type: string
+              LEFT_8_INNER_INNER:
+                type: string
+              RIGHT_8_OUTER_OUTER:
+                type: string
+              RIGHT_8_OUTER_INNER:
+                type: string
+              RIGHT_8_INNER_OUTER:
+                type: string
+              RIGHT_8_INNER_INNER:
+                type: string
+              LEFT_9_OUTER_OUTER:
+                type: string
+              LEFT_9_OUTER_INNER:
+                type: string
+              LEFT_9_INNER_OUTER:
+                type: string
+              LEFT_9_INNER_INNER:
+                type: string
+              RIGHT_9_OUTER_OUTER:
+                type: string
+              RIGHT_9_OUTER_INNER:
+                type: string
+              RIGHT_9_INNER_OUTER:
+                type: string
+              RIGHT_9_INNER_INNER:
+                type: string
+              LEFT_10_OUTER_OUTER:
+                type: string
+              LEFT_10_OUTER_INNER:
+                type: string
+              LEFT_10_INNER_OUTER:
+                type: string
+              LEFT_10_INNER_INNER:
+                type: string
+              RIGHT_10_OUTER_OUTER:
+                type: string
+              RIGHT_10_OUTER_INNER:
+                type: string
+              RIGHT_10_INNER_OUTER:
+                type: string
+              RIGHT_10_INNER_INNER:
+                type: string
+              LEFT_11_OUTER_OUTER:
+                type: string
+              LEFT_11_OUTER_INNER:
+                type: string
+              LEFT_11_INNER_OUTER:
+                type: string
+              LEFT_11_INNER_INNER:
+                type: string
+              RIGHT_11_OUTER_OUTER:
+                type: string
+              RIGHT_11_OUTER_INNER:
+                type: string
+              RIGHT_11_INNER_OUTER:
+                type: string
+              RIGHT_11_INNER_INNER:
+                type: string
+              LEFT_12_OUTER_OUTER:
+                type: string
+              LEFT_12_OUTER_INNER:
+                type: string
+              LEFT_12_INNER_OUTER:
+                type: string
+              LEFT_12_INNER_INNER:
+                type: string
+              RIGHT_12_OUTER_OUTER:
+                type: string
+              RIGHT_12_OUTER_INNER:
+                type: string
+              RIGHT_12_INNER_OUTER:
+                type: string
+              RIGHT_12_INNER_INNER:
+                type: string
+      description: Request body for registering devices (gateway and/or sensors) to a vehicle in one call.
+    DeviceRegistration404Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type: boolean
+          description: 'false'
+          nullable: true
+          example: false
+      description: DeviceRegistration404Response
+    DeviceRegistration200Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: string
+          description: Get value
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+      description: DeviceRegistration200Response
+    RegisterSensorBody:
+      required:
+      - assetId
+      - tirePosition
+      type: object
+      properties:
+        sensorId:
+          type: string
+          description: ID of the sensor
+          nullable: true
+          example: S102000ABCD
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        tirePosition:
+          description: Tire position of sensor installation
+          example: LEFT_1
+          allOf:
+          - $ref: '#/components/schemas/tirePosition'
+      description: RegisterSensorBody
+    Device:
+      type: object
+      properties:
+        externalId:
+          type: string
+          description: Device's External ID
+          nullable: true
+          example: 111000ABCD
+        macAddress:
+          type: string
+          description: MAC Address
+          nullable: true
+          example: DE:AD:BE:EF:00:00
+      description: Device
+    GetDevices200Response:
+      type: object
+      properties:
+        value:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Device'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+    GetDevices400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type: boolean
+          description: 'false'
+          nullable: true
+          example: false
+    gatewayInstallLocation:
+      type: string
+      description: Install location for the gateway; required when gatewayMacAddress is provided
+      enum:
+      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
+      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
+      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
+      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
+      - CAR_FRONT_LEFT_OBD2
+      - CAR_FRONT_CENTER_OBD2
+      - CAR_FRONT_RIGHT_OBD2
+      - CAR_REAR_LEFT_TRUNK
+      - CAR_REAR_CENTER_TRUNK
+      - CAR_REAR_RIGHT_TRUNK
+      - TRAILER_FRONT_LEFT_TOP
+      - TRAILER_FRONT_CENTER_TOP
+      - TRAILER_FRONT_RIGHT_TOP
+      - TRAILER_REAR_LEFT_TOP
+      - TRAILER_REAR_CENTER_TOP
+      - TRAILER_REAR_RIGHT_TOP
+      - TRAILER_MIDDLE_LEFT_UNDERSIDE
+      - TRAILER_MIDDLE_CENTER_UNDERSIDE
+      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
+      - TRAILER_REAR_LEFT_UNDERSIDE
+      - TRAILER_REAR_CENTER_UNDERSIDE
+      - TRAILER_REAR_RIGHT_UNDERSIDE
+      - TRUCK_LEFT_SLEEPER_BERTH
+      - TRUCK_CENTER_SLEEPER_BERTH
+      - TRUCK_RIGHT_SLEEPER_BERTH
+    DeviceRegistration400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type: boolean
+          description: 'false'
+          nullable: true
+          example: false
+      description: DeviceRegistration400Response
+    tirePosition:
+      type: string
+      description: Tire position of sensor installation
+      example: LEFT_1
+      enum:
+      - FRONT_LEFT
+      - FRONT_RIGHT
+      - REAR_LEFT
+      - REAR_RIGHT
+      - EXTERNAL
+      - OBD2
+      - DEVICE
+      - UNKNOWN
+      - FRONT
+      - REAR
+      - LEFT_1
+      - LEFT_1_OUTER
+      - LEFT_1_INNER
+      - RIGHT_1
+      - RIGHT_1_INNER
+      - RIGHT_1_OUTER
+      - LEFT_2
+      - LEFT_2_OUTER
+      - LEFT_2_INNER
+      - RIGHT_2
+      - RIGHT_2_INNER
+      - RIGHT_2_OUTER
+      - LEFT_3
+      - LEFT_3_OUTER
+      - LEFT_3_INNER
+      - RIGHT_3
+      - RIGHT_3_INNER
+      - RIGHT_3_OUTER
+      - LEFT_4
+      - LEFT_4_OUTER
+      - LEFT_4_INNER
+      - RIGHT_4
+      - RIGHT_4_INNER
+      - RIGHT_4_OUTER
+      - LEFT_5
+      - LEFT_5_OUTER
+      - LEFT_5_INNER
+      - RIGHT_5
+      - RIGHT_5_INNER
+      - RIGHT_5_OUTER
+      - LEFT_6
+      - LEFT_6_OUTER
+      - LEFT_6_INNER
+      - RIGHT_6
+      - RIGHT_6_INNER
+      - RIGHT_6_OUTER
+      - LEFT_7
+      - LEFT_7_OUTER
+      - LEFT_7_INNER
+      - RIGHT_7
+      - RIGHT_7_INNER
+      - RIGHT_7_OUTER
+      - LEFT_8
+      - LEFT_8_OUTER
+      - LEFT_8_INNER
+      - RIGHT_8
+      - RIGHT_8_INNER
+      - RIGHT_8_OUTER
+      - LEFT_9
+      - LEFT_9_OUTER
+      - LEFT_9_INNER
+      - RIGHT_9
+      - RIGHT_9_INNER
+      - RIGHT_9_OUTER
+      - LEFT_10
+      - LEFT_10_OUTER
+      - LEFT_10_INNER
+      - RIGHT_10
+      - RIGHT_10_INNER
+      - RIGHT_10_OUTER
+      - LEFT_11
+      - LEFT_11_OUTER
+      - LEFT_11_INNER
+      - RIGHT_11
+      - RIGHT_11_INNER
+      - RIGHT_11_OUTER
+      - LEFT_12
+      - LEFT_12_OUTER
+      - LEFT_12_INNER
+      - RIGHT_12
+      - RIGHT_12_INNER
+      - RIGHT_12_OUTER
+      - SPARE_1
+      - SPARE_2
+      - SPARE_3
+      - SPARE_4
+      - SPARE_5
+      - SPARE_6
+      - LEFT_1_OUTER_OUTER
+      - LEFT_1_OUTER_INNER
+      - LEFT_1_INNER_OUTER
+      - LEFT_1_INNER_INNER
+      - RIGHT_1_OUTER_OUTER
+      - RIGHT_1_OUTER_INNER
+      - RIGHT_1_INNER_OUTER
+      - RIGHT_1_INNER_INNER
+      - LEFT_2_OUTER_OUTER
+      - LEFT_2_OUTER_INNER
+      - LEFT_2_INNER_OUTER
+      - LEFT_2_INNER_INNER
+      - RIGHT_2_OUTER_OUTER
+      - RIGHT_2_OUTER_INNER
+      - RIGHT_2_INNER_OUTER
+      - RIGHT_2_INNER_INNER
+      - LEFT_3_OUTER_OUTER
+      - LEFT_3_OUTER_INNER
+      - LEFT_3_INNER_OUTER
+      - LEFT_3_INNER_INNER
+      - RIGHT_3_OUTER_OUTER
+      - RIGHT_3_OUTER_INNER
+      - RIGHT_3_INNER_OUTER
+      - RIGHT_3_INNER_INNER
+      - LEFT_4_OUTER_OUTER
+      - LEFT_4_OUTER_INNER
+      - LEFT_4_INNER_OUTER
+      - LEFT_4_INNER_INNER
+      - RIGHT_4_OUTER_OUTER
+      - RIGHT_4_OUTER_INNER
+      - RIGHT_4_INNER_OUTER
+      - RIGHT_4_INNER_INNER
+      - LEFT_5_OUTER_OUTER
+      - LEFT_5_OUTER_INNER
+      - LEFT_5_INNER_OUTER
+      - LEFT_5_INNER_INNER
+      - RIGHT_5_OUTER_OUTER
+      - RIGHT_5_OUTER_INNER
+      - RIGHT_5_INNER_OUTER
+      - RIGHT_5_INNER_INNER
+      - LEFT_6_OUTER_OUTER
+      - LEFT_6_OUTER_INNER
+      - LEFT_6_INNER_OUTER
+      - LEFT_6_INNER_INNER
+      - RIGHT_6_OUTER_OUTER
+      - RIGHT_6_OUTER_INNER
+      - RIGHT_6_INNER_OUTER
+      - RIGHT_6_INNER_INNER
+      - LEFT_7_OUTER_OUTER
+      - LEFT_7_OUTER_INNER
+      - LEFT_7_INNER_OUTER
+      - LEFT_7_INNER_INNER
+      - RIGHT_7_OUTER_OUTER
+      - RIGHT_7_OUTER_INNER
+      - RIGHT_7_INNER_OUTER
+      - RIGHT_7_INNER_INNER
+      - LEFT_8_OUTER_OUTER
+      - LEFT_8_OUTER_INNER
+      - LEFT_8_INNER_OUTER
+      - LEFT_8_INNER_INNER
+      - RIGHT_8_OUTER_OUTER
+      - RIGHT_8_OUTER_INNER
+      - RIGHT_8_INNER_OUTER
+      - RIGHT_8_INNER_INNER
+      - LEFT_9_OUTER_OUTER
+      - LEFT_9_OUTER_INNER
+      - LEFT_9_INNER_OUTER
+      - LEFT_9_INNER_INNER
+      - RIGHT_9_OUTER_OUTER
+      - RIGHT_9_OUTER_INNER
+      - RIGHT_9_INNER_OUTER
+      - RIGHT_9_INNER_INNER
+      - LEFT_10_OUTER_OUTER
+      - LEFT_10_OUTER_INNER
+      - LEFT_10_INNER_OUTER
+      - LEFT_10_INNER_INNER
+      - RIGHT_10_OUTER_OUTER
+      - RIGHT_10_OUTER_INNER
+      - RIGHT_10_INNER_OUTER
+      - RIGHT_10_INNER_INNER
+      - LEFT_11_OUTER_OUTER
+      - LEFT_11_OUTER_INNER
+      - LEFT_11_INNER_OUTER
+      - LEFT_11_INNER_INNER
+      - RIGHT_11_OUTER_OUTER
+      - RIGHT_11_OUTER_INNER
+      - RIGHT_11_INNER_OUTER
+      - RIGHT_11_INNER_INNER
+      - LEFT_12_OUTER_OUTER
+      - LEFT_12_OUTER_INNER
+      - LEFT_12_INNER_OUTER
+      - LEFT_12_INNER_INNER
+      - RIGHT_12_OUTER_OUTER
+      - RIGHT_12_OUTER_INNER
+      - RIGHT_12_INNER_OUTER
+      - RIGHT_12_INNER_INNER
+      x-deprecated:
+      - FRONT_LEFT
+      - FRONT_RIGHT
+      - REAR_LEFT
+      - REAR_RIGHT
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
+    gatewayLocation:
+      type: string
+      description: Location of the gateway installation
+      example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      enum:
+      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
+      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
+      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
+      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
+      - CAR_FRONT_LEFT_OBD2
+      - CAR_FRONT_CENTER_OBD2
+      - CAR_FRONT_RIGHT_OBD2
+      - CAR_REAR_LEFT_TRUNK
+      - CAR_REAR_CENTER_TRUNK
+      - CAR_REAR_RIGHT_TRUNK
+      - TRAILER_FRONT_LEFT_TOP
+      - TRAILER_FRONT_CENTER_TOP
+      - TRAILER_FRONT_RIGHT_TOP
+      - TRAILER_REAR_LEFT_TOP
+      - TRAILER_REAR_CENTER_TOP
+      - TRAILER_REAR_RIGHT_TOP
+      - TRAILER_MIDDLE_LEFT_UNDERSIDE
+      - TRAILER_MIDDLE_CENTER_UNDERSIDE
+      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
+      - TRAILER_REAR_LEFT_UNDERSIDE
+      - TRAILER_REAR_CENTER_UNDERSIDE
+      - TRAILER_REAR_RIGHT_UNDERSIDE
+      - TRUCK_LEFT_SLEEPER_BERTH
+      - TRUCK_CENTER_SLEEPER_BERTH
+      - TRUCK_RIGHT_SLEEPER_BERTH
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

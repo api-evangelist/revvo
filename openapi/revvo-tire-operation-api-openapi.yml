@@ -1,0 +1,969 @@
+openapi: 3.0.1
+info:
+  title: revvo-api Api-keys Tire Operation API
+  version: '0.0'
+  description: Api key management (requires admin access)
+tags:
+- name: Tire Operation
+  description: The Tire Operation API
+paths:
+  /fleet/{fleetId}/vehicle/{assetId}/tire/measurement:
+    post:
+      tags:
+      - Tire Operation
+      summary: Record manual tire measurement(s) for a vehicle
+      description: Record manual tire measurement(s) for a vehicle
+      operationId: recordTireMeasurement
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: Vehicle asset identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Tire measurement details: position to tread depth in mm and optional tire casing id, etc'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TireMeasurementBody'
+      responses:
+        '200':
+          description: Tire measurement(s) recorded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Generic400Response'
+        '404':
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVehicle404Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/vehicle/{assetId}/tire/replace:
+    post:
+      tags:
+      - Tire Operation
+      summary: Replace tire(s) on a vehicle
+      description: Replace one or more tires on a vehicle
+      operationId: replaceTire
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: Vehicle asset identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Tire replacement details per tire position
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TireReplacementBody'
+      responses:
+        '200':
+          description: Tire(s) replaced successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Generic400Response'
+        '404':
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVehicle404Response'
+        '401':
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+components:
+  schemas:
+    Generic400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type: boolean
+          description: 'false'
+          nullable: true
+          example: false
+      description: Generic400Response
+    TireReplacementDetails:
+      required:
+      - tireTemplate
+      type: object
+      properties:
+        tireTemplate:
+          description: Tire template to replace the tire with
+          allOf:
+          - $ref: '#/components/schemas/tireTemplate'
+      description: TireReplacementDetails Details for a single tire replacement, including the template to replace it with.
+    GetVehicle404Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type: boolean
+          description: 'false'
+          nullable: true
+          example: false
+      description: GetVehicle404Response
+    TireReplacementBody:
+      required:
+      - replacements
+      type: object
+      properties:
+        replacements:
+          type: object
+          description: Map from tire position to replacement details for each tire to replace
+          allOf:
+          - type: object
+            properties:
+              FRONT_LEFT:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              FRONT_RIGHT:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              REAR_LEFT:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              REAR_RIGHT:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              EXTERNAL:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              OBD2:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              DEVICE:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              UNKNOWN:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              FRONT:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              REAR:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              SPARE_1:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              SPARE_2:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              SPARE_3:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              SPARE_4:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              SPARE_5:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              SPARE_6:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_1_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_1_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_2_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_2_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_3_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_3_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_4_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_4_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_5_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_5_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_6_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_6_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_7_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_7_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_8_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_8_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_9_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_9_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_10_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_10_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_11_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_11_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              LEFT_12_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12_OUTER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12_OUTER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12_INNER_OUTER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+              RIGHT_12_INNER_INNER:
+                $ref: '#/components/schemas/TireReplacementDetails'
+      description: 'TireReplacementBody Request body for tire replacement: a map from tire position to replacement details.'
+    TireMeasurementDetails:
+      required:
+      - treadDepthMm
+      type: object
+      properties:
+        treadDepthMm:
+          type: number
+          description: Tread depth in millimeters
+          format: double
+        tireCasingId:
+          type: string
+          description: Optional tire casing identifier
+          nullable: true
+      description: 'TireMeasurementDetails Details for a single manual tire measurement: tread depth and optional tire casing id.'
+    TireMeasurementBody:
+      required:
+      - measurements
+      type: object
+      properties:
+        measurements:
+          type: object
+          description: Map from tire position to measurement details for each tire
+          allOf:
+          - type: object
+            properties:
+              FRONT_LEFT:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              FRONT_RIGHT:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              REAR_LEFT:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              REAR_RIGHT:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              EXTERNAL:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              OBD2:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              DEVICE:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              UNKNOWN:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              FRONT:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              REAR:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              SPARE_1:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              SPARE_2:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              SPARE_3:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              SPARE_4:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              SPARE_5:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              SPARE_6:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_1_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_1_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_2_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_2_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_3_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_3_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_4_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_4_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_5_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_5_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_6_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_6_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_7_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_7_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_8_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_8_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_9_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_9_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_10_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_10_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_11_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_11_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              LEFT_12_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12_OUTER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12_OUTER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12_INNER_OUTER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+              RIGHT_12_INNER_INNER:
+                $ref: '#/components/schemas/TireMeasurementDetails'
+      description: 'TireMeasurementBody Request body for recording manual tire measurements: a map from tire position to measurement details.'
+    tireTemplate:
+      required:
+      - maxColdInflationPressureInPsi
+      - maxTreadDepth32nds
+      - tireBrand
+      - tireModel
+      - tireSizeCode
+      type: object
+      properties:
+        tireBrand:
+          type: string
+          description: Tire Brand
+          example: Hankook
+        tireModel:
+          type: string
+          description: Tire Model
+          example: Dynapro AT2 Xtreme RF12
+        tireSizeCode:
+          type: string
+          description: Tire Size Code
+          example: 215/65Rr17
+        maxColdInflationPressureInPsi:
+          type: number
+          description: Max cold inflation pressure for tire
+          format: double
+          example: 120
+        maxTreadDepth32nds:
+          type: number
+          description: Tread depth in 32nds from factory
+          format: double
+          example: 18
+      description: Tire template to replace the tire with
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
