@@ -1,0 +1,58 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/revvo-api-openapi-original.yml
+note: >-
+  No official Revvo MCP server was found. This is a candidate tool list derived
+  one-tool-per-operation from the published OpenAPI, for use with an
+  OpenAPI-to-MCP bridge. Auth: obtain a JWT via authToken (X-API-KEY) and pass
+  it as a bearer token.
+server:
+  name: revvo
+  transport: http
+tools:
+- name: get_auth_token
+  description: Exchange a fleet API key for a JWT bearer token.
+  source_operation: openapi/revvo-api-openapi-original.yml#authToken
+- name: get_fleet_status
+  description: Get the current status of a fleet.
+  source_operation: openapi/revvo-api-openapi-original.yml#getFleetStatus
+- name: get_vehicle
+  description: Get a vehicle by VIN.
+  source_operation: openapi/revvo-api-openapi-original.yml#getVehicle
+- name: create_vehicle
+  description: Add a vehicle to a fleet.
+  source_operation: openapi/revvo-api-openapi-original.yml#vehicle
+- name: update_vehicle
+  description: Update a vehicle.
+  source_operation: openapi/revvo-api-openapi-original.yml#updateVehicle
+- name: get_events
+  description: List tire events for a fleet within a time window.
+  source_operation: openapi/revvo-api-openapi-original.yml#getEvents
+- name: get_sensor
+  description: Get a sensor.
+  source_operation: openapi/revvo-api-openapi-original.yml#getSensor
+- name: register_sensor
+  description: Register a TPMS sensor.
+  source_operation: openapi/revvo-api-openapi-original.yml#registerSensor
+- name: register_gateway
+  description: Register a gateway device.
+  source_operation: openapi/revvo-api-openapi-original.yml#registerGateway
+- name: register_devices_for_vehicle
+  description: Register gateway and sensors for a vehicle.
+  source_operation: openapi/revvo-api-openapi-original.yml#registerDevicesForVehicle
+- name: record_tire_measurement
+  description: Record a manual tire measurement.
+  source_operation: openapi/revvo-api-openapi-original.yml#recordTireMeasurement
+- name: replace_tire
+  description: Record a tire replacement.
+  source_operation: openapi/revvo-api-openapi-original.yml#replaceTire
+- name: get_api_keys
+  description: List API keys for a fleet.
+  source_operation: openapi/revvo-api-openapi-original.yml#getApiKeys
+- name: add_api_key
+  description: Add an API key to a fleet.
+  source_operation: openapi/revvo-api-openapi-original.yml#addApiKey
+- name: delete_api_key
+  description: Delete a fleet API key.
+  source_operation: openapi/revvo-api-openapi-original.yml#deleteApiKey

@@ -1,8 +1,16 @@
 aid: revvo
 name: Revvo
-description: 'Revvo is a company surfaced as a portfolio company of norwest-venture-partners, techstars
-  and added to the API Evangelist network as a stub for enrichment. Sector: unknown. This profile is a
-  lead awaiting the enrichment pipeline.'
+description: >-
+  Revvo is an AI-powered tire and fleet management platform. Its TireIQ engine
+  connects to OEM and aftermarket TPMS sensors and turns raw tire data into
+  real-time pressure, temperature, tread-wear, puncture and vehicle-off alerts
+  delivered by SMS, email or API. The Revvo API is a v0 REST interface that lets
+  fleets register gateways and sensors, manage vehicles and tires, and pull tire
+  events, all scoped to a fleet. Authentication is a two-step exchange: a fleet
+  API key is presented to POST /auth to mint a short-lived JWT, which is then
+  sent as a bearer token on every operation. Revvo integrates with Geotab,
+  Samsara, Motive, Fleetio, Lytx, Azuga and Zapier, and serves fleets across
+  logistics, waste, food and beverage, oil and gas, and passenger transit.
 url: https://raw.githubusercontent.com/api-evangelist/revvo/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,18 +19,247 @@ x-backed-by:
 - techstars
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.revvo.ai/wp-content/uploads/2023/11/cropped-Revvo_Icon_Black.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-- Unknown
-apis: []
+- Fleet Management
+- Transportation
+- Tire Management
+- TPMS
+- Telematics
+- IoT
+- Logistics
+- API
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: revvo:revvo-api-keys-api
+  name: Revvo Api-keys API
+  description: Api key management (requires admin access)
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Api-keys
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-api-keys-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
+- aid: revvo:revvo-auth-api
+  name: Revvo Auth API
+  description: Get authorization token using an API key
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-auth-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
+- aid: revvo:revvo-device-api
+  name: Revvo Device API
+  description: The Device API
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Device
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-device-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
+- aid: revvo:revvo-event-api
+  name: Revvo Event API
+  description: The Event API
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Event
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-event-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
+- aid: revvo:revvo-fleet-api
+  name: Revvo Fleet API
+  description: The Fleet API
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Fleet
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-fleet-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
+- aid: revvo:revvo-tire-operation-api
+  name: Revvo Tire Operation API
+  description: The Tire Operation API
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Tire Operation
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-tire-operation-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
+- aid: revvo:revvo-vehicle-api
+  name: Revvo Vehicle API
+  description: The Vehicle API
+  humanURL: https://www.revvo.ai/product/revvo-api/
+  baseURL: https://api.revvo.ai/v0
+  tags:
+  - Vehicle
+  properties:
+  - type: OpenAPI
+    url: openapi/revvo-vehicle-api-openapi.yml
+  - type: Swagger
+    url: https://api.revvo.ai/v0/swagger-ui
+  - type: Authentication
+    url: authentication/revvo-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revvo-problem-types.yml
+  - type: DataModel
+    url: data-model/revvo-data-model.yml
+  - type: Conventions
+    url: conventions/revvo-conventions.yml
+  - type: Conformance
+    url: conformance/revvo-conformance.yml
 common:
 - type: Website
-  url: https://revvo.ai
+  url: https://www.revvo.ai
+- type: DeveloperPortal
+  url: https://developers.revvo.ai
+- type: Documentation
+  url: https://www.revvo.ai/product/revvo-api/
+- type: APIReference
+  url: https://api.revvo.ai/v0/swagger-ui
+- type: Blog
+  url: https://www.revvo.ai/blog/
+- type: Support
+  url: https://www.revvo.ai/contact-us/
+- type: SignUp
+  url: https://www.revvo.ai/contact-us/
+- type: Pricing
+  url: https://www.revvo.ai/product/revvo-api/
+- type: TermsOfService
+  url: https://www.revvo.ai/terms-of-service/
+- type: PrivacyPolicy
+  url: https://www.revvo.ai/privacy-policy/
+- type: StatusPage
+  url: https://status.revvo.ai
+- type: Authentication
+  url: authentication/revvo-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/revvo-agentic-access.yml
+- type: DomainSecurity
+  url: security/revvo-domain-security.yml
+- type: ErrorCatalog
+  url: errors/revvo-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/revvo-lifecycle.yml
+- type: Conventions
+  url: conventions/revvo-conventions.yml
+- type: Conformance
+  url: conformance/revvo-conformance.yml
+- type: DataModel
+  url: data-model/revvo-data-model.yml
+- type: MCPServer
+  url: mcp/revvo-mcp.yml
+- type: LLMsTxt
+  url: llms/revvo-llms.txt
+- type: Overlay
+  url: overlays/revvo-api-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Arazzo
+  name: Onboard a vehicle and its tire sensors
+  url: arazzo/revvo-onboard-vehicle.yml
+- type: Arazzo
+  name: Pull tire events for a fleet
+  url: arazzo/revvo-pull-tire-events.yml
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

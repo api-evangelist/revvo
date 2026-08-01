@@ -1,0 +1,13 @@
+generated: '2026-07-20'
+method: generated
+api: openapi/revvo-api-openapi-original.yml
+skills:
+- file: revvo-authenticate-and-check-fleet.md
+  name: Authenticate and check fleet tire status
+  operations: [authToken, getFleetStatus]
+- file: revvo-onboard-vehicle-and-sensors.md
+  name: Onboard a vehicle and its tire sensors
+  operations: [authToken, vehicle, registerDevicesForVehicle, registerSensor, getVehicle]
+- file: revvo-pull-tire-events.md
+  name: Pull tire events and alerts for a fleet
+  operations: [authToken, getEvents]

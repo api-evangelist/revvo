@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/revvo-api-openapi-original.yml + live probes
+versioning:
+  scheme: uri-path
+  current: v0
+  base_path: /v0
+  docs: https://api.revvo.ai/v0/swagger-ui
+  note: >-
+    API surfaced under /v0 (spec info.version 0.0); an early/pre-1.0 version
+    scheme. No dated deprecation policy is published.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No deprecation or Sunset (RFC 8594) policy published.
+health:
+  url: https://api.revvo.ai/health
+  status: 200
+  detail: Spring Boot Actuator health endpoint reporting service UP.
+status_page: https://status.revvo.ai
+sla:
+  url: null
+deprecated_operations: []

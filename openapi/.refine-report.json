@@ -1,0 +1,26 @@
+{
+  "provider": "revvo",
+  "sources": [
+    "revvo-api-keys-api-openapi.yml",
+    "revvo-auth-api-openapi.yml",
+    "revvo-device-api-openapi.yml",
+    "revvo-event-api-openapi.yml",
+    "revvo-fleet-api-openapi.yml",
+    "revvo-tire-operation-api-openapi.yml",
+    "revvo-vehicle-api-openapi.yml"
+  ],
+  "outputs": [
+    "revvo-api-keys-api-openapi.yml",
+    "revvo-auth-api-openapi.yml",
+    "revvo-device-api-openapi.yml",
+    "revvo-event-api-openapi.yml",
+    "revvo-fleet-api-openapi.yml",
+    "revvo-tire-operation-api-openapi.yml",
+    "revvo-vehicle-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

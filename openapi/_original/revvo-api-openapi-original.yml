@@ -1,0 +1,2970 @@
+openapi: 3.0.1
+info:
+  title: revvo-api
+  version: "0.0"
+tags:
+- name: Api-keys
+  description: Api key management (requires admin access)
+- name: Auth
+  description: Get authorization token using an API key
+- name: Device
+  description: The Device API
+- name: Event
+  description: The Event API
+- name: Fleet
+  description: The Fleet API
+- name: Tire Operation
+  description: The Tire Operation API
+- name: Vehicle
+  description: The Vehicle API
+paths:
+  /api-keys/fleet/{fleetId}:
+    get:
+      tags:
+      - Api-keys
+      summary: Get details of existing API keys
+      description: List all existing API keys
+      operationId: getApiKeys
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetApiKey200Response"
+        "401":
+          description: Unauthorized
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Api-keys
+      summary: Creates a new API key
+      description: Creates a new API key
+      operationId: addApiKey
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: the generated API key
+          content:
+            text/plain:
+              schema:
+                type: string
+      security:
+      - bearerAuth: []
+  /api-keys/fleet/{fleetId}/key-id/{keyId}:
+    delete:
+      tags:
+      - Api-keys
+      summary: Delete an existing API key
+      description: Delete an existing API key
+      operationId: deleteApiKey
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        description: "Key id to delete, must be one of the values returned bu the\
+          \ get method"
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: deleteApiKey 200 response
+      security:
+      - bearerAuth: []
+  /auth:
+    post:
+      tags:
+      - Auth
+      summary: Get a JWT authentication token
+      operationId: authToken
+      parameters:
+      - name: X-API-KEY
+        in: header
+        description: Supplied API key
+        required: true
+      responses:
+        "200":
+          description: A JWT token to use in the other endpoints
+          content:
+            text/plain: {}
+        "401":
+          description: Unauthorized
+  /fleet/{fleetId}:
+    get:
+      tags:
+      - Fleet
+      summary: Get details of all vehicles in the fleet
+      description: Get details of all vehicles in the fleet
+      operationId: getFleetStatus
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: timestamp
+        in: query
+        description: |
+          Optionally retrieve fleet data at a given point in time. Point in time is expressed as seconds since epoch.
+          This option depends on periodic snapshots of the fleet status being saved. Closest available snapshot within a 24h period of the target timestamp will be selected.
+          An error will occur if no snapshot is available within that 24h period
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          nullable: true
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetFleetStatus200Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/devices/register:
+    post:
+      tags:
+      - Device
+      summary: Register devices (gateway and/or sensors) to vehicle
+      description: Register devices (gateway and/or sensors) to vehicle
+      operationId: registerDevicesForVehicle
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Register devices for vehicle details
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterDevicesForVehicleBody"
+      responses:
+        "200":
+          description: Registered devices
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration200Response"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration400Response"
+        "404":
+          description: Device or Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/events:
+    get:
+      tags:
+      - Event
+      summary: Get all events between two dates (up to 5 days in the past)
+      operationId: getEvents
+      parameters:
+      - name: fleetId
+        in: path
+        description: Fleet identifier
+        required: true
+      - name: fromTimestamp
+        in: query
+        description: Start Timestamp (epoch seconds) - Defaults to 5 days ago if not
+          specified or an older date is provided
+        required: false
+      - name: toTimestamp
+        in: query
+        description: End Timestamp (epoch seconds) - Defaults to now if not specified
+          or a future date is provided
+        required: false
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEvents200Response"
+        "400":
+          description: Error processing the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEvents400Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/gateway/register:
+    post:
+      tags:
+      - Device
+      summary: Register gateway to vehicle
+      description: Register gateway to vehicle
+      operationId: registerGateway
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Register gateway details
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterGatewayBody"
+      responses:
+        "200":
+          description: Registered gateway
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration200Response"
+        "304":
+          description: Registration was unsuccessful
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration400Response"
+        "404":
+          description: Device or Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/sensor:
+    get:
+      tags:
+      - Device
+      summary: Get details about the sensor
+      operationId: getSensor
+      parameters:
+      - name: fleetId
+        in: path
+        description: Fleet identifier
+        required: true
+      - name: externalId
+        in: query
+        description: External ID
+        required: false
+      - name: macAddress
+        in: query
+        description: MAC Address
+        required: false
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetDevices200Response"
+        "400":
+          description: Error processing the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetDevices400Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/sensor/register:
+    post:
+      tags:
+      - Device
+      summary: Register sensor to vehicle tire
+      description: Register sensor to vehicle tire
+      operationId: registerSensor
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Register sensor details
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterSensorBody"
+      responses:
+        "200":
+          description: Registered sensor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration200Response"
+        "304":
+          description: Registration was unsuccessful
+          content:
+            application/json: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration400Response"
+        "404":
+          description: Device or Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceRegistration404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/vehicle:
+    put:
+      tags:
+      - Vehicle
+      summary: Update an existing vehicle
+      description: Update an existing vehicle
+      operationId: updateVehicle
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Vehicle to update with details
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateVehicleBody"
+      responses:
+        "200":
+          description: Vehicle updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetVehicle404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+    post:
+      tags:
+      - Vehicle
+      summary: Create new vehicle
+      description: Create new vehicle
+      operationId: vehicle
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Vehicle details to create
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateVehicleBody"
+      responses:
+        "201":
+          description: Created vehicle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateVehicle201Response"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateVehicle400Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/vehicle/{assetId}/tire/measurement:
+    post:
+      tags:
+      - Tire Operation
+      summary: Record manual tire measurement(s) for a vehicle
+      description: Record manual tire measurement(s) for a vehicle
+      operationId: recordTireMeasurement
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: Vehicle asset identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: "Tire measurement details: position to tread depth in mm and\
+          \ optional tire casing id, etc"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TireMeasurementBody"
+      responses:
+        "200":
+          description: Tire measurement(s) recorded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Generic400Response"
+        "404":
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetVehicle404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/vehicle/{assetId}/tire/replace:
+    post:
+      tags:
+      - Tire Operation
+      summary: Replace tire(s) on a vehicle
+      description: Replace one or more tires on a vehicle
+      operationId: replaceTire
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: assetId
+        in: path
+        description: Vehicle asset identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Tire replacement details per tire position
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TireReplacementBody"
+      responses:
+        "200":
+          description: Tire(s) replaced successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Generic400Response"
+        "404":
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetVehicle404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+  /fleet/{fleetId}/vehicle/{vin}:
+    get:
+      tags:
+      - Vehicle
+      summary: Get details of a specific vehicle
+      description: Get details of a specific vehicle
+      operationId: getVehicle
+      parameters:
+      - name: fleetId
+        in: path
+        description: Unique identifier for the fleet. Typically formatted as revvo-XXXX.
+          This can be found in your admin / integrations / revvo API setup page
+        required: true
+        schema:
+          type: string
+      - name: vin
+        in: path
+        description: Vehicle identification number
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetVehicle200Response"
+        "404":
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetVehicle404Response"
+        "401":
+          description: Unauthorized
+      security:
+      - Bearer: []
+      - bearerAuth: []
+components:
+  schemas:
+    ApiKeyData:
+      required:
+      - creationTimestamp
+      - expirationTimestamp
+      - keyId
+      type: object
+      properties:
+        keyId:
+          type: string
+        creationTimestamp:
+          type: integer
+          format: int64
+        expirationTimestamp:
+          type: integer
+          format: int64
+    AxleTypeApiModel:
+      type: string
+      enum:
+      - STEER
+      - DRIVE
+      - TRAILER
+      - RAISED
+      - DEAD
+    CreateVehicle201Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: string
+          description: Get value
+        success:
+          type: boolean
+          description: "true"
+          example: true
+      description: CreateVehicle201Response
+    CreateVehicle400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+      description: CreateVehicle400Response
+    CreateVehicleBody:
+      required:
+      - assetId
+      - template
+      type: object
+      properties:
+        vin:
+          type: string
+          description: VIN
+          nullable: true
+          example: WVGBV75N19W507096
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        template:
+          description: Template details of the vehicle
+          allOf:
+          - $ref: "#/components/schemas/template"
+      description: CreateVehicleBody
+    Device:
+      type: object
+      properties:
+        externalId:
+          type: string
+          description: Device's External ID
+          nullable: true
+          example: 111000ABCD
+        macAddress:
+          type: string
+          description: MAC Address
+          nullable: true
+          example: DE:AD:BE:EF:00:00
+      description: Device
+    DeviceRegistration200Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: string
+          description: Get value
+        success:
+          type: boolean
+          description: "true"
+          example: true
+      description: DeviceRegistration200Response
+    DeviceRegistration400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+      description: DeviceRegistration400Response
+    DeviceRegistration404Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+      description: DeviceRegistration404Response
+    EventListInner:
+      type: object
+      properties:
+        vin:
+          type: string
+          description: VIN
+          nullable: true
+          example: WVGBV75N19W507096
+        tirePosition:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/tirePosition_1"
+        eventTime:
+          type: integer
+          description: Timestamp in epoch seconds
+          format: int64
+          nullable: true
+          example: 1577836800
+        type:
+          description: Get type
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/type"
+        resolutionTime:
+          type: integer
+          description: Timestamp in epoch seconds or null if the event is not resolved
+          format: int64
+          nullable: true
+          example: 1577836800
+      description: EventListInner
+    Generic400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+      description: Generic400Response
+    GetApiKey200Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApiKeyData"
+    GetDevices200Response:
+      type: object
+      properties:
+        value:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/Device"
+        success:
+          type: boolean
+          description: "true"
+          example: true
+    GetDevices400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+    GetEvents200Response:
+      type: object
+      properties:
+        value:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EventListInner"
+        success:
+          type: boolean
+          description: "true"
+          example: true
+    GetEvents400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+    GetFleetStatus200Response:
+      type: object
+      properties:
+        value:
+          type: array
+          description: Get value
+          nullable: true
+          items:
+            $ref: "#/components/schemas/VehicleStatus"
+        valueTimestamp:
+          type: integer
+          description: The actual timestamp of the data returned in the value property
+            (as seconds since epoch)
+          format: int64
+          nullable: true
+        displayErrorMessage:
+          type: string
+          description: Get displayErrorMessage
+          nullable: true
+          example: Error contacting servers. Please try again later.
+        internalErrorMessage:
+          type: string
+          description: Get internalErrorMessage
+          nullable: true
+          example: "Failed loading tires, please contact the server team."
+        internalErrorCode:
+          description: Get internalErrorCode
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/internalErrorCode"
+        success:
+          type: boolean
+          description: "true"
+          example: true
+      description: GetFleetStatus200Response
+    GetVehicle200Response:
+      type: object
+      properties:
+        value:
+          description: Get value
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/value"
+        success:
+          type: boolean
+          description: "true"
+          example: true
+      description: GetVehicle200Response
+    GetVehicle404Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: "#/components/schemas/InternalErrorCode"
+        success:
+          type: boolean
+          description: "false"
+          nullable: true
+          example: false
+      description: GetVehicle404Response
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
+    RegisterDevicesForVehicleBody:
+      required:
+      - assetId
+      type: object
+      properties:
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+        gatewayMacAddress:
+          type: string
+          description: "Optional gateway MAC address; if provided, gatewayInstallLocation\
+            \ is required"
+          nullable: true
+        gatewayInstallLocation:
+          description: Install location for the gateway; required when gatewayMacAddress
+            is provided
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/gatewayInstallLocation"
+        tirePositionToSensorMacAddress:
+          type: object
+          description: "Map of tire position (e.g. LEFT_1, RIGHT_1) to sensor MAC\
+            \ address; all positions must exist on the vehicle"
+          nullable: true
+          allOf:
+          - type: object
+            properties:
+              FRONT_LEFT:
+                type: string
+              FRONT_RIGHT:
+                type: string
+              REAR_LEFT:
+                type: string
+              REAR_RIGHT:
+                type: string
+              EXTERNAL:
+                type: string
+              OBD2:
+                type: string
+              DEVICE:
+                type: string
+              UNKNOWN:
+                type: string
+              FRONT:
+                type: string
+              REAR:
+                type: string
+              LEFT_1:
+                type: string
+              LEFT_1_OUTER:
+                type: string
+              LEFT_1_INNER:
+                type: string
+              RIGHT_1:
+                type: string
+              RIGHT_1_INNER:
+                type: string
+              RIGHT_1_OUTER:
+                type: string
+              LEFT_2:
+                type: string
+              LEFT_2_OUTER:
+                type: string
+              LEFT_2_INNER:
+                type: string
+              RIGHT_2:
+                type: string
+              RIGHT_2_INNER:
+                type: string
+              RIGHT_2_OUTER:
+                type: string
+              LEFT_3:
+                type: string
+              LEFT_3_OUTER:
+                type: string
+              LEFT_3_INNER:
+                type: string
+              RIGHT_3:
+                type: string
+              RIGHT_3_INNER:
+                type: string
+              RIGHT_3_OUTER:
+                type: string
+              LEFT_4:
+                type: string
+              LEFT_4_OUTER:
+                type: string
+              LEFT_4_INNER:
+                type: string
+              RIGHT_4:
+                type: string
+              RIGHT_4_INNER:
+                type: string
+              RIGHT_4_OUTER:
+                type: string
+              LEFT_5:
+                type: string
+              LEFT_5_OUTER:
+                type: string
+              LEFT_5_INNER:
+                type: string
+              RIGHT_5:
+                type: string
+              RIGHT_5_INNER:
+                type: string
+              RIGHT_5_OUTER:
+                type: string
+              LEFT_6:
+                type: string
+              LEFT_6_OUTER:
+                type: string
+              LEFT_6_INNER:
+                type: string
+              RIGHT_6:
+                type: string
+              RIGHT_6_INNER:
+                type: string
+              RIGHT_6_OUTER:
+                type: string
+              LEFT_7:
+                type: string
+              LEFT_7_OUTER:
+                type: string
+              LEFT_7_INNER:
+                type: string
+              RIGHT_7:
+                type: string
+              RIGHT_7_INNER:
+                type: string
+              RIGHT_7_OUTER:
+                type: string
+              LEFT_8:
+                type: string
+              LEFT_8_OUTER:
+                type: string
+              LEFT_8_INNER:
+                type: string
+              RIGHT_8:
+                type: string
+              RIGHT_8_INNER:
+                type: string
+              RIGHT_8_OUTER:
+                type: string
+              LEFT_9:
+                type: string
+              LEFT_9_OUTER:
+                type: string
+              LEFT_9_INNER:
+                type: string
+              RIGHT_9:
+                type: string
+              RIGHT_9_INNER:
+                type: string
+              RIGHT_9_OUTER:
+                type: string
+              LEFT_10:
+                type: string
+              LEFT_10_OUTER:
+                type: string
+              LEFT_10_INNER:
+                type: string
+              RIGHT_10:
+                type: string
+              RIGHT_10_INNER:
+                type: string
+              RIGHT_10_OUTER:
+                type: string
+              LEFT_11:
+                type: string
+              LEFT_11_OUTER:
+                type: string
+              LEFT_11_INNER:
+                type: string
+              RIGHT_11:
+                type: string
+              RIGHT_11_INNER:
+                type: string
+              RIGHT_11_OUTER:
+                type: string
+              LEFT_12:
+                type: string
+              LEFT_12_OUTER:
+                type: string
+              LEFT_12_INNER:
+                type: string
+              RIGHT_12:
+                type: string
+              RIGHT_12_INNER:
+                type: string
+              RIGHT_12_OUTER:
+                type: string
+              SPARE_1:
+                type: string
+              SPARE_2:
+                type: string
+              SPARE_3:
+                type: string
+              SPARE_4:
+                type: string
+              SPARE_5:
+                type: string
+              SPARE_6:
+                type: string
+              LEFT_1_OUTER_OUTER:
+                type: string
+              LEFT_1_OUTER_INNER:
+                type: string
+              LEFT_1_INNER_OUTER:
+                type: string
+              LEFT_1_INNER_INNER:
+                type: string
+              RIGHT_1_OUTER_OUTER:
+                type: string
+              RIGHT_1_OUTER_INNER:
+                type: string
+              RIGHT_1_INNER_OUTER:
+                type: string
+              RIGHT_1_INNER_INNER:
+                type: string
+              LEFT_2_OUTER_OUTER:
+                type: string
+              LEFT_2_OUTER_INNER:
+                type: string
+              LEFT_2_INNER_OUTER:
+                type: string
+              LEFT_2_INNER_INNER:
+                type: string
+              RIGHT_2_OUTER_OUTER:
+                type: string
+              RIGHT_2_OUTER_INNER:
+                type: string
+              RIGHT_2_INNER_OUTER:
+                type: string
+              RIGHT_2_INNER_INNER:
+                type: string
+              LEFT_3_OUTER_OUTER:
+                type: string
+              LEFT_3_OUTER_INNER:
+                type: string
+              LEFT_3_INNER_OUTER:
+                type: string
+              LEFT_3_INNER_INNER:
+                type: string
+              RIGHT_3_OUTER_OUTER:
+                type: string
+              RIGHT_3_OUTER_INNER:
+                type: string
+              RIGHT_3_INNER_OUTER:
+                type: string
+              RIGHT_3_INNER_INNER:
+                type: string
+              LEFT_4_OUTER_OUTER:
+                type: string
+              LEFT_4_OUTER_INNER:
+                type: string
+              LEFT_4_INNER_OUTER:
+                type: string
+              LEFT_4_INNER_INNER:
+                type: string
+              RIGHT_4_OUTER_OUTER:
+                type: string
+              RIGHT_4_OUTER_INNER:
+                type: string
+              RIGHT_4_INNER_OUTER:
+                type: string
+              RIGHT_4_INNER_INNER:
+                type: string
+              LEFT_5_OUTER_OUTER:
+                type: string
+              LEFT_5_OUTER_INNER:
+                type: string
+              LEFT_5_INNER_OUTER:
+                type: string
+              LEFT_5_INNER_INNER:
+                type: string
+              RIGHT_5_OUTER_OUTER:
+                type: string
+              RIGHT_5_OUTER_INNER:
+                type: string
+              RIGHT_5_INNER_OUTER:
+                type: string
+              RIGHT_5_INNER_INNER:
+                type: string
+              LEFT_6_OUTER_OUTER:
+                type: string
+              LEFT_6_OUTER_INNER:
+                type: string
+              LEFT_6_INNER_OUTER:
+                type: string
+              LEFT_6_INNER_INNER:
+                type: string
+              RIGHT_6_OUTER_OUTER:
+                type: string
+              RIGHT_6_OUTER_INNER:
+                type: string
+              RIGHT_6_INNER_OUTER:
+                type: string
+              RIGHT_6_INNER_INNER:
+                type: string
+              LEFT_7_OUTER_OUTER:
+                type: string
+              LEFT_7_OUTER_INNER:
+                type: string
+              LEFT_7_INNER_OUTER:
+                type: string
+              LEFT_7_INNER_INNER:
+                type: string
+              RIGHT_7_OUTER_OUTER:
+                type: string
+              RIGHT_7_OUTER_INNER:
+                type: string
+              RIGHT_7_INNER_OUTER:
+                type: string
+              RIGHT_7_INNER_INNER:
+                type: string
+              LEFT_8_OUTER_OUTER:
+                type: string
+              LEFT_8_OUTER_INNER:
+                type: string
+              LEFT_8_INNER_OUTER:
+                type: string
+              LEFT_8_INNER_INNER:
+                type: string
+              RIGHT_8_OUTER_OUTER:
+                type: string
+              RIGHT_8_OUTER_INNER:
+                type: string
+              RIGHT_8_INNER_OUTER:
+                type: string
+              RIGHT_8_INNER_INNER:
+                type: string
+              LEFT_9_OUTER_OUTER:
+                type: string
+              LEFT_9_OUTER_INNER:
+                type: string
+              LEFT_9_INNER_OUTER:
+                type: string
+              LEFT_9_INNER_INNER:
+                type: string
+              RIGHT_9_OUTER_OUTER:
+                type: string
+              RIGHT_9_OUTER_INNER:
+                type: string
+              RIGHT_9_INNER_OUTER:
+                type: string
+              RIGHT_9_INNER_INNER:
+                type: string
+              LEFT_10_OUTER_OUTER:
+                type: string
+              LEFT_10_OUTER_INNER:
+                type: string
+              LEFT_10_INNER_OUTER:
+                type: string
+              LEFT_10_INNER_INNER:
+                type: string
+              RIGHT_10_OUTER_OUTER:
+                type: string
+              RIGHT_10_OUTER_INNER:
+                type: string
+              RIGHT_10_INNER_OUTER:
+                type: string
+              RIGHT_10_INNER_INNER:
+                type: string
+              LEFT_11_OUTER_OUTER:
+                type: string
+              LEFT_11_OUTER_INNER:
+                type: string
+              LEFT_11_INNER_OUTER:
+                type: string
+              LEFT_11_INNER_INNER:
+                type: string
+              RIGHT_11_OUTER_OUTER:
+                type: string
+              RIGHT_11_OUTER_INNER:
+                type: string
+              RIGHT_11_INNER_OUTER:
+                type: string
+              RIGHT_11_INNER_INNER:
+                type: string
+              LEFT_12_OUTER_OUTER:
+                type: string
+              LEFT_12_OUTER_INNER:
+                type: string
+              LEFT_12_INNER_OUTER:
+                type: string
+              LEFT_12_INNER_INNER:
+                type: string
+              RIGHT_12_OUTER_OUTER:
+                type: string
+              RIGHT_12_OUTER_INNER:
+                type: string
+              RIGHT_12_INNER_OUTER:
+                type: string
+              RIGHT_12_INNER_INNER:
+                type: string
+      description: Request body for registering devices (gateway and/or sensors) to
+        a vehicle in one call.
+    RegisterGatewayBody:
+      required:
+      - assetId
+      - gatewayLocation
+      type: object
+      properties:
+        gatewayId:
+          type: string
+          description: ID of the gateway
+          nullable: true
+          example: T1161230000
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        gatewayLocation:
+          description: Location of the gateway installation
+          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+          allOf:
+          - $ref: "#/components/schemas/gatewayLocation"
+      description: RegisterGatewayBody
+    RegisterSensorBody:
+      required:
+      - assetId
+      - tirePosition
+      type: object
+      properties:
+        sensorId:
+          type: string
+          description: ID of the sensor
+          nullable: true
+          example: S102000ABCD
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        tirePosition:
+          description: Tire position of sensor installation
+          example: LEFT_1
+          allOf:
+          - $ref: "#/components/schemas/tirePosition"
+      description: RegisterSensorBody
+    TireMeasurementBody:
+      required:
+      - measurements
+      type: object
+      properties:
+        measurements:
+          type: object
+          description: Map from tire position to measurement details for each tire
+          allOf:
+          - type: object
+            properties:
+              FRONT_LEFT:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              FRONT_RIGHT:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              REAR_LEFT:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              REAR_RIGHT:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              EXTERNAL:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              OBD2:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              DEVICE:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              UNKNOWN:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              FRONT:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              REAR:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              SPARE_1:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              SPARE_2:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              SPARE_3:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              SPARE_4:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              SPARE_5:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              SPARE_6:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_1_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_1_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_2_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_2_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_3_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_3_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_4_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_4_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_5_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_5_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_6_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_6_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_7_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_7_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_8_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_8_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_9_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_9_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_10_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_10_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_11_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_11_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              LEFT_12_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12_OUTER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12_OUTER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12_INNER_OUTER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+              RIGHT_12_INNER_INNER:
+                $ref: "#/components/schemas/TireMeasurementDetails"
+      description: "TireMeasurementBody Request body for recording manual tire measurements:\
+        \ a map from tire position to measurement details."
+    TireMeasurementDetails:
+      required:
+      - treadDepthMm
+      type: object
+      properties:
+        treadDepthMm:
+          type: number
+          description: Tread depth in millimeters
+          format: double
+        tireCasingId:
+          type: string
+          description: Optional tire casing identifier
+          nullable: true
+      description: "TireMeasurementDetails Details for a single manual tire measurement:\
+        \ tread depth and optional tire casing id."
+    TireReplacementBody:
+      required:
+      - replacements
+      type: object
+      properties:
+        replacements:
+          type: object
+          description: Map from tire position to replacement details for each tire
+            to replace
+          allOf:
+          - type: object
+            properties:
+              FRONT_LEFT:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              FRONT_RIGHT:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              REAR_LEFT:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              REAR_RIGHT:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              EXTERNAL:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              OBD2:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              DEVICE:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              UNKNOWN:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              FRONT:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              REAR:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              SPARE_1:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              SPARE_2:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              SPARE_3:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              SPARE_4:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              SPARE_5:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              SPARE_6:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_1_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_1_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_2_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_2_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_3_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_3_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_4_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_4_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_5_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_5_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_6_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_6_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_7_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_7_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_8_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_8_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_9_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_9_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_10_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_10_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_11_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_11_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              LEFT_12_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12_OUTER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12_OUTER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12_INNER_OUTER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+              RIGHT_12_INNER_INNER:
+                $ref: "#/components/schemas/TireReplacementDetails"
+      description: "TireReplacementBody Request body for tire replacement: a map from\
+        \ tire position to replacement details."
+    TireReplacementDetails:
+      required:
+      - tireTemplate
+      type: object
+      properties:
+        tireTemplate:
+          description: Tire template to replace the tire with
+          allOf:
+          - $ref: "#/components/schemas/tireTemplate"
+      description: "TireReplacementDetails Details for a single tire replacement,\
+        \ including the template to replace it with."
+    TireStatusListInner:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          description: Timestamp in epoch seconds
+          format: int64
+          nullable: true
+          example: 1577836800
+        tirePosition:
+          description: Get tirePosition
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/tirePosition_1"
+        sensorId:
+          type: string
+          description: Get sensorId
+          nullable: true
+        pressure:
+          type: number
+          description: Pressure in PSI
+          nullable: true
+          example: 31.5
+        temperature:
+          type: number
+          description: Temperature in Celsius
+          nullable: true
+          example: 27.2
+        treadClass:
+          description: Get treadClass
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/treadClass"
+        treadInMm:
+          type: number
+          format: double
+          nullable: true
+        tireTotalKm:
+          type: number
+          format: double
+          nullable: true
+        openEvents:
+          type: array
+          description: Get openEvents
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EventListInner"
+        resolvedEvents:
+          type: array
+          description: Get resolvedEvents
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EventListInner"
+      description: TireStatusListInner
+    VehicleAxleDetails:
+      required:
+      - axleTypes
+      - critHighPressurePercent
+      - critLowPressurePercent
+      - critLowTreadIn32nds
+      - highPressurePercent
+      - highTreadIn32nds
+      - lowPressurePercent
+      - lowTreadIn32nds
+      - rcip
+      - tireTemplate
+      type: object
+      properties:
+        axleNumber:
+          type: integer
+          description: "Axle number by canonical count. 1, 2, 3, and so on. Required\
+            \ except for super single axle."
+          format: int32
+          nullable: true
+          example: 1
+        isSuperSingle:
+          type: boolean
+          description: Super Single Axle Details. Can be applied to any axle number.
+            axleNumber can be null.
+          nullable: true
+          example: true
+        axleTypes:
+          type: array
+          description: Axle type
+          example:
+          - RAISED
+          items:
+            $ref: "#/components/schemas/AxleTypeApiModel"
+        critLowPressurePercent:
+          type: number
+          description: '% of RCIP for Critical Low Pressure Event'
+          format: double
+          example: 0.8
+        lowPressurePercent:
+          type: number
+          description: '% of RCIP for Low Pressure Event'
+          format: double
+          example: 0.9
+        rcip:
+          type: number
+          description: Recommended cold inflation pressure in PSI
+          format: double
+          example: 100
+        highPressurePercent:
+          type: number
+          description: '% of RCIP for High Pressure Event'
+          format: double
+          example: 1.25
+        critHighPressurePercent:
+          type: number
+          description: '% of RCIP for Ciritcal High Pressure Event'
+          format: double
+          example: 1.35
+        critLowTreadIn32nds:
+          type: number
+          description: Threshold for Critical Low Tread Event in 32nds
+          format: double
+          example: 3
+        lowTreadIn32nds:
+          type: number
+          description: Threshold for Low Tread Event in 32nds
+          format: double
+          example: 5
+        highTreadIn32nds:
+          type: number
+          description: High Tread Classification Threshold in 32nds
+          format: double
+          example: 10
+        gawr:
+          type: number
+          description: Gross Axle Weight Rating in Pounds
+          format: double
+          nullable: true
+          example: 4000
+        overloadInLbs:
+          type: number
+          description: Axle Overload Event Threshold in Pounds
+          format: double
+          nullable: true
+          example: 8500
+        tireTemplate:
+          description: Tire details for axle
+          allOf:
+          - $ref: "#/components/schemas/tireTemplate"
+      description: VehicleAxleDetails
+    VehicleStatus:
+      type: object
+      properties:
+        vin:
+          type: string
+          description: VIN
+          nullable: true
+          example: WVGBV75N19W507096
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        geolocation:
+          description: Get geolocation
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/geolocation"
+        tires:
+          type: array
+          description: Get tires
+          nullable: true
+          items:
+            $ref: "#/components/schemas/TireStatusListInner"
+      description: VehicleStatus
+    displayType:
+      type: string
+      description: Vehicle Display Type
+      example: TRACTOR_2_4
+      enum:
+      - CAR
+      - VAN
+      - TRUCK
+      - SUV
+      - CARGO_VAN
+      - LOADER
+      - TRACTOR
+      - TRACTOR_2_2
+      - TRACTOR_2_4
+      - TRACTOR_2_2_2
+      - TRAILER
+      - TANKER
+      - DRY_VAN
+      - REEFER
+      - CONTAINER
+      - BUS
+      - REFUSE_TRUCK
+      - FRONT_LOADER_WASTE_TRUCK
+      - SIDE_LOADER_WASTE_TRUCK
+      - BOX_TRUCK
+      - BOX_TRUCK_BLUE
+      - AMBULANCE
+      - FIRE_TRUCK
+      - VAN_BLUE
+      - DUMP_TRUCK
+    fuelType:
+      type: string
+      description: Vehicle Fuel Type
+      example: GASOLINE
+      enum:
+      - CNG
+      - DIESEL
+      - ELECTRIC
+      - ETHANOL
+      - HYDROGEN
+      - GASOLINE
+      - NATURAL_GAS
+      - PROPANE
+      - NONE
+    gatewayInstallLocation:
+      type: string
+      description: Install location for the gateway; required when gatewayMacAddress
+        is provided
+      enum:
+      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
+      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
+      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
+      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
+      - CAR_FRONT_LEFT_OBD2
+      - CAR_FRONT_CENTER_OBD2
+      - CAR_FRONT_RIGHT_OBD2
+      - CAR_REAR_LEFT_TRUNK
+      - CAR_REAR_CENTER_TRUNK
+      - CAR_REAR_RIGHT_TRUNK
+      - TRAILER_FRONT_LEFT_TOP
+      - TRAILER_FRONT_CENTER_TOP
+      - TRAILER_FRONT_RIGHT_TOP
+      - TRAILER_REAR_LEFT_TOP
+      - TRAILER_REAR_CENTER_TOP
+      - TRAILER_REAR_RIGHT_TOP
+      - TRAILER_MIDDLE_LEFT_UNDERSIDE
+      - TRAILER_MIDDLE_CENTER_UNDERSIDE
+      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
+      - TRAILER_REAR_LEFT_UNDERSIDE
+      - TRAILER_REAR_CENTER_UNDERSIDE
+      - TRAILER_REAR_RIGHT_UNDERSIDE
+      - TRUCK_LEFT_SLEEPER_BERTH
+      - TRUCK_CENTER_SLEEPER_BERTH
+      - TRUCK_RIGHT_SLEEPER_BERTH
+    gatewayLocation:
+      type: string
+      description: Location of the gateway installation
+      example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      enum:
+      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
+      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
+      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
+      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
+      - CAR_FRONT_LEFT_OBD2
+      - CAR_FRONT_CENTER_OBD2
+      - CAR_FRONT_RIGHT_OBD2
+      - CAR_REAR_LEFT_TRUNK
+      - CAR_REAR_CENTER_TRUNK
+      - CAR_REAR_RIGHT_TRUNK
+      - TRAILER_FRONT_LEFT_TOP
+      - TRAILER_FRONT_CENTER_TOP
+      - TRAILER_FRONT_RIGHT_TOP
+      - TRAILER_REAR_LEFT_TOP
+      - TRAILER_REAR_CENTER_TOP
+      - TRAILER_REAR_RIGHT_TOP
+      - TRAILER_MIDDLE_LEFT_UNDERSIDE
+      - TRAILER_MIDDLE_CENTER_UNDERSIDE
+      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
+      - TRAILER_REAR_LEFT_UNDERSIDE
+      - TRAILER_REAR_CENTER_UNDERSIDE
+      - TRAILER_REAR_RIGHT_UNDERSIDE
+      - TRUCK_LEFT_SLEEPER_BERTH
+      - TRUCK_CENTER_SLEEPER_BERTH
+      - TRUCK_RIGHT_SLEEPER_BERTH
+    geolocation:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          description: Timestamp in epoch seconds
+          format: int64
+          nullable: true
+          example: 1577836800
+        latitude:
+          type: number
+          description: Latitude
+          nullable: true
+          example: 37.5550874
+        longitude:
+          type: number
+          description: Longitude
+          nullable: true
+          example: -122.3000345
+      description: Geolocation
+    internalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
+    template:
+      required:
+      - axleDetails
+      - displayType
+      - driveType
+      - fuelType
+      - gatewayLocation
+      - make
+      - model
+      - tireCountByAxle
+      - year
+      type: object
+      properties:
+        tireCountByAxle:
+          type: array
+          description: Number of tires per axle in order
+          example:
+          - 2
+          - 4
+          items:
+            type: integer
+            format: int32
+        axleDetails:
+          type: array
+          description: List of all detailed axle specifications
+          items:
+            $ref: "#/components/schemas/VehicleAxleDetails"
+        make:
+          type: string
+          description: Vehicle Manufacturer
+          example: Volvo
+        model:
+          type: string
+          description: Vehicle Model
+          example: VNL
+        year:
+          type: string
+          description: Vehicle Manufacturing Year
+          example: "2024"
+        series:
+          type: string
+          description: Vehicle Series
+          nullable: true
+          example: XC20
+        driveType:
+          type: string
+          description: Drive Type
+          example: 6x4
+        displayType:
+          description: Vehicle Display Type
+          example: TRACTOR_2_4
+          allOf:
+          - $ref: "#/components/schemas/displayType"
+        fuelType:
+          description: Vehicle Fuel Type
+          example: GASOLINE
+          allOf:
+          - $ref: "#/components/schemas/fuelType"
+        gatewayLocation:
+          description: Gateway Installation Locaton
+          nullable: true
+          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+          allOf:
+          - $ref: "#/components/schemas/gatewayLocation"
+        gvwr:
+          type: number
+          description: Gross Vehicle Weight Rating in Pounds
+          format: double
+          nullable: true
+          example: 9000
+        overloadInLbs:
+          type: number
+          description: Gross Vehicle Weight Rating in Pounds
+          format: double
+          nullable: true
+          example: 9000
+      description: Template details of the vehicle
+    tirePosition:
+      type: string
+      description: Tire position of sensor installation
+      example: LEFT_1
+      enum:
+      - FRONT_LEFT
+      - FRONT_RIGHT
+      - REAR_LEFT
+      - REAR_RIGHT
+      - EXTERNAL
+      - OBD2
+      - DEVICE
+      - UNKNOWN
+      - FRONT
+      - REAR
+      - LEFT_1
+      - LEFT_1_OUTER
+      - LEFT_1_INNER
+      - RIGHT_1
+      - RIGHT_1_INNER
+      - RIGHT_1_OUTER
+      - LEFT_2
+      - LEFT_2_OUTER
+      - LEFT_2_INNER
+      - RIGHT_2
+      - RIGHT_2_INNER
+      - RIGHT_2_OUTER
+      - LEFT_3
+      - LEFT_3_OUTER
+      - LEFT_3_INNER
+      - RIGHT_3
+      - RIGHT_3_INNER
+      - RIGHT_3_OUTER
+      - LEFT_4
+      - LEFT_4_OUTER
+      - LEFT_4_INNER
+      - RIGHT_4
+      - RIGHT_4_INNER
+      - RIGHT_4_OUTER
+      - LEFT_5
+      - LEFT_5_OUTER
+      - LEFT_5_INNER
+      - RIGHT_5
+      - RIGHT_5_INNER
+      - RIGHT_5_OUTER
+      - LEFT_6
+      - LEFT_6_OUTER
+      - LEFT_6_INNER
+      - RIGHT_6
+      - RIGHT_6_INNER
+      - RIGHT_6_OUTER
+      - LEFT_7
+      - LEFT_7_OUTER
+      - LEFT_7_INNER
+      - RIGHT_7
+      - RIGHT_7_INNER
+      - RIGHT_7_OUTER
+      - LEFT_8
+      - LEFT_8_OUTER
+      - LEFT_8_INNER
+      - RIGHT_8
+      - RIGHT_8_INNER
+      - RIGHT_8_OUTER
+      - LEFT_9
+      - LEFT_9_OUTER
+      - LEFT_9_INNER
+      - RIGHT_9
+      - RIGHT_9_INNER
+      - RIGHT_9_OUTER
+      - LEFT_10
+      - LEFT_10_OUTER
+      - LEFT_10_INNER
+      - RIGHT_10
+      - RIGHT_10_INNER
+      - RIGHT_10_OUTER
+      - LEFT_11
+      - LEFT_11_OUTER
+      - LEFT_11_INNER
+      - RIGHT_11
+      - RIGHT_11_INNER
+      - RIGHT_11_OUTER
+      - LEFT_12
+      - LEFT_12_OUTER
+      - LEFT_12_INNER
+      - RIGHT_12
+      - RIGHT_12_INNER
+      - RIGHT_12_OUTER
+      - SPARE_1
+      - SPARE_2
+      - SPARE_3
+      - SPARE_4
+      - SPARE_5
+      - SPARE_6
+      - LEFT_1_OUTER_OUTER
+      - LEFT_1_OUTER_INNER
+      - LEFT_1_INNER_OUTER
+      - LEFT_1_INNER_INNER
+      - RIGHT_1_OUTER_OUTER
+      - RIGHT_1_OUTER_INNER
+      - RIGHT_1_INNER_OUTER
+      - RIGHT_1_INNER_INNER
+      - LEFT_2_OUTER_OUTER
+      - LEFT_2_OUTER_INNER
+      - LEFT_2_INNER_OUTER
+      - LEFT_2_INNER_INNER
+      - RIGHT_2_OUTER_OUTER
+      - RIGHT_2_OUTER_INNER
+      - RIGHT_2_INNER_OUTER
+      - RIGHT_2_INNER_INNER
+      - LEFT_3_OUTER_OUTER
+      - LEFT_3_OUTER_INNER
+      - LEFT_3_INNER_OUTER
+      - LEFT_3_INNER_INNER
+      - RIGHT_3_OUTER_OUTER
+      - RIGHT_3_OUTER_INNER
+      - RIGHT_3_INNER_OUTER
+      - RIGHT_3_INNER_INNER
+      - LEFT_4_OUTER_OUTER
+      - LEFT_4_OUTER_INNER
+      - LEFT_4_INNER_OUTER
+      - LEFT_4_INNER_INNER
+      - RIGHT_4_OUTER_OUTER
+      - RIGHT_4_OUTER_INNER
+      - RIGHT_4_INNER_OUTER
+      - RIGHT_4_INNER_INNER
+      - LEFT_5_OUTER_OUTER
+      - LEFT_5_OUTER_INNER
+      - LEFT_5_INNER_OUTER
+      - LEFT_5_INNER_INNER
+      - RIGHT_5_OUTER_OUTER
+      - RIGHT_5_OUTER_INNER
+      - RIGHT_5_INNER_OUTER
+      - RIGHT_5_INNER_INNER
+      - LEFT_6_OUTER_OUTER
+      - LEFT_6_OUTER_INNER
+      - LEFT_6_INNER_OUTER
+      - LEFT_6_INNER_INNER
+      - RIGHT_6_OUTER_OUTER
+      - RIGHT_6_OUTER_INNER
+      - RIGHT_6_INNER_OUTER
+      - RIGHT_6_INNER_INNER
+      - LEFT_7_OUTER_OUTER
+      - LEFT_7_OUTER_INNER
+      - LEFT_7_INNER_OUTER
+      - LEFT_7_INNER_INNER
+      - RIGHT_7_OUTER_OUTER
+      - RIGHT_7_OUTER_INNER
+      - RIGHT_7_INNER_OUTER
+      - RIGHT_7_INNER_INNER
+      - LEFT_8_OUTER_OUTER
+      - LEFT_8_OUTER_INNER
+      - LEFT_8_INNER_OUTER
+      - LEFT_8_INNER_INNER
+      - RIGHT_8_OUTER_OUTER
+      - RIGHT_8_OUTER_INNER
+      - RIGHT_8_INNER_OUTER
+      - RIGHT_8_INNER_INNER
+      - LEFT_9_OUTER_OUTER
+      - LEFT_9_OUTER_INNER
+      - LEFT_9_INNER_OUTER
+      - LEFT_9_INNER_INNER
+      - RIGHT_9_OUTER_OUTER
+      - RIGHT_9_OUTER_INNER
+      - RIGHT_9_INNER_OUTER
+      - RIGHT_9_INNER_INNER
+      - LEFT_10_OUTER_OUTER
+      - LEFT_10_OUTER_INNER
+      - LEFT_10_INNER_OUTER
+      - LEFT_10_INNER_INNER
+      - RIGHT_10_OUTER_OUTER
+      - RIGHT_10_OUTER_INNER
+      - RIGHT_10_INNER_OUTER
+      - RIGHT_10_INNER_INNER
+      - LEFT_11_OUTER_OUTER
+      - LEFT_11_OUTER_INNER
+      - LEFT_11_INNER_OUTER
+      - LEFT_11_INNER_INNER
+      - RIGHT_11_OUTER_OUTER
+      - RIGHT_11_OUTER_INNER
+      - RIGHT_11_INNER_OUTER
+      - RIGHT_11_INNER_INNER
+      - LEFT_12_OUTER_OUTER
+      - LEFT_12_OUTER_INNER
+      - LEFT_12_INNER_OUTER
+      - LEFT_12_INNER_INNER
+      - RIGHT_12_OUTER_OUTER
+      - RIGHT_12_OUTER_INNER
+      - RIGHT_12_INNER_OUTER
+      - RIGHT_12_INNER_INNER
+      x-deprecated:
+      - FRONT_LEFT
+      - FRONT_RIGHT
+      - REAR_LEFT
+      - REAR_RIGHT
+    tirePosition_1:
+      type: string
+      description: "Tire position on the vehicle: \\[SIDE\\]_\\[AXLE_NUMBER\\] with\
+        \ an optional _\\[INNER/OUTER\\] suffix, plus SPARE_\\[N\\]."
+      enum:
+      - LEFT_1
+      - LEFT_1_INNER
+      - LEFT_1_OUTER
+      - RIGHT_1
+      - RIGHT_1_INNER
+      - RIGHT_1_OUTER
+      - LEFT_2
+      - LEFT_2_INNER
+      - LEFT_2_OUTER
+      - RIGHT_2
+      - RIGHT_2_INNER
+      - RIGHT_2_OUTER
+      - LEFT_3
+      - LEFT_3_INNER
+      - LEFT_3_OUTER
+      - RIGHT_3
+      - RIGHT_3_INNER
+      - RIGHT_3_OUTER
+      - LEFT_4
+      - LEFT_4_INNER
+      - LEFT_4_OUTER
+      - RIGHT_4
+      - RIGHT_4_INNER
+      - RIGHT_4_OUTER
+      - LEFT_5
+      - LEFT_5_INNER
+      - LEFT_5_OUTER
+      - RIGHT_5
+      - RIGHT_5_INNER
+      - RIGHT_5_OUTER
+      - LEFT_6
+      - LEFT_6_INNER
+      - LEFT_6_OUTER
+      - RIGHT_6
+      - RIGHT_6_INNER
+      - RIGHT_6_OUTER
+      - LEFT_7
+      - LEFT_7_INNER
+      - LEFT_7_OUTER
+      - RIGHT_7
+      - RIGHT_7_INNER
+      - RIGHT_7_OUTER
+      - LEFT_8
+      - LEFT_8_INNER
+      - LEFT_8_OUTER
+      - RIGHT_8
+      - RIGHT_8_INNER
+      - RIGHT_8_OUTER
+      - LEFT_9
+      - LEFT_9_INNER
+      - LEFT_9_OUTER
+      - RIGHT_9
+      - RIGHT_9_INNER
+      - RIGHT_9_OUTER
+      - LEFT_10
+      - LEFT_10_INNER
+      - LEFT_10_OUTER
+      - RIGHT_10
+      - RIGHT_10_INNER
+      - RIGHT_10_OUTER
+      - LEFT_11
+      - LEFT_11_INNER
+      - LEFT_11_OUTER
+      - RIGHT_11
+      - RIGHT_11_INNER
+      - RIGHT_11_OUTER
+      - LEFT_12
+      - LEFT_12_INNER
+      - LEFT_12_OUTER
+      - RIGHT_12
+      - RIGHT_12_INNER
+      - RIGHT_12_OUTER
+      - SPARE_1
+      - SPARE_2
+      - SPARE_3
+      - SPARE_4
+      - SPARE_5
+      - SPARE_6
+      - LEFT_1_OUTER_OUTER
+      - LEFT_1_OUTER_INNER
+      - LEFT_1_INNER_OUTER
+      - LEFT_1_INNER_INNER
+      - RIGHT_1_OUTER_OUTER
+      - RIGHT_1_OUTER_INNER
+      - RIGHT_1_INNER_OUTER
+      - RIGHT_1_INNER_INNER
+      - LEFT_2_OUTER_OUTER
+      - LEFT_2_OUTER_INNER
+      - LEFT_2_INNER_OUTER
+      - LEFT_2_INNER_INNER
+      - RIGHT_2_OUTER_OUTER
+      - RIGHT_2_OUTER_INNER
+      - RIGHT_2_INNER_OUTER
+      - RIGHT_2_INNER_INNER
+      - LEFT_3_OUTER_OUTER
+      - LEFT_3_OUTER_INNER
+      - LEFT_3_INNER_OUTER
+      - LEFT_3_INNER_INNER
+      - RIGHT_3_OUTER_OUTER
+      - RIGHT_3_OUTER_INNER
+      - RIGHT_3_INNER_OUTER
+      - RIGHT_3_INNER_INNER
+      - LEFT_4_OUTER_OUTER
+      - LEFT_4_OUTER_INNER
+      - LEFT_4_INNER_OUTER
+      - LEFT_4_INNER_INNER
+      - RIGHT_4_OUTER_OUTER
+      - RIGHT_4_OUTER_INNER
+      - RIGHT_4_INNER_OUTER
+      - RIGHT_4_INNER_INNER
+      - LEFT_5_OUTER_OUTER
+      - LEFT_5_OUTER_INNER
+      - LEFT_5_INNER_OUTER
+      - LEFT_5_INNER_INNER
+      - RIGHT_5_OUTER_OUTER
+      - RIGHT_5_OUTER_INNER
+      - RIGHT_5_INNER_OUTER
+      - RIGHT_5_INNER_INNER
+      - LEFT_6_OUTER_OUTER
+      - LEFT_6_OUTER_INNER
+      - LEFT_6_INNER_OUTER
+      - LEFT_6_INNER_INNER
+      - RIGHT_6_OUTER_OUTER
+      - RIGHT_6_OUTER_INNER
+      - RIGHT_6_INNER_OUTER
+      - RIGHT_6_INNER_INNER
+      - LEFT_7_OUTER_OUTER
+      - LEFT_7_OUTER_INNER
+      - LEFT_7_INNER_OUTER
+      - LEFT_7_INNER_INNER
+      - RIGHT_7_OUTER_OUTER
+      - RIGHT_7_OUTER_INNER
+      - RIGHT_7_INNER_OUTER
+      - RIGHT_7_INNER_INNER
+      - LEFT_8_OUTER_OUTER
+      - LEFT_8_OUTER_INNER
+      - LEFT_8_INNER_OUTER
+      - LEFT_8_INNER_INNER
+      - RIGHT_8_OUTER_OUTER
+      - RIGHT_8_OUTER_INNER
+      - RIGHT_8_INNER_OUTER
+      - RIGHT_8_INNER_INNER
+      - LEFT_9_OUTER_OUTER
+      - LEFT_9_OUTER_INNER
+      - LEFT_9_INNER_OUTER
+      - LEFT_9_INNER_INNER
+      - RIGHT_9_OUTER_OUTER
+      - RIGHT_9_OUTER_INNER
+      - RIGHT_9_INNER_OUTER
+      - RIGHT_9_INNER_INNER
+      - LEFT_10_OUTER_OUTER
+      - LEFT_10_OUTER_INNER
+      - LEFT_10_INNER_OUTER
+      - LEFT_10_INNER_INNER
+      - RIGHT_10_OUTER_OUTER
+      - RIGHT_10_OUTER_INNER
+      - RIGHT_10_INNER_OUTER
+      - RIGHT_10_INNER_INNER
+      - LEFT_11_OUTER_OUTER
+      - LEFT_11_OUTER_INNER
+      - LEFT_11_INNER_OUTER
+      - LEFT_11_INNER_INNER
+      - RIGHT_11_OUTER_OUTER
+      - RIGHT_11_OUTER_INNER
+      - RIGHT_11_INNER_OUTER
+      - RIGHT_11_INNER_INNER
+      - LEFT_12_OUTER_OUTER
+      - LEFT_12_OUTER_INNER
+      - LEFT_12_INNER_OUTER
+      - LEFT_12_INNER_INNER
+      - RIGHT_12_OUTER_OUTER
+      - RIGHT_12_OUTER_INNER
+      - RIGHT_12_INNER_OUTER
+      - RIGHT_12_INNER_INNER
+      x-type: String
+    tireTemplate:
+      required:
+      - maxColdInflationPressureInPsi
+      - maxTreadDepth32nds
+      - tireBrand
+      - tireModel
+      - tireSizeCode
+      type: object
+      properties:
+        tireBrand:
+          type: string
+          description: Tire Brand
+          example: Hankook
+        tireModel:
+          type: string
+          description: Tire Model
+          example: Dynapro AT2 Xtreme RF12
+        tireSizeCode:
+          type: string
+          description: Tire Size Code
+          example: 215/65Rr17
+        maxColdInflationPressureInPsi:
+          type: number
+          description: Max cold inflation pressure for tire
+          format: double
+          example: 120
+        maxTreadDepth32nds:
+          type: number
+          description: Tread depth in 32nds from factory
+          format: double
+          example: 18
+      description: Tire template to replace the tire with
+    treadClass:
+      type: string
+      description: Tread class
+      enum:
+      - CRITICAL_LOW
+      - LOW
+      - MEDIUM
+      - HIGH
+      - UNKNOWN
+      x-type: String
+    type:
+      type: string
+      description: Event type
+      enum:
+      - LOW_PRESSURE
+      - CRITICAL_LOW_PRESSURE
+      - LOW_PRESSURE_IN_MOTION
+      - CRITICAL_LOW_PRESSURE_IN_MOTION
+      - LOW_TREAD
+      - CRITICAL_LOW_TREAD
+      - LOW_PRESSURE_FROM_TEMP
+      - INVALID_SENSOR_DATA
+      - DEFLATED
+      - LEAK
+      - HIGH_TEMPERATURE
+      - HIGH_PRESSURE
+      - SUSPECTED_SERVICE_FROM_DEFLATION
+      - SUSPECTED_TIRE_ROTATION
+      x-type: String
+    value:
+      type: object
+      properties:
+        vin:
+          type: string
+          description: VIN
+          nullable: true
+          example: WVGBV75N19W507096
+        assetId:
+          type: string
+          description: Vehicle asset identifier
+          nullable: true
+          example: Vehicle 1
+        geolocation:
+          description: Get geolocation
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/geolocation"
+        tires:
+          type: array
+          description: Get tires
+          nullable: true
+          items:
+            $ref: "#/components/schemas/TireStatusListInner"
+      description: VehicleStatus
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

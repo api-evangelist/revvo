@@ -1,0 +1,55 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/revvo-api-openapi-original.yml
+format: custom
+envelope:
+  description: >-
+    Revvo does not use RFC 9457 problem+json. Error responses are plain JSON with
+    a success flag, a human-readable displayErrorMessage, and an internalErrorCode
+    enum. Some responses also carry internalErrorMessage.
+  media_type: application/json
+  fields:
+    success: boolean (false on error)
+    displayErrorMessage: human-readable message safe to surface to users
+    internalErrorMessage: developer-facing detail (some responses)
+    internalErrorCode: enum classifying the failure
+internal_error_codes:
+  source: components.schemas.InternalErrorCode
+  values:
+  - _1
+  - _2
+  - _3
+  - _4
+  note: >-
+    The spec enumerates internalErrorCode as _1.._4 without published meanings;
+    the docs error reference is not public. Meanings left unspecified rather than
+    invented.
+status_codes:
+- status: 400
+  title: Bad Request
+  description: Malformed request body or parameters; carries the error envelope.
+  schema: Generic400Response / CreateVehicle400Response / DeviceRegistration400Response / GetDevices400Response / GetEvents400Response
+  operations: 8
+- status: 401
+  title: Unauthorized
+  description: Missing/invalid API key at POST /auth, or missing/expired JWT bearer on other operations.
+  operations: 13
+- status: 404
+  title: Not Found
+  description: Referenced fleet, vehicle, device or resource does not exist.
+  schema: GetVehicle404Response / DeviceRegistration404Response
+  operations: 7
+- status: 304
+  title: Not Modified
+  description: Conditional/no-change response on register operations.
+  operations: 2
+problems:
+- status: 400
+  title: Bad Request
+  source_operation: openapi/revvo-api-openapi-original.yml#vehicle
+- status: 401
+  title: Unauthorized
+  source_operation: openapi/revvo-api-openapi-original.yml#authToken
+- status: 404
+  title: Not Found
+  source_operation: openapi/revvo-api-openapi-original.yml#getVehicle

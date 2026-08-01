@@ -1,0 +1,54 @@
+arazzo: 1.0.1
+info:
+  title: Pull tire events for a fleet
+  version: 1.0.0
+  summary: Authenticate and read tire events/alerts for a fleet over a time window.
+sourceDescriptions:
+- name: revvo
+  url: ../openapi/revvo-api-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: pullTireEvents
+  summary: Get a JWT, then list tire events between two timestamps.
+  inputs:
+    type: object
+    properties:
+      apiKey: { type: string }
+      fleetId: { type: string }
+      fromTimestamp: { type: string }
+      toTimestamp: { type: string }
+  steps:
+  - stepId: authenticate
+    operationId: authToken
+    parameters:
+    - name: X-API-KEY
+      in: header
+      value: $inputs.apiKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      token: $response.body
+  - stepId: getFleetStatus
+    operationId: getFleetStatus
+    parameters:
+    - name: fleetId
+      in: path
+      value: $inputs.fleetId
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: listEvents
+    operationId: getEvents
+    parameters:
+    - name: fleetId
+      in: path
+      value: $inputs.fleetId
+    - name: fromTimestamp
+      in: query
+      value: $inputs.fromTimestamp
+    - name: toTimestamp
+      in: query
+      value: $inputs.toTimestamp
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      events: $response.body

@@ -1,0 +1,11 @@
+generated: '2026-07-20'
+method: derived
+workflows:
+- file: revvo-onboard-vehicle.yml
+  workflowId: onboardVehicle
+  title: Onboard a vehicle and its tire sensors
+  summary: Authenticate, create a vehicle, register its gateway/sensors, then verify.
+- file: revvo-pull-tire-events.yml
+  workflowId: pullTireEvents
+  title: Pull tire events for a fleet
+  summary: Authenticate and read tire events/alerts for a fleet over a time window.

@@ -1,0 +1,47 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/revvo-api-openapi-original.yml
+authentication:
+  style: two-step api-key-to-jwt
+  detail: >-
+    POST /auth with X-API-KEY header returns a JWT (text/plain); send it as
+    Authorization: Bearer on all other operations.
+  ref: authentication/revvo-authentication.yml
+tenancy:
+  model: fleet-scoped
+  detail: >-
+    Every operation is scoped to a fleet via the {fleetId} path parameter;
+    resources (vehicles, devices, sensors, tires, events) hang off a fleet.
+  identifiers:
+    vehicle: vin and assetId
+    device: macAddress and externalId
+    sensor: sensorId / sensor macAddress
+    tire: tirePosition
+pagination:
+  style: time-window
+  detail: >-
+    Event retrieval (getEvents) filters with fromTimestamp/toTimestamp query
+    parameters rather than cursor or offset pagination.
+  params:
+  - fromTimestamp
+  - toTimestamp
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency-key header or parameter is documented in the spec. Register
+    operations return 304 Not Modified when there is no change, but this is not a
+    documented idempotency contract.
+versioning:
+  style: uri-path
+  current: v0
+  ref: lifecycle/revvo-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{ success: false, displayErrorMessage, internalErrorMessage?, internalErrorCode }'
+  ref: errors/revvo-problem-types.yml
+rate_limiting:
+  documented: false
+metadata:
+  detail: >-
+    Timestamps on tire status and events are unix/ISO time values; measurements
+    carry treadClass, treadInMm, pressure, temperature, tireTotalKm.

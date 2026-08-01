@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Revvo API
+  version: 1.0.0
+extends: openapi/revvo-api-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    description: >-
+      Revvo API for AI-powered tire and fleet management. Exchange a fleet API
+      key for a JWT (POST /auth), then manage vehicles, devices, sensors and
+      tires and pull tire events/alerts, all scoped to a fleet.
+    x-apievangelist-industry: Transportation / Fleet Management
+    x-apievangelist-auth: api-key-to-jwt
+- target: $.servers
+  update:
+    - url: https://api.revvo.ai/v0
+      description: Production
+- target: $.info
+  update:
+    x-apievangelist-status-page: https://status.revvo.ai

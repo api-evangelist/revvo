@@ -1,0 +1,26 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/revvo-api-openapi-original.yml
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: openapi 3.0.1 document published at api.revvo.ai/v0/swagger
+- id: jwt-bearer
+  conforms: true
+  evidence: securityScheme bearerAuth type http scheme bearer bearerFormat JWT
+- id: oauth2
+  conforms: false
+  evidence: no oauth2 security scheme; API-key exchanged for JWT instead
+- id: openid-connect
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use a custom success/displayErrorMessage/internalErrorCode envelope, not application/problem+json
+- id: rfc8594-sunset
+  conforms: false
+  evidence: no Sunset/Deprecation header policy published
+- id: cursor-pagination
+  conforms: false
+  evidence: event retrieval uses fromTimestamp/toTimestamp time-window filtering, not cursors
+- id: json-api
+  conforms: false

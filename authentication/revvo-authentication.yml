@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/revvo-api-openapi-original.yml
+docs: https://api.revvo.ai/v0/swagger-ui
+summary:
+  types:
+  - http
+  - apiKey
+  api_key_in:
+  - header
+  flow: two-step
+  notes: >-
+    Revvo uses a two-step credential exchange. Clients present a long-lived
+    API key in the X-API-KEY header to POST /auth, which returns a short-lived
+    JWT (text/plain). That JWT is then sent as an HTTP bearer token
+    (Authorization: Bearer <jwt>) on all other operations. API keys are
+    managed per fleet via the /api-keys/fleet/{fleetId} endpoints.
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-KEY
+  used_by:
+  - authToken
+  description: >-
+    Long-lived fleet API key exchanged at POST /auth for a JWT. Provisioned and
+    revoked via getApiKeys / addApiKey / deleteApiKey.
+  sources:
+  - openapi/revvo-api-openapi-original.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: >-
+    Short-lived JWT obtained from POST /auth, sent as Authorization: Bearer on
+    every fleet, device, vehicle, event and tire operation.
+  sources:
+  - openapi/revvo-api-openapi-original.yml

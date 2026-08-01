@@ -1,0 +1,71 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/revvo-api-openapi-original.yml
+entities:
+- name: Fleet
+  key: fleetId
+  description: Top-level tenant; every operation is scoped to a fleet.
+- name: Vehicle
+  keys: [vin, assetId]
+  schema: VehicleStatus / CreateVehicleBody / GetVehicle200Response
+  description: A vehicle/asset in a fleet, described by an axle template and carrying tires.
+  fields: [vin, assetId, geolocation, template, tires]
+- name: Device
+  keys: [macAddress, externalId]
+  schema: Device
+  description: Physical hardware installed on a vehicle - gateways and sensors.
+- name: Gateway
+  key: gatewayMacAddress
+  schema: RegisterGatewayBody / RegisterDevicesForVehicleBody
+  description: Onboard gateway that relays sensor data; has an install location.
+- name: Sensor
+  key: sensorId
+  schema: RegisterSensorBody
+  description: TPMS tire sensor bound to a tire position on a vehicle.
+  fields: [sensorId, assetId, tirePosition]
+- name: Tire
+  key: tirePosition
+  schema: TireStatusListInner / TireMeasurementBody / TireReplacementBody
+  description: A tire at a position on a vehicle, with pressure/temperature/tread readings.
+  fields: [tirePosition, sensorId, pressure, temperature, treadClass, treadInMm, tireTotalKm, openEvents, resolvedEvents]
+- name: Event
+  schema: EventListInner
+  description: A tire alert/event (puncture, pressure, temperature, vehicle-off) with time and resolution.
+  fields: [vin, tirePosition, eventTime, type, resolutionTime]
+- name: ApiKey
+  key: keyId
+  schema: ApiKeyData
+  description: Per-fleet API key used to obtain JWT tokens.
+relationships:
+- from: Vehicle
+  to: Fleet
+  type: belongs_to
+  via: fleetId
+- from: Device
+  to: Vehicle
+  type: belongs_to
+  via: assetId
+- from: Sensor
+  to: Vehicle
+  type: belongs_to
+  via: assetId
+- from: Sensor
+  to: Tire
+  type: has_one
+  via: tirePosition
+- from: Vehicle
+  to: Tire
+  type: has_many
+  via: tires
+- from: Tire
+  to: Event
+  type: has_many
+  via: tirePosition
+- from: Event
+  to: Vehicle
+  type: belongs_to
+  via: vin
+- from: ApiKey
+  to: Fleet
+  type: belongs_to
+  via: fleetId

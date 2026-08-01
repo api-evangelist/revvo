@@ -1,0 +1,29 @@
+# Revvo
+
+> Revvo is an AI-powered tire and fleet management platform. Its TireIQ engine turns raw tire-sensor data into pressure, temperature, tread-wear and puncture alerts. The Revvo API lets fleets register gateways and TPMS sensors, manage vehicles and tires, and pull tire events/alerts, all scoped to a fleet. Authentication is a two-step exchange: present a fleet API key to POST /auth to obtain a JWT, then send it as a bearer token.
+
+## API
+- [Revvo API (Swagger UI)](https://api.revvo.ai/v0/swagger-ui): Interactive reference for the v0 REST API.
+- [OpenAPI 3.0.1 spec](https://api.revvo.ai/v0/swagger/revvo-api-0.0.yml): Machine-readable definition (15 operations).
+- [API health](https://api.revvo.ai/health): Service health endpoint.
+
+## Docs
+- [Revvo API product](https://www.revvo.ai/product/revvo-api/): What the API delivers.
+- [Developer portal](https://developers.revvo.ai/): Redirects to the API reference.
+- [Integrations](https://www.revvo.ai/integrations/): Geotab, Samsara, Motive, Fleetio, Lytx, Azuga, Zapier.
+- [Blog](https://www.revvo.ai/blog/)
+- [Status](https://status.revvo.ai)
+
+## Concepts
+- Auth: POST /auth with X-API-KEY header returns a JWT; use Authorization: Bearer on all other calls.
+- Tenancy: every operation is scoped to a fleet via {fleetId}.
+- Core resources: fleet, vehicle (vin/assetId), device (gateway + sensor), tire (by position), event.
+- Errors: JSON envelope with success, displayErrorMessage, internalErrorCode (not RFC 9457).
+- Events: retrieved by time window (fromTimestamp/toTimestamp), not cursor pagination.
+
+## Company
+- Industry: Transportation / Fleet Management (tire monitoring, TPMS).
+- Website: https://www.revvo.ai
+- Contact: hello@revvo.ai
+- Privacy: https://www.revvo.ai/privacy-policy/
+- Terms: https://www.revvo.ai/terms-of-service/
