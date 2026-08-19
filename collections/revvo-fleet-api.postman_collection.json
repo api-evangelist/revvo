@@ -1,0 +1,201 @@
+{
+  "item": [
+    {
+      "id": "e720c341-f84d-4c59-96a7-391438ebe385",
+      "name": "Fleet",
+      "description": {
+        "content": "The Fleet API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bfa965a6-e98e-4be2-9b7a-482ff7057d95",
+          "name": "Get details of all vehicles in the fleet",
+          "request": {
+            "name": "Get details of all vehicles in the fleet",
+            "description": {
+              "content": "Get details of all vehicles in the fleet",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<long>",
+                  "description": "Optionally retrieve fleet data at a given point in time. Point in time is expressed as seconds since epoch.\nThis option depends on periodic snapshots of the fleet status being saved. Closest available snapshot within a 24h period of the target timestamp will be selected.\nAn error will occur if no snapshot is available within that 24h period\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "46f74228-2729-49a3-94b4-ad82ccff30ab",
+              "name": "A successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": [\n    {\n      \"vin\": \"WVGBV75N19W507096\",\n      \"assetId\": \"Vehicle 1\",\n      \"geolocation\": {\n        \"timestamp\": 1577836800,\n        \"latitude\": 37.5550874,\n        \"longitude\": -122.3000345\n      },\n      \"tires\": [\n        {\n          \"timestamp\": 1577836800,\n          \"tirePosition\": \"RIGHT_2_INNER_INNER\",\n          \"sensorId\": \"string\",\n          \"pressure\": 31.5,\n          \"temperature\": 27.2,\n          \"treadClass\": \"MEDIUM\",\n          \"treadInMm\": 3542.983564084291,\n          \"tireTotalKm\": 2374.5510363979192,\n          \"openEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"resolvedEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"timestamp\": 1577836800,\n          \"tirePosition\": \"RIGHT_12\",\n          \"sensorId\": \"string\",\n          \"pressure\": 31.5,\n          \"temperature\": 27.2,\n          \"treadClass\": \"LOW\",\n          \"treadInMm\": 7616.47383804152,\n          \"tireTotalKm\": 4728.803853776978,\n          \"openEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"resolvedEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"vin\": \"WVGBV75N19W507096\",\n      \"assetId\": \"Vehicle 1\",\n      \"geolocation\": {\n        \"timestamp\": 1577836800,\n        \"latitude\": 37.5550874,\n        \"longitude\": -122.3000345\n      },\n      \"tires\": [\n        {\n          \"timestamp\": 1577836800,\n          \"tirePosition\": \"LEFT_5_INNER_OUTER\",\n          \"sensorId\": \"string\",\n          \"pressure\": 31.5,\n          \"temperature\": 27.2,\n          \"treadClass\": \"LOW\",\n          \"treadInMm\": 8699.535726045926,\n          \"tireTotalKm\": 7056.850683152223,\n          \"openEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"resolvedEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"timestamp\": 1577836800,\n          \"tirePosition\": \"SPARE_1\",\n          \"sensorId\": \"string\",\n          \"pressure\": 31.5,\n          \"temperature\": 27.2,\n          \"treadClass\": \"LOW\",\n          \"treadInMm\": 791.6729580694914,\n          \"tireTotalKm\": 752.3337906602478,\n          \"openEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"resolvedEvents\": [\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"vin\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"tirePosition\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"eventTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"resolutionTime\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"valueTimestamp\": 5321,\n  \"displayErrorMessage\": \"Error contacting servers. Please try again later.\",\n  \"internalErrorMessage\": \"Failed loading tires, please contact the server team.\",\n  \"internalErrorCode\": \"_2\",\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7cc75a88-4624-4d9f-a637-73b6f1f3bf92",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timestamp",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fc37fb53-8695-46db-bd76-e8be7b60dfd8",
+    "name": "revvo-api Api-keys Fleet API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Api key management (requires admin access)",
+      "type": "text/plain"
+    }
+  }
+}

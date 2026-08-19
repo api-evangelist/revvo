@@ -1,0 +1,1338 @@
+{
+  "item": [
+    {
+      "id": "68270557-522d-4de3-ae6f-a47c18a09721",
+      "name": "Device",
+      "description": {
+        "content": "The Device API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0c5d9fb1-7656-477d-992b-adadd2ef275b",
+          "name": "Register devices (gateway and/or sensors) to vehicle",
+          "request": {
+            "name": "Register devices (gateway and/or sensors) to vehicle",
+            "description": {
+              "content": "Register devices (gateway and/or sensors) to vehicle",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "devices",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"<string>\",\n  \"gatewayMacAddress\": \"<string>\",\n  \"gatewayInstallLocation\": \"<string>\",\n  \"tirePositionToSensorMacAddress\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "840364c7-5540-4d17-8a82-cdb65537d423",
+              "name": "Registered devices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "devices",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<string>\",\n  \"gatewayMacAddress\": \"<string>\",\n  \"gatewayInstallLocation\": \"<string>\",\n  \"tirePositionToSensorMacAddress\": {\n    \"FRONT_LEFT\": \"<string>\",\n    \"FRONT_RIGHT\": \"<string>\",\n    \"REAR_LEFT\": \"<string>\",\n    \"REAR_RIGHT\": \"<string>\",\n    \"EXTERNAL\": \"<string>\",\n    \"OBD2\": \"<string>\",\n    \"DEVICE\": \"<string>\",\n    \"UNKNOWN\": \"<string>\",\n    \"FRONT\": \"<string>\",\n    \"REAR\": \"<string>\",\n    \"LEFT_1\": \"<string>\",\n    \"LEFT_1_OUTER\": \"<string>\",\n    \"LEFT_1_INNER\": \"<string>\",\n    \"RIGHT_1\": \"<string>\",\n    \"RIGHT_1_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER\": \"<string>\",\n    \"LEFT_2\": \"<string>\",\n    \"LEFT_2_OUTER\": \"<string>\",\n    \"LEFT_2_INNER\": \"<string>\",\n    \"RIGHT_2\": \"<string>\",\n    \"RIGHT_2_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER\": \"<string>\",\n    \"LEFT_3\": \"<string>\",\n    \"LEFT_3_OUTER\": \"<string>\",\n    \"LEFT_3_INNER\": \"<string>\",\n    \"RIGHT_3\": \"<string>\",\n    \"RIGHT_3_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER\": \"<string>\",\n    \"LEFT_4\": \"<string>\",\n    \"LEFT_4_OUTER\": \"<string>\",\n    \"LEFT_4_INNER\": \"<string>\",\n    \"RIGHT_4\": \"<string>\",\n    \"RIGHT_4_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER\": \"<string>\",\n    \"LEFT_5\": \"<string>\",\n    \"LEFT_5_OUTER\": \"<string>\",\n    \"LEFT_5_INNER\": \"<string>\",\n    \"RIGHT_5\": \"<string>\",\n    \"RIGHT_5_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER\": \"<string>\",\n    \"LEFT_6\": \"<string>\",\n    \"LEFT_6_OUTER\": \"<string>\",\n    \"LEFT_6_INNER\": \"<string>\",\n    \"RIGHT_6\": \"<string>\",\n    \"RIGHT_6_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER\": \"<string>\",\n    \"LEFT_7\": \"<string>\",\n    \"LEFT_7_OUTER\": \"<string>\",\n    \"LEFT_7_INNER\": \"<string>\",\n    \"RIGHT_7\": \"<string>\",\n    \"RIGHT_7_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER\": \"<string>\",\n    \"LEFT_8\": \"<string>\",\n    \"LEFT_8_OUTER\": \"<string>\",\n    \"LEFT_8_INNER\": \"<string>\",\n    \"RIGHT_8\": \"<string>\",\n    \"RIGHT_8_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER\": \"<string>\",\n    \"LEFT_9\": \"<string>\",\n    \"LEFT_9_OUTER\": \"<string>\",\n    \"LEFT_9_INNER\": \"<string>\",\n    \"RIGHT_9\": \"<string>\",\n    \"RIGHT_9_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER\": \"<string>\",\n    \"LEFT_10\": \"<string>\",\n    \"LEFT_10_OUTER\": \"<string>\",\n    \"LEFT_10_INNER\": \"<string>\",\n    \"RIGHT_10\": \"<string>\",\n    \"RIGHT_10_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER\": \"<string>\",\n    \"LEFT_11\": \"<string>\",\n    \"LEFT_11_OUTER\": \"<string>\",\n    \"LEFT_11_INNER\": \"<string>\",\n    \"RIGHT_11\": \"<string>\",\n    \"RIGHT_11_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER\": \"<string>\",\n    \"LEFT_12\": \"<string>\",\n    \"LEFT_12_OUTER\": \"<string>\",\n    \"LEFT_12_INNER\": \"<string>\",\n    \"RIGHT_12\": \"<string>\",\n    \"RIGHT_12_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER\": \"<string>\",\n    \"SPARE_1\": \"<string>\",\n    \"SPARE_2\": \"<string>\",\n    \"SPARE_3\": \"<string>\",\n    \"SPARE_4\": \"<string>\",\n    \"SPARE_5\": \"<string>\",\n    \"SPARE_6\": \"<string>\",\n    \"LEFT_1_OUTER_OUTER\": \"<string>\",\n    \"LEFT_1_OUTER_INNER\": \"<string>\",\n    \"LEFT_1_INNER_OUTER\": \"<string>\",\n    \"LEFT_1_INNER_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_1_OUTER_INNER\": \"<string>\",\n    \"RIGHT_1_INNER_OUTER\": \"<string>\",\n    \"RIGHT_1_INNER_INNER\": \"<string>\",\n    \"LEFT_2_OUTER_OUTER\": \"<string>\",\n    \"LEFT_2_OUTER_INNER\": \"<string>\",\n    \"LEFT_2_INNER_OUTER\": \"<string>\",\n    \"LEFT_2_INNER_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_2_OUTER_INNER\": \"<string>\",\n    \"RIGHT_2_INNER_OUTER\": \"<string>\",\n    \"RIGHT_2_INNER_INNER\": \"<string>\",\n    \"LEFT_3_OUTER_OUTER\": \"<string>\",\n    \"LEFT_3_OUTER_INNER\": \"<string>\",\n    \"LEFT_3_INNER_OUTER\": \"<string>\",\n    \"LEFT_3_INNER_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_3_OUTER_INNER\": \"<string>\",\n    \"RIGHT_3_INNER_OUTER\": \"<string>\",\n    \"RIGHT_3_INNER_INNER\": \"<string>\",\n    \"LEFT_4_OUTER_OUTER\": \"<string>\",\n    \"LEFT_4_OUTER_INNER\": \"<string>\",\n    \"LEFT_4_INNER_OUTER\": \"<string>\",\n    \"LEFT_4_INNER_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_4_OUTER_INNER\": \"<string>\",\n    \"RIGHT_4_INNER_OUTER\": \"<string>\",\n    \"RIGHT_4_INNER_INNER\": \"<string>\",\n    \"LEFT_5_OUTER_OUTER\": \"<string>\",\n    \"LEFT_5_OUTER_INNER\": \"<string>\",\n    \"LEFT_5_INNER_OUTER\": \"<string>\",\n    \"LEFT_5_INNER_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_5_OUTER_INNER\": \"<string>\",\n    \"RIGHT_5_INNER_OUTER\": \"<string>\",\n    \"RIGHT_5_INNER_INNER\": \"<string>\",\n    \"LEFT_6_OUTER_OUTER\": \"<string>\",\n    \"LEFT_6_OUTER_INNER\": \"<string>\",\n    \"LEFT_6_INNER_OUTER\": \"<string>\",\n    \"LEFT_6_INNER_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_6_OUTER_INNER\": \"<string>\",\n    \"RIGHT_6_INNER_OUTER\": \"<string>\",\n    \"RIGHT_6_INNER_INNER\": \"<string>\",\n    \"LEFT_7_OUTER_OUTER\": \"<string>\",\n    \"LEFT_7_OUTER_INNER\": \"<string>\",\n    \"LEFT_7_INNER_OUTER\": \"<string>\",\n    \"LEFT_7_INNER_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_7_OUTER_INNER\": \"<string>\",\n    \"RIGHT_7_INNER_OUTER\": \"<string>\",\n    \"RIGHT_7_INNER_INNER\": \"<string>\",\n    \"LEFT_8_OUTER_OUTER\": \"<string>\",\n    \"LEFT_8_OUTER_INNER\": \"<string>\",\n    \"LEFT_8_INNER_OUTER\": \"<string>\",\n    \"LEFT_8_INNER_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_8_OUTER_INNER\": \"<string>\",\n    \"RIGHT_8_INNER_OUTER\": \"<string>\",\n    \"RIGHT_8_INNER_INNER\": \"<string>\",\n    \"LEFT_9_OUTER_OUTER\": \"<string>\",\n    \"LEFT_9_OUTER_INNER\": \"<string>\",\n    \"LEFT_9_INNER_OUTER\": \"<string>\",\n    \"LEFT_9_INNER_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_9_OUTER_INNER\": \"<string>\",\n    \"RIGHT_9_INNER_OUTER\": \"<string>\",\n    \"RIGHT_9_INNER_INNER\": \"<string>\",\n    \"LEFT_10_OUTER_OUTER\": \"<string>\",\n    \"LEFT_10_OUTER_INNER\": \"<string>\",\n    \"LEFT_10_INNER_OUTER\": \"<string>\",\n    \"LEFT_10_INNER_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_10_OUTER_INNER\": \"<string>\",\n    \"RIGHT_10_INNER_OUTER\": \"<string>\",\n    \"RIGHT_10_INNER_INNER\": \"<string>\",\n    \"LEFT_11_OUTER_OUTER\": \"<string>\",\n    \"LEFT_11_OUTER_INNER\": \"<string>\",\n    \"LEFT_11_INNER_OUTER\": \"<string>\",\n    \"LEFT_11_INNER_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_11_OUTER_INNER\": \"<string>\",\n    \"RIGHT_11_INNER_OUTER\": \"<string>\",\n    \"RIGHT_11_INNER_INNER\": \"<string>\",\n    \"LEFT_12_OUTER_OUTER\": \"<string>\",\n    \"LEFT_12_OUTER_INNER\": \"<string>\",\n    \"LEFT_12_INNER_OUTER\": \"<string>\",\n    \"LEFT_12_INNER_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_12_OUTER_INNER\": \"<string>\",\n    \"RIGHT_12_INNER_OUTER\": \"<string>\",\n    \"RIGHT_12_INNER_INNER\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": \"string\",\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec569488-fbcf-4a09-bad1-4340b28280fe",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "devices",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<string>\",\n  \"gatewayMacAddress\": \"<string>\",\n  \"gatewayInstallLocation\": \"<string>\",\n  \"tirePositionToSensorMacAddress\": {\n    \"FRONT_LEFT\": \"<string>\",\n    \"FRONT_RIGHT\": \"<string>\",\n    \"REAR_LEFT\": \"<string>\",\n    \"REAR_RIGHT\": \"<string>\",\n    \"EXTERNAL\": \"<string>\",\n    \"OBD2\": \"<string>\",\n    \"DEVICE\": \"<string>\",\n    \"UNKNOWN\": \"<string>\",\n    \"FRONT\": \"<string>\",\n    \"REAR\": \"<string>\",\n    \"LEFT_1\": \"<string>\",\n    \"LEFT_1_OUTER\": \"<string>\",\n    \"LEFT_1_INNER\": \"<string>\",\n    \"RIGHT_1\": \"<string>\",\n    \"RIGHT_1_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER\": \"<string>\",\n    \"LEFT_2\": \"<string>\",\n    \"LEFT_2_OUTER\": \"<string>\",\n    \"LEFT_2_INNER\": \"<string>\",\n    \"RIGHT_2\": \"<string>\",\n    \"RIGHT_2_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER\": \"<string>\",\n    \"LEFT_3\": \"<string>\",\n    \"LEFT_3_OUTER\": \"<string>\",\n    \"LEFT_3_INNER\": \"<string>\",\n    \"RIGHT_3\": \"<string>\",\n    \"RIGHT_3_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER\": \"<string>\",\n    \"LEFT_4\": \"<string>\",\n    \"LEFT_4_OUTER\": \"<string>\",\n    \"LEFT_4_INNER\": \"<string>\",\n    \"RIGHT_4\": \"<string>\",\n    \"RIGHT_4_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER\": \"<string>\",\n    \"LEFT_5\": \"<string>\",\n    \"LEFT_5_OUTER\": \"<string>\",\n    \"LEFT_5_INNER\": \"<string>\",\n    \"RIGHT_5\": \"<string>\",\n    \"RIGHT_5_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER\": \"<string>\",\n    \"LEFT_6\": \"<string>\",\n    \"LEFT_6_OUTER\": \"<string>\",\n    \"LEFT_6_INNER\": \"<string>\",\n    \"RIGHT_6\": \"<string>\",\n    \"RIGHT_6_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER\": \"<string>\",\n    \"LEFT_7\": \"<string>\",\n    \"LEFT_7_OUTER\": \"<string>\",\n    \"LEFT_7_INNER\": \"<string>\",\n    \"RIGHT_7\": \"<string>\",\n    \"RIGHT_7_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER\": \"<string>\",\n    \"LEFT_8\": \"<string>\",\n    \"LEFT_8_OUTER\": \"<string>\",\n    \"LEFT_8_INNER\": \"<string>\",\n    \"RIGHT_8\": \"<string>\",\n    \"RIGHT_8_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER\": \"<string>\",\n    \"LEFT_9\": \"<string>\",\n    \"LEFT_9_OUTER\": \"<string>\",\n    \"LEFT_9_INNER\": \"<string>\",\n    \"RIGHT_9\": \"<string>\",\n    \"RIGHT_9_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER\": \"<string>\",\n    \"LEFT_10\": \"<string>\",\n    \"LEFT_10_OUTER\": \"<string>\",\n    \"LEFT_10_INNER\": \"<string>\",\n    \"RIGHT_10\": \"<string>\",\n    \"RIGHT_10_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER\": \"<string>\",\n    \"LEFT_11\": \"<string>\",\n    \"LEFT_11_OUTER\": \"<string>\",\n    \"LEFT_11_INNER\": \"<string>\",\n    \"RIGHT_11\": \"<string>\",\n    \"RIGHT_11_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER\": \"<string>\",\n    \"LEFT_12\": \"<string>\",\n    \"LEFT_12_OUTER\": \"<string>\",\n    \"LEFT_12_INNER\": \"<string>\",\n    \"RIGHT_12\": \"<string>\",\n    \"RIGHT_12_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER\": \"<string>\",\n    \"SPARE_1\": \"<string>\",\n    \"SPARE_2\": \"<string>\",\n    \"SPARE_3\": \"<string>\",\n    \"SPARE_4\": \"<string>\",\n    \"SPARE_5\": \"<string>\",\n    \"SPARE_6\": \"<string>\",\n    \"LEFT_1_OUTER_OUTER\": \"<string>\",\n    \"LEFT_1_OUTER_INNER\": \"<string>\",\n    \"LEFT_1_INNER_OUTER\": \"<string>\",\n    \"LEFT_1_INNER_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_1_OUTER_INNER\": \"<string>\",\n    \"RIGHT_1_INNER_OUTER\": \"<string>\",\n    \"RIGHT_1_INNER_INNER\": \"<string>\",\n    \"LEFT_2_OUTER_OUTER\": \"<string>\",\n    \"LEFT_2_OUTER_INNER\": \"<string>\",\n    \"LEFT_2_INNER_OUTER\": \"<string>\",\n    \"LEFT_2_INNER_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_2_OUTER_INNER\": \"<string>\",\n    \"RIGHT_2_INNER_OUTER\": \"<string>\",\n    \"RIGHT_2_INNER_INNER\": \"<string>\",\n    \"LEFT_3_OUTER_OUTER\": \"<string>\",\n    \"LEFT_3_OUTER_INNER\": \"<string>\",\n    \"LEFT_3_INNER_OUTER\": \"<string>\",\n    \"LEFT_3_INNER_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_3_OUTER_INNER\": \"<string>\",\n    \"RIGHT_3_INNER_OUTER\": \"<string>\",\n    \"RIGHT_3_INNER_INNER\": \"<string>\",\n    \"LEFT_4_OUTER_OUTER\": \"<string>\",\n    \"LEFT_4_OUTER_INNER\": \"<string>\",\n    \"LEFT_4_INNER_OUTER\": \"<string>\",\n    \"LEFT_4_INNER_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_4_OUTER_INNER\": \"<string>\",\n    \"RIGHT_4_INNER_OUTER\": \"<string>\",\n    \"RIGHT_4_INNER_INNER\": \"<string>\",\n    \"LEFT_5_OUTER_OUTER\": \"<string>\",\n    \"LEFT_5_OUTER_INNER\": \"<string>\",\n    \"LEFT_5_INNER_OUTER\": \"<string>\",\n    \"LEFT_5_INNER_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_5_OUTER_INNER\": \"<string>\",\n    \"RIGHT_5_INNER_OUTER\": \"<string>\",\n    \"RIGHT_5_INNER_INNER\": \"<string>\",\n    \"LEFT_6_OUTER_OUTER\": \"<string>\",\n    \"LEFT_6_OUTER_INNER\": \"<string>\",\n    \"LEFT_6_INNER_OUTER\": \"<string>\",\n    \"LEFT_6_INNER_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_6_OUTER_INNER\": \"<string>\",\n    \"RIGHT_6_INNER_OUTER\": \"<string>\",\n    \"RIGHT_6_INNER_INNER\": \"<string>\",\n    \"LEFT_7_OUTER_OUTER\": \"<string>\",\n    \"LEFT_7_OUTER_INNER\": \"<string>\",\n    \"LEFT_7_INNER_OUTER\": \"<string>\",\n    \"LEFT_7_INNER_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_7_OUTER_INNER\": \"<string>\",\n    \"RIGHT_7_INNER_OUTER\": \"<string>\",\n    \"RIGHT_7_INNER_INNER\": \"<string>\",\n    \"LEFT_8_OUTER_OUTER\": \"<string>\",\n    \"LEFT_8_OUTER_INNER\": \"<string>\",\n    \"LEFT_8_INNER_OUTER\": \"<string>\",\n    \"LEFT_8_INNER_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_8_OUTER_INNER\": \"<string>\",\n    \"RIGHT_8_INNER_OUTER\": \"<string>\",\n    \"RIGHT_8_INNER_INNER\": \"<string>\",\n    \"LEFT_9_OUTER_OUTER\": \"<string>\",\n    \"LEFT_9_OUTER_INNER\": \"<string>\",\n    \"LEFT_9_INNER_OUTER\": \"<string>\",\n    \"LEFT_9_INNER_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_9_OUTER_INNER\": \"<string>\",\n    \"RIGHT_9_INNER_OUTER\": \"<string>\",\n    \"RIGHT_9_INNER_INNER\": \"<string>\",\n    \"LEFT_10_OUTER_OUTER\": \"<string>\",\n    \"LEFT_10_OUTER_INNER\": \"<string>\",\n    \"LEFT_10_INNER_OUTER\": \"<string>\",\n    \"LEFT_10_INNER_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_10_OUTER_INNER\": \"<string>\",\n    \"RIGHT_10_INNER_OUTER\": \"<string>\",\n    \"RIGHT_10_INNER_INNER\": \"<string>\",\n    \"LEFT_11_OUTER_OUTER\": \"<string>\",\n    \"LEFT_11_OUTER_INNER\": \"<string>\",\n    \"LEFT_11_INNER_OUTER\": \"<string>\",\n    \"LEFT_11_INNER_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_11_OUTER_INNER\": \"<string>\",\n    \"RIGHT_11_INNER_OUTER\": \"<string>\",\n    \"RIGHT_11_INNER_INNER\": \"<string>\",\n    \"LEFT_12_OUTER_OUTER\": \"<string>\",\n    \"LEFT_12_OUTER_INNER\": \"<string>\",\n    \"LEFT_12_INNER_OUTER\": \"<string>\",\n    \"LEFT_12_INNER_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_12_OUTER_INNER\": \"<string>\",\n    \"RIGHT_12_INNER_OUTER\": \"<string>\",\n    \"RIGHT_12_INNER_INNER\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_4\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66335764-9c65-4fbe-8178-ce3650415e4c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "devices",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<string>\",\n  \"gatewayMacAddress\": \"<string>\",\n  \"gatewayInstallLocation\": \"<string>\",\n  \"tirePositionToSensorMacAddress\": {\n    \"FRONT_LEFT\": \"<string>\",\n    \"FRONT_RIGHT\": \"<string>\",\n    \"REAR_LEFT\": \"<string>\",\n    \"REAR_RIGHT\": \"<string>\",\n    \"EXTERNAL\": \"<string>\",\n    \"OBD2\": \"<string>\",\n    \"DEVICE\": \"<string>\",\n    \"UNKNOWN\": \"<string>\",\n    \"FRONT\": \"<string>\",\n    \"REAR\": \"<string>\",\n    \"LEFT_1\": \"<string>\",\n    \"LEFT_1_OUTER\": \"<string>\",\n    \"LEFT_1_INNER\": \"<string>\",\n    \"RIGHT_1\": \"<string>\",\n    \"RIGHT_1_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER\": \"<string>\",\n    \"LEFT_2\": \"<string>\",\n    \"LEFT_2_OUTER\": \"<string>\",\n    \"LEFT_2_INNER\": \"<string>\",\n    \"RIGHT_2\": \"<string>\",\n    \"RIGHT_2_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER\": \"<string>\",\n    \"LEFT_3\": \"<string>\",\n    \"LEFT_3_OUTER\": \"<string>\",\n    \"LEFT_3_INNER\": \"<string>\",\n    \"RIGHT_3\": \"<string>\",\n    \"RIGHT_3_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER\": \"<string>\",\n    \"LEFT_4\": \"<string>\",\n    \"LEFT_4_OUTER\": \"<string>\",\n    \"LEFT_4_INNER\": \"<string>\",\n    \"RIGHT_4\": \"<string>\",\n    \"RIGHT_4_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER\": \"<string>\",\n    \"LEFT_5\": \"<string>\",\n    \"LEFT_5_OUTER\": \"<string>\",\n    \"LEFT_5_INNER\": \"<string>\",\n    \"RIGHT_5\": \"<string>\",\n    \"RIGHT_5_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER\": \"<string>\",\n    \"LEFT_6\": \"<string>\",\n    \"LEFT_6_OUTER\": \"<string>\",\n    \"LEFT_6_INNER\": \"<string>\",\n    \"RIGHT_6\": \"<string>\",\n    \"RIGHT_6_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER\": \"<string>\",\n    \"LEFT_7\": \"<string>\",\n    \"LEFT_7_OUTER\": \"<string>\",\n    \"LEFT_7_INNER\": \"<string>\",\n    \"RIGHT_7\": \"<string>\",\n    \"RIGHT_7_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER\": \"<string>\",\n    \"LEFT_8\": \"<string>\",\n    \"LEFT_8_OUTER\": \"<string>\",\n    \"LEFT_8_INNER\": \"<string>\",\n    \"RIGHT_8\": \"<string>\",\n    \"RIGHT_8_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER\": \"<string>\",\n    \"LEFT_9\": \"<string>\",\n    \"LEFT_9_OUTER\": \"<string>\",\n    \"LEFT_9_INNER\": \"<string>\",\n    \"RIGHT_9\": \"<string>\",\n    \"RIGHT_9_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER\": \"<string>\",\n    \"LEFT_10\": \"<string>\",\n    \"LEFT_10_OUTER\": \"<string>\",\n    \"LEFT_10_INNER\": \"<string>\",\n    \"RIGHT_10\": \"<string>\",\n    \"RIGHT_10_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER\": \"<string>\",\n    \"LEFT_11\": \"<string>\",\n    \"LEFT_11_OUTER\": \"<string>\",\n    \"LEFT_11_INNER\": \"<string>\",\n    \"RIGHT_11\": \"<string>\",\n    \"RIGHT_11_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER\": \"<string>\",\n    \"LEFT_12\": \"<string>\",\n    \"LEFT_12_OUTER\": \"<string>\",\n    \"LEFT_12_INNER\": \"<string>\",\n    \"RIGHT_12\": \"<string>\",\n    \"RIGHT_12_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER\": \"<string>\",\n    \"SPARE_1\": \"<string>\",\n    \"SPARE_2\": \"<string>\",\n    \"SPARE_3\": \"<string>\",\n    \"SPARE_4\": \"<string>\",\n    \"SPARE_5\": \"<string>\",\n    \"SPARE_6\": \"<string>\",\n    \"LEFT_1_OUTER_OUTER\": \"<string>\",\n    \"LEFT_1_OUTER_INNER\": \"<string>\",\n    \"LEFT_1_INNER_OUTER\": \"<string>\",\n    \"LEFT_1_INNER_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_1_OUTER_INNER\": \"<string>\",\n    \"RIGHT_1_INNER_OUTER\": \"<string>\",\n    \"RIGHT_1_INNER_INNER\": \"<string>\",\n    \"LEFT_2_OUTER_OUTER\": \"<string>\",\n    \"LEFT_2_OUTER_INNER\": \"<string>\",\n    \"LEFT_2_INNER_OUTER\": \"<string>\",\n    \"LEFT_2_INNER_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_2_OUTER_INNER\": \"<string>\",\n    \"RIGHT_2_INNER_OUTER\": \"<string>\",\n    \"RIGHT_2_INNER_INNER\": \"<string>\",\n    \"LEFT_3_OUTER_OUTER\": \"<string>\",\n    \"LEFT_3_OUTER_INNER\": \"<string>\",\n    \"LEFT_3_INNER_OUTER\": \"<string>\",\n    \"LEFT_3_INNER_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_3_OUTER_INNER\": \"<string>\",\n    \"RIGHT_3_INNER_OUTER\": \"<string>\",\n    \"RIGHT_3_INNER_INNER\": \"<string>\",\n    \"LEFT_4_OUTER_OUTER\": \"<string>\",\n    \"LEFT_4_OUTER_INNER\": \"<string>\",\n    \"LEFT_4_INNER_OUTER\": \"<string>\",\n    \"LEFT_4_INNER_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_4_OUTER_INNER\": \"<string>\",\n    \"RIGHT_4_INNER_OUTER\": \"<string>\",\n    \"RIGHT_4_INNER_INNER\": \"<string>\",\n    \"LEFT_5_OUTER_OUTER\": \"<string>\",\n    \"LEFT_5_OUTER_INNER\": \"<string>\",\n    \"LEFT_5_INNER_OUTER\": \"<string>\",\n    \"LEFT_5_INNER_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_5_OUTER_INNER\": \"<string>\",\n    \"RIGHT_5_INNER_OUTER\": \"<string>\",\n    \"RIGHT_5_INNER_INNER\": \"<string>\",\n    \"LEFT_6_OUTER_OUTER\": \"<string>\",\n    \"LEFT_6_OUTER_INNER\": \"<string>\",\n    \"LEFT_6_INNER_OUTER\": \"<string>\",\n    \"LEFT_6_INNER_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_6_OUTER_INNER\": \"<string>\",\n    \"RIGHT_6_INNER_OUTER\": \"<string>\",\n    \"RIGHT_6_INNER_INNER\": \"<string>\",\n    \"LEFT_7_OUTER_OUTER\": \"<string>\",\n    \"LEFT_7_OUTER_INNER\": \"<string>\",\n    \"LEFT_7_INNER_OUTER\": \"<string>\",\n    \"LEFT_7_INNER_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_7_OUTER_INNER\": \"<string>\",\n    \"RIGHT_7_INNER_OUTER\": \"<string>\",\n    \"RIGHT_7_INNER_INNER\": \"<string>\",\n    \"LEFT_8_OUTER_OUTER\": \"<string>\",\n    \"LEFT_8_OUTER_INNER\": \"<string>\",\n    \"LEFT_8_INNER_OUTER\": \"<string>\",\n    \"LEFT_8_INNER_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_8_OUTER_INNER\": \"<string>\",\n    \"RIGHT_8_INNER_OUTER\": \"<string>\",\n    \"RIGHT_8_INNER_INNER\": \"<string>\",\n    \"LEFT_9_OUTER_OUTER\": \"<string>\",\n    \"LEFT_9_OUTER_INNER\": \"<string>\",\n    \"LEFT_9_INNER_OUTER\": \"<string>\",\n    \"LEFT_9_INNER_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_9_OUTER_INNER\": \"<string>\",\n    \"RIGHT_9_INNER_OUTER\": \"<string>\",\n    \"RIGHT_9_INNER_INNER\": \"<string>\",\n    \"LEFT_10_OUTER_OUTER\": \"<string>\",\n    \"LEFT_10_OUTER_INNER\": \"<string>\",\n    \"LEFT_10_INNER_OUTER\": \"<string>\",\n    \"LEFT_10_INNER_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_10_OUTER_INNER\": \"<string>\",\n    \"RIGHT_10_INNER_OUTER\": \"<string>\",\n    \"RIGHT_10_INNER_INNER\": \"<string>\",\n    \"LEFT_11_OUTER_OUTER\": \"<string>\",\n    \"LEFT_11_OUTER_INNER\": \"<string>\",\n    \"LEFT_11_INNER_OUTER\": \"<string>\",\n    \"LEFT_11_INNER_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_11_OUTER_INNER\": \"<string>\",\n    \"RIGHT_11_INNER_OUTER\": \"<string>\",\n    \"RIGHT_11_INNER_INNER\": \"<string>\",\n    \"LEFT_12_OUTER_OUTER\": \"<string>\",\n    \"LEFT_12_OUTER_INNER\": \"<string>\",\n    \"LEFT_12_INNER_OUTER\": \"<string>\",\n    \"LEFT_12_INNER_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_12_OUTER_INNER\": \"<string>\",\n    \"RIGHT_12_INNER_OUTER\": \"<string>\",\n    \"RIGHT_12_INNER_INNER\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d3c1d8e8-8ce3-4917-a1fd-9467fa21be20",
+              "name": "Device or Vehicle not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "devices",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<string>\",\n  \"gatewayMacAddress\": \"<string>\",\n  \"gatewayInstallLocation\": \"<string>\",\n  \"tirePositionToSensorMacAddress\": {\n    \"FRONT_LEFT\": \"<string>\",\n    \"FRONT_RIGHT\": \"<string>\",\n    \"REAR_LEFT\": \"<string>\",\n    \"REAR_RIGHT\": \"<string>\",\n    \"EXTERNAL\": \"<string>\",\n    \"OBD2\": \"<string>\",\n    \"DEVICE\": \"<string>\",\n    \"UNKNOWN\": \"<string>\",\n    \"FRONT\": \"<string>\",\n    \"REAR\": \"<string>\",\n    \"LEFT_1\": \"<string>\",\n    \"LEFT_1_OUTER\": \"<string>\",\n    \"LEFT_1_INNER\": \"<string>\",\n    \"RIGHT_1\": \"<string>\",\n    \"RIGHT_1_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER\": \"<string>\",\n    \"LEFT_2\": \"<string>\",\n    \"LEFT_2_OUTER\": \"<string>\",\n    \"LEFT_2_INNER\": \"<string>\",\n    \"RIGHT_2\": \"<string>\",\n    \"RIGHT_2_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER\": \"<string>\",\n    \"LEFT_3\": \"<string>\",\n    \"LEFT_3_OUTER\": \"<string>\",\n    \"LEFT_3_INNER\": \"<string>\",\n    \"RIGHT_3\": \"<string>\",\n    \"RIGHT_3_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER\": \"<string>\",\n    \"LEFT_4\": \"<string>\",\n    \"LEFT_4_OUTER\": \"<string>\",\n    \"LEFT_4_INNER\": \"<string>\",\n    \"RIGHT_4\": \"<string>\",\n    \"RIGHT_4_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER\": \"<string>\",\n    \"LEFT_5\": \"<string>\",\n    \"LEFT_5_OUTER\": \"<string>\",\n    \"LEFT_5_INNER\": \"<string>\",\n    \"RIGHT_5\": \"<string>\",\n    \"RIGHT_5_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER\": \"<string>\",\n    \"LEFT_6\": \"<string>\",\n    \"LEFT_6_OUTER\": \"<string>\",\n    \"LEFT_6_INNER\": \"<string>\",\n    \"RIGHT_6\": \"<string>\",\n    \"RIGHT_6_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER\": \"<string>\",\n    \"LEFT_7\": \"<string>\",\n    \"LEFT_7_OUTER\": \"<string>\",\n    \"LEFT_7_INNER\": \"<string>\",\n    \"RIGHT_7\": \"<string>\",\n    \"RIGHT_7_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER\": \"<string>\",\n    \"LEFT_8\": \"<string>\",\n    \"LEFT_8_OUTER\": \"<string>\",\n    \"LEFT_8_INNER\": \"<string>\",\n    \"RIGHT_8\": \"<string>\",\n    \"RIGHT_8_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER\": \"<string>\",\n    \"LEFT_9\": \"<string>\",\n    \"LEFT_9_OUTER\": \"<string>\",\n    \"LEFT_9_INNER\": \"<string>\",\n    \"RIGHT_9\": \"<string>\",\n    \"RIGHT_9_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER\": \"<string>\",\n    \"LEFT_10\": \"<string>\",\n    \"LEFT_10_OUTER\": \"<string>\",\n    \"LEFT_10_INNER\": \"<string>\",\n    \"RIGHT_10\": \"<string>\",\n    \"RIGHT_10_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER\": \"<string>\",\n    \"LEFT_11\": \"<string>\",\n    \"LEFT_11_OUTER\": \"<string>\",\n    \"LEFT_11_INNER\": \"<string>\",\n    \"RIGHT_11\": \"<string>\",\n    \"RIGHT_11_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER\": \"<string>\",\n    \"LEFT_12\": \"<string>\",\n    \"LEFT_12_OUTER\": \"<string>\",\n    \"LEFT_12_INNER\": \"<string>\",\n    \"RIGHT_12\": \"<string>\",\n    \"RIGHT_12_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER\": \"<string>\",\n    \"SPARE_1\": \"<string>\",\n    \"SPARE_2\": \"<string>\",\n    \"SPARE_3\": \"<string>\",\n    \"SPARE_4\": \"<string>\",\n    \"SPARE_5\": \"<string>\",\n    \"SPARE_6\": \"<string>\",\n    \"LEFT_1_OUTER_OUTER\": \"<string>\",\n    \"LEFT_1_OUTER_INNER\": \"<string>\",\n    \"LEFT_1_INNER_OUTER\": \"<string>\",\n    \"LEFT_1_INNER_INNER\": \"<string>\",\n    \"RIGHT_1_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_1_OUTER_INNER\": \"<string>\",\n    \"RIGHT_1_INNER_OUTER\": \"<string>\",\n    \"RIGHT_1_INNER_INNER\": \"<string>\",\n    \"LEFT_2_OUTER_OUTER\": \"<string>\",\n    \"LEFT_2_OUTER_INNER\": \"<string>\",\n    \"LEFT_2_INNER_OUTER\": \"<string>\",\n    \"LEFT_2_INNER_INNER\": \"<string>\",\n    \"RIGHT_2_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_2_OUTER_INNER\": \"<string>\",\n    \"RIGHT_2_INNER_OUTER\": \"<string>\",\n    \"RIGHT_2_INNER_INNER\": \"<string>\",\n    \"LEFT_3_OUTER_OUTER\": \"<string>\",\n    \"LEFT_3_OUTER_INNER\": \"<string>\",\n    \"LEFT_3_INNER_OUTER\": \"<string>\",\n    \"LEFT_3_INNER_INNER\": \"<string>\",\n    \"RIGHT_3_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_3_OUTER_INNER\": \"<string>\",\n    \"RIGHT_3_INNER_OUTER\": \"<string>\",\n    \"RIGHT_3_INNER_INNER\": \"<string>\",\n    \"LEFT_4_OUTER_OUTER\": \"<string>\",\n    \"LEFT_4_OUTER_INNER\": \"<string>\",\n    \"LEFT_4_INNER_OUTER\": \"<string>\",\n    \"LEFT_4_INNER_INNER\": \"<string>\",\n    \"RIGHT_4_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_4_OUTER_INNER\": \"<string>\",\n    \"RIGHT_4_INNER_OUTER\": \"<string>\",\n    \"RIGHT_4_INNER_INNER\": \"<string>\",\n    \"LEFT_5_OUTER_OUTER\": \"<string>\",\n    \"LEFT_5_OUTER_INNER\": \"<string>\",\n    \"LEFT_5_INNER_OUTER\": \"<string>\",\n    \"LEFT_5_INNER_INNER\": \"<string>\",\n    \"RIGHT_5_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_5_OUTER_INNER\": \"<string>\",\n    \"RIGHT_5_INNER_OUTER\": \"<string>\",\n    \"RIGHT_5_INNER_INNER\": \"<string>\",\n    \"LEFT_6_OUTER_OUTER\": \"<string>\",\n    \"LEFT_6_OUTER_INNER\": \"<string>\",\n    \"LEFT_6_INNER_OUTER\": \"<string>\",\n    \"LEFT_6_INNER_INNER\": \"<string>\",\n    \"RIGHT_6_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_6_OUTER_INNER\": \"<string>\",\n    \"RIGHT_6_INNER_OUTER\": \"<string>\",\n    \"RIGHT_6_INNER_INNER\": \"<string>\",\n    \"LEFT_7_OUTER_OUTER\": \"<string>\",\n    \"LEFT_7_OUTER_INNER\": \"<string>\",\n    \"LEFT_7_INNER_OUTER\": \"<string>\",\n    \"LEFT_7_INNER_INNER\": \"<string>\",\n    \"RIGHT_7_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_7_OUTER_INNER\": \"<string>\",\n    \"RIGHT_7_INNER_OUTER\": \"<string>\",\n    \"RIGHT_7_INNER_INNER\": \"<string>\",\n    \"LEFT_8_OUTER_OUTER\": \"<string>\",\n    \"LEFT_8_OUTER_INNER\": \"<string>\",\n    \"LEFT_8_INNER_OUTER\": \"<string>\",\n    \"LEFT_8_INNER_INNER\": \"<string>\",\n    \"RIGHT_8_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_8_OUTER_INNER\": \"<string>\",\n    \"RIGHT_8_INNER_OUTER\": \"<string>\",\n    \"RIGHT_8_INNER_INNER\": \"<string>\",\n    \"LEFT_9_OUTER_OUTER\": \"<string>\",\n    \"LEFT_9_OUTER_INNER\": \"<string>\",\n    \"LEFT_9_INNER_OUTER\": \"<string>\",\n    \"LEFT_9_INNER_INNER\": \"<string>\",\n    \"RIGHT_9_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_9_OUTER_INNER\": \"<string>\",\n    \"RIGHT_9_INNER_OUTER\": \"<string>\",\n    \"RIGHT_9_INNER_INNER\": \"<string>\",\n    \"LEFT_10_OUTER_OUTER\": \"<string>\",\n    \"LEFT_10_OUTER_INNER\": \"<string>\",\n    \"LEFT_10_INNER_OUTER\": \"<string>\",\n    \"LEFT_10_INNER_INNER\": \"<string>\",\n    \"RIGHT_10_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_10_OUTER_INNER\": \"<string>\",\n    \"RIGHT_10_INNER_OUTER\": \"<string>\",\n    \"RIGHT_10_INNER_INNER\": \"<string>\",\n    \"LEFT_11_OUTER_OUTER\": \"<string>\",\n    \"LEFT_11_OUTER_INNER\": \"<string>\",\n    \"LEFT_11_INNER_OUTER\": \"<string>\",\n    \"LEFT_11_INNER_INNER\": \"<string>\",\n    \"RIGHT_11_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_11_OUTER_INNER\": \"<string>\",\n    \"RIGHT_11_INNER_OUTER\": \"<string>\",\n    \"RIGHT_11_INNER_INNER\": \"<string>\",\n    \"LEFT_12_OUTER_OUTER\": \"<string>\",\n    \"LEFT_12_OUTER_INNER\": \"<string>\",\n    \"LEFT_12_INNER_OUTER\": \"<string>\",\n    \"LEFT_12_INNER_INNER\": \"<string>\",\n    \"RIGHT_12_OUTER_OUTER\": \"<string>\",\n    \"RIGHT_12_OUTER_INNER\": \"<string>\",\n    \"RIGHT_12_INNER_OUTER\": \"<string>\",\n    \"RIGHT_12_INNER_INNER\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_2\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75729cfc-841f-4a13-9dea-9e18513f6cd4",
+          "name": "Register gateway to vehicle",
+          "request": {
+            "name": "Register gateway to vehicle",
+            "description": {
+              "content": "Register gateway to vehicle",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "gateway",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"<string>\",\n  \"gatewayLocation\": \"<string>\",\n  \"gatewayId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3204554f-f3dc-4ee4-a9f4-9ca7d413f212",
+              "name": "Registered gateway",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "gateway",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n  \"gatewayId\": \"T1161230000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": \"string\",\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0a927a3-5ffc-48b2-9bec-ef960aa0823b",
+              "name": "Registration was unsuccessful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "gateway",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n  \"gatewayId\": \"T1161230000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Modified",
+              "code": 304,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adcc42f4-6326-4fca-ba90-6b9c2d4fe40b",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "gateway",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n  \"gatewayId\": \"T1161230000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_4\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a90e8b3d-862d-4ee3-818f-e93d0cab2f92",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "gateway",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n  \"gatewayId\": \"T1161230000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "930b2bbe-9854-4b1b-8d4c-8e65c21828e5",
+              "name": "Device or Vehicle not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "gateway",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n  \"gatewayId\": \"T1161230000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_2\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ccac3ef-5eae-41b3-b6d9-9bf93bebf5f3",
+          "name": "Get details about the sensor",
+          "request": {
+            "name": "Get details about the sensor",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "sensor"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "External ID",
+                    "type": "text/plain"
+                  },
+                  "key": "externalId",
+                  "value": ""
+                },
+                {
+                  "description": {
+                    "content": "MAC Address",
+                    "type": "text/plain"
+                  },
+                  "key": "macAddress",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "fleetId",
+                  "description": "(Required) Fleet identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "969080c7-1f89-4c83-96fe-8838f051856e",
+              "name": "A successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "externalId",
+                      "value": ""
+                    },
+                    {
+                      "key": "macAddress",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "fleetId",
+                      "description": "(Required) Fleet identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": [\n    {\n      \"externalId\": \"111000ABCD\",\n      \"macAddress\": \"DE:AD:BE:EF:00:00\"\n    },\n    {\n      \"externalId\": \"111000ABCD\",\n      \"macAddress\": \"DE:AD:BE:EF:00:00\"\n    }\n  ],\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08c3a6c1-65d4-4a10-b8bd-641da6afb2eb",
+              "name": "Error processing the request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "externalId",
+                      "value": ""
+                    },
+                    {
+                      "key": "macAddress",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "fleetId",
+                      "description": "(Required) Fleet identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_4\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d9539b5-da54-446a-a8bf-c240e149eae1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "externalId",
+                      "value": ""
+                    },
+                    {
+                      "key": "macAddress",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "fleetId",
+                      "description": "(Required) Fleet identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db4a0315-f814-4a4b-8229-43d90427341b",
+          "name": "Register sensor to vehicle tire",
+          "request": {
+            "name": "Register sensor to vehicle tire",
+            "description": {
+              "content": "Register sensor to vehicle tire",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "sensor",
+                "register"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"<string>\",\n  \"tirePosition\": \"<string>\",\n  \"sensorId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "548fa750-8ba8-4ec0-b454-f6e3dd7464b0",
+              "name": "Registered sensor",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"tirePosition\": \"LEFT_1\",\n  \"sensorId\": \"S102000ABCD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": \"string\",\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f99516e7-cde3-461c-8104-aeb11dec354a",
+              "name": "Registration was unsuccessful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"tirePosition\": \"LEFT_1\",\n  \"sensorId\": \"S102000ABCD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Modified",
+              "code": 304,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7d1d4b8-03ff-45c8-a555-8e41f9cd9005",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"tirePosition\": \"LEFT_1\",\n  \"sensorId\": \"S102000ABCD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_4\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9108bf6e-f31b-4bfc-a93c-dfaca9694ca3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"tirePosition\": \"LEFT_1\",\n  \"sensorId\": \"S102000ABCD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d9b9b24c-abad-4b8a-8eab-d1cacfb1932e",
+              "name": "Device or Vehicle not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "sensor",
+                    "register"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"tirePosition\": \"LEFT_1\",\n  \"sensorId\": \"S102000ABCD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_2\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a2286216-b685-4261-997d-2ac9a24ffeae",
+    "name": "revvo-api Api-keys Device API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Api key management (requires admin access)",
+      "type": "text/plain"
+    }
+  }
+}

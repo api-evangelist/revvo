@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys Fleet API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fleet",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get details of all vehicles in the fleet",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fleet/:fleetId",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Optionally retrieve fleet data at a given point in time. Point in time is expressed as seconds since epoch.\nThis option depends on periodic snapshots of the fleet status being saved. Closest available snapshot within a 24h period of the target timestamp will be selected.\nAn error will occur if no snapshot is available within that 24h period\n"
+              }
+            ]
+          },
+          "docs": "Get details of all vehicles in the fleet"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

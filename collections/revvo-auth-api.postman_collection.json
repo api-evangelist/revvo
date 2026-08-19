@@ -1,0 +1,148 @@
+{
+  "item": [
+    {
+      "id": "af07e99d-3e6c-4edc-b723-4944c794c31e",
+      "name": "Auth",
+      "description": {
+        "content": "Get authorization token using an API key",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c85f34d8-c4a1-4d79-94ef-4180254a6466",
+          "name": "Get a JWT authentication token",
+          "request": {
+            "name": "Get a JWT authentication token",
+            "description": {},
+            "url": {
+              "path": [
+                "auth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Supplied API key",
+                "key": "X-API-KEY",
+                "value": ""
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9f913a70-d69a-478c-9b52-549642fa02b6",
+              "name": "A JWT token to use in the other endpoints",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Supplied API key",
+                    "key": "X-API-KEY",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6fa49833-cba6-4155-b406-e4b9ca2e620a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Supplied API key",
+                    "key": "X-API-KEY",
+                    "value": ""
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "08d8c0ee-58b3-46e8-af02-9cbae78290d3",
+    "name": "revvo-api Api-keys Auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Api key management (requires admin access)",
+      "type": "text/plain"
+    }
+  }
+}

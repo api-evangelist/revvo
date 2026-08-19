@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Api-keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get details of existing API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api-keys/fleet/:fleetId",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all existing API keys"
+        },
+        {
+          "info": {
+            "name": "Creates a new API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api-keys/fleet/:fleetId",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new API key"
+        },
+        {
+          "info": {
+            "name": "Delete an existing API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api-keys/fleet/:fleetId/key-id/:keyId",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              },
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "Key id to delete, must be one of the values returned bu the get method"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an existing API key"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

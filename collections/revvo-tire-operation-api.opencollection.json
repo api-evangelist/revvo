@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys Tire Operation API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tire Operation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Record manual tire measurement(s) for a vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fleet/:fleetId/vehicle/:assetId/tire/measurement",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              },
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "Vehicle asset identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Record manual tire measurement(s) for a vehicle"
+        },
+        {
+          "info": {
+            "name": "Replace tire(s) on a vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fleet/:fleetId/vehicle/:assetId/tire/replace",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              },
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "Vehicle asset identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace one or more tires on a vehicle"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

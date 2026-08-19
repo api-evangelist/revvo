@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys Vehicle API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vehicle",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create new vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fleet/:fleetId/vehicle",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create new vehicle"
+        },
+        {
+          "info": {
+            "name": "Update an existing vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/fleet/:fleetId/vehicle",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing vehicle"
+        },
+        {
+          "info": {
+            "name": "Get details of a specific vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fleet/:fleetId/vehicle/:vin",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              },
+              {
+                "name": "vin",
+                "value": "",
+                "type": "path",
+                "description": "Vehicle identification number"
+              }
+            ]
+          },
+          "docs": "Get details of a specific vehicle"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

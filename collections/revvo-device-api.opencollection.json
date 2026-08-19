@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys Device API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Device",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register devices (gateway and/or sensors) to vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fleet/:fleetId/devices/register",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register devices (gateway and/or sensors) to vehicle"
+        },
+        {
+          "info": {
+            "name": "Register gateway to vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fleet/:fleetId/gateway/register",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register gateway to vehicle"
+        },
+        {
+          "info": {
+            "name": "Get details about the sensor",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fleet/:fleetId/sensor",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Fleet identifier"
+              },
+              {
+                "name": "externalId",
+                "value": "",
+                "type": "query",
+                "description": "External ID"
+              },
+              {
+                "name": "macAddress",
+                "value": "",
+                "type": "query",
+                "description": "MAC Address"
+              }
+            ]
+          },
+          "docs": "Get details about the sensor"
+        },
+        {
+          "info": {
+            "name": "Register sensor to vehicle tire",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/fleet/:fleetId/sensor/register",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register sensor to vehicle tire"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

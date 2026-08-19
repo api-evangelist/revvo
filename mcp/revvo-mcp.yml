@@ -2,11 +2,9 @@ generated: '2026-07-20'
 method: derived
 status: candidate
 source: openapi/revvo-api-openapi-original.yml
-note: >-
-  No official Revvo MCP server was found. This is a candidate tool list derived
-  one-tool-per-operation from the published OpenAPI, for use with an
-  OpenAPI-to-MCP bridge. Auth: obtain a JWT via authToken (X-API-KEY) and pass
-  it as a bearer token.
+note: 'No official Revvo MCP server was found. This is a candidate tool list derived one-tool-per-operation
+  from the published OpenAPI, for use with an OpenAPI-to-MCP bridge. Auth: obtain a JWT via authToken
+  (X-API-KEY) and pass it as a bearer token.'
 server:
   name: revvo
   transport: http
@@ -56,3 +54,9 @@ tools:
 - name: delete_api_key
   description: Delete a fleet API key.
   source_operation: openapi/revvo-api-openapi-original.yml#deleteApiKey
+deployment:
+  mode: none
+  verified: derived
+  tools: 15
+  checked: '2026-08-12'
+  source: catalog MCP census

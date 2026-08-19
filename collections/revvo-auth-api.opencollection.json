@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys Auth API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a JWT authentication token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth",
+            "headers": [
+              {
+                "name": "X-API-KEY",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get a JWT authentication token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

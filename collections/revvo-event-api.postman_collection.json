@@ -1,0 +1,281 @@
+{
+  "item": [
+    {
+      "id": "e8d973ba-a708-4e92-be2c-6f947070cbe5",
+      "name": "Event",
+      "description": {
+        "content": "The Event API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b2d63507-cda0-4289-b40d-636822159ac3",
+          "name": "Get all events between two dates (up to 5 days in the past)",
+          "request": {
+            "name": "Get all events between two dates (up to 5 days in the past)",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "Start Timestamp (epoch seconds) - Defaults to 5 days ago if not specified or an older date is provided",
+                    "type": "text/plain"
+                  },
+                  "key": "fromTimestamp",
+                  "value": ""
+                },
+                {
+                  "description": {
+                    "content": "End Timestamp (epoch seconds) - Defaults to now if not specified or a future date is provided",
+                    "type": "text/plain"
+                  },
+                  "key": "toTimestamp",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "fleetId",
+                  "description": "(Required) Fleet identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5c149360-b413-48cd-acb5-7ded0a0bfa0d",
+              "name": "A successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": ""
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "fleetId",
+                      "description": "(Required) Fleet identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": [\n    {\n      \"vin\": \"WVGBV75N19W507096\",\n      \"tirePosition\": \"LEFT_12_INNER_INNER\",\n      \"eventTime\": 1577836800,\n      \"type\": \"SUSPECTED_TIRE_ROTATION\",\n      \"resolutionTime\": 1577836800\n    },\n    {\n      \"vin\": \"WVGBV75N19W507096\",\n      \"tirePosition\": \"LEFT_5_INNER\",\n      \"eventTime\": 1577836800,\n      \"type\": \"CRITICAL_LOW_TREAD\",\n      \"resolutionTime\": 1577836800\n    }\n  ],\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e66deed-1813-4fc0-82bd-f0ec5291b4e1",
+              "name": "Error processing the request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": ""
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "fleetId",
+                      "description": "(Required) Fleet identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_2\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e82b087-cef7-4aab-ba58-de1564d819d7",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": ""
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "fleetId",
+                      "description": "(Required) Fleet identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "263e59f7-2dff-4296-98db-ca3a07301d56",
+    "name": "revvo-api Api-keys Event API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Api key management (requires admin access)",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,762 @@
+{
+  "item": [
+    {
+      "id": "de6bfc80-9ed8-4e56-9399-143f52f2c0db",
+      "name": "Vehicle",
+      "description": {
+        "content": "The Vehicle API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d7189287-b449-4268-a516-ba9903decb18",
+          "name": "Update an existing vehicle",
+          "request": {
+            "name": "Update an existing vehicle",
+            "description": {
+              "content": "Update an existing vehicle",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "vehicle"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"<string>\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"critHighPressurePercent\": \"<double>\",\n        \"critLowPressurePercent\": \"<double>\",\n        \"critLowTreadIn32nds\": \"<double>\",\n        \"highPressurePercent\": \"<double>\",\n        \"highTreadIn32nds\": \"<double>\",\n        \"lowPressurePercent\": \"<double>\",\n        \"lowTreadIn32nds\": \"<double>\",\n        \"rcip\": \"<double>\",\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": \"<integer>\",\n        \"isSuperSingle\": \"<boolean>\",\n        \"gawr\": \"<double>\",\n        \"overloadInLbs\": \"<double>\"\n      },\n      {\n        \"axleTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"critHighPressurePercent\": \"<double>\",\n        \"critLowPressurePercent\": \"<double>\",\n        \"critLowTreadIn32nds\": \"<double>\",\n        \"highPressurePercent\": \"<double>\",\n        \"highTreadIn32nds\": \"<double>\",\n        \"lowPressurePercent\": \"<double>\",\n        \"lowTreadIn32nds\": \"<double>\",\n        \"rcip\": \"<double>\",\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": \"<integer>\",\n        \"isSuperSingle\": \"<boolean>\",\n        \"gawr\": \"<double>\",\n        \"overloadInLbs\": \"<double>\"\n      }\n    ],\n    \"displayType\": \"<string>\",\n    \"driveType\": \"<string>\",\n    \"fuelType\": \"<string>\",\n    \"gatewayLocation\": \"<string>\",\n    \"make\": \"<string>\",\n    \"model\": \"<string>\",\n    \"tireCountByAxle\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"year\": \"<string>\",\n    \"series\": \"<string>\",\n    \"gvwr\": \"<double>\",\n    \"overloadInLbs\": \"<double>\"\n  },\n  \"vin\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "71c41243-df7b-467f-b947-2d164439e239",
+              "name": "Vehicle updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      },\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      }\n    ],\n    \"displayType\": \"TRACTOR_2_4\",\n    \"driveType\": \"6x4\",\n    \"fuelType\": \"GASOLINE\",\n    \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n    \"make\": \"Volvo\",\n    \"model\": \"VNL\",\n    \"tireCountByAxle\": [\n      2,\n      4\n    ],\n    \"year\": \"2024\",\n    \"series\": \"XC20\",\n    \"gvwr\": 9000,\n    \"overloadInLbs\": 9000\n  },\n  \"vin\": \"WVGBV75N19W507096\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3748278d-20b3-4849-92e2-923c66e1c737",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      },\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      }\n    ],\n    \"displayType\": \"TRACTOR_2_4\",\n    \"driveType\": \"6x4\",\n    \"fuelType\": \"GASOLINE\",\n    \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n    \"make\": \"Volvo\",\n    \"model\": \"VNL\",\n    \"tireCountByAxle\": [\n      2,\n      4\n    ],\n    \"year\": \"2024\",\n    \"series\": \"XC20\",\n    \"gvwr\": 9000,\n    \"overloadInLbs\": 9000\n  },\n  \"vin\": \"WVGBV75N19W507096\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "25e48237-b501-466a-b5f2-39b13595ff1e",
+              "name": "Vehicle not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      },\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      }\n    ],\n    \"displayType\": \"TRACTOR_2_4\",\n    \"driveType\": \"6x4\",\n    \"fuelType\": \"GASOLINE\",\n    \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n    \"make\": \"Volvo\",\n    \"model\": \"VNL\",\n    \"tireCountByAxle\": [\n      2,\n      4\n    ],\n    \"year\": \"2024\",\n    \"series\": \"XC20\",\n    \"gvwr\": 9000,\n    \"overloadInLbs\": 9000\n  },\n  \"vin\": \"WVGBV75N19W507096\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_3\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3d94bef-79fb-4322-96f5-ffe53167bf0b",
+          "name": "Create new vehicle",
+          "request": {
+            "name": "Create new vehicle",
+            "description": {
+              "content": "Create new vehicle",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "vehicle"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"<string>\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"critHighPressurePercent\": \"<double>\",\n        \"critLowPressurePercent\": \"<double>\",\n        \"critLowTreadIn32nds\": \"<double>\",\n        \"highPressurePercent\": \"<double>\",\n        \"highTreadIn32nds\": \"<double>\",\n        \"lowPressurePercent\": \"<double>\",\n        \"lowTreadIn32nds\": \"<double>\",\n        \"rcip\": \"<double>\",\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": \"<integer>\",\n        \"isSuperSingle\": \"<boolean>\",\n        \"gawr\": \"<double>\",\n        \"overloadInLbs\": \"<double>\"\n      },\n      {\n        \"axleTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"critHighPressurePercent\": \"<double>\",\n        \"critLowPressurePercent\": \"<double>\",\n        \"critLowTreadIn32nds\": \"<double>\",\n        \"highPressurePercent\": \"<double>\",\n        \"highTreadIn32nds\": \"<double>\",\n        \"lowPressurePercent\": \"<double>\",\n        \"lowTreadIn32nds\": \"<double>\",\n        \"rcip\": \"<double>\",\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": \"<integer>\",\n        \"isSuperSingle\": \"<boolean>\",\n        \"gawr\": \"<double>\",\n        \"overloadInLbs\": \"<double>\"\n      }\n    ],\n    \"displayType\": \"<string>\",\n    \"driveType\": \"<string>\",\n    \"fuelType\": \"<string>\",\n    \"gatewayLocation\": \"<string>\",\n    \"make\": \"<string>\",\n    \"model\": \"<string>\",\n    \"tireCountByAxle\": [\n      \"<integer>\",\n      \"<integer>\"\n    ],\n    \"year\": \"<string>\",\n    \"series\": \"<string>\",\n    \"gvwr\": \"<double>\",\n    \"overloadInLbs\": \"<double>\"\n  },\n  \"vin\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0761b0bc-b047-4a19-a721-2054f0e3b874",
+              "name": "Created vehicle",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      },\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      }\n    ],\n    \"displayType\": \"TRACTOR_2_4\",\n    \"driveType\": \"6x4\",\n    \"fuelType\": \"GASOLINE\",\n    \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n    \"make\": \"Volvo\",\n    \"model\": \"VNL\",\n    \"tireCountByAxle\": [\n      2,\n      4\n    ],\n    \"year\": \"2024\",\n    \"series\": \"XC20\",\n    \"gvwr\": 9000,\n    \"overloadInLbs\": 9000\n  },\n  \"vin\": \"WVGBV75N19W507096\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": \"string\",\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31d305e3-97e7-4e57-a9cb-14f6cf017cf1",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      },\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      }\n    ],\n    \"displayType\": \"TRACTOR_2_4\",\n    \"driveType\": \"6x4\",\n    \"fuelType\": \"GASOLINE\",\n    \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n    \"make\": \"Volvo\",\n    \"model\": \"VNL\",\n    \"tireCountByAxle\": [\n      2,\n      4\n    ],\n    \"year\": \"2024\",\n    \"series\": \"XC20\",\n    \"gvwr\": 9000,\n    \"overloadInLbs\": 9000\n  },\n  \"vin\": \"WVGBV75N19W507096\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_4\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9fde0a3-020c-46a1-9320-f9eab3b341c0",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"Vehicle 1\",\n  \"template\": {\n    \"axleDetails\": [\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      },\n      {\n        \"axleTypes\": [\n          \"RAISED\"\n        ],\n        \"critHighPressurePercent\": 1.35,\n        \"critLowPressurePercent\": 0.8,\n        \"critLowTreadIn32nds\": 3,\n        \"highPressurePercent\": 1.25,\n        \"highTreadIn32nds\": 10,\n        \"lowPressurePercent\": 0.9,\n        \"lowTreadIn32nds\": 5,\n        \"rcip\": 100,\n        \"tireTemplate\": {\n          \"maxColdInflationPressureInPsi\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"maxTreadDepth32nds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireBrand\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireModel\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tireSizeCode\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"axleNumber\": 1,\n        \"isSuperSingle\": true,\n        \"gawr\": 4000,\n        \"overloadInLbs\": 8500\n      }\n    ],\n    \"displayType\": \"TRACTOR_2_4\",\n    \"driveType\": \"6x4\",\n    \"fuelType\": \"GASOLINE\",\n    \"gatewayLocation\": \"TRUCK_FRONT_LEFT_UNDER_DASHBOARD\",\n    \"make\": \"Volvo\",\n    \"model\": \"VNL\",\n    \"tireCountByAxle\": [\n      2,\n      4\n    ],\n    \"year\": \"2024\",\n    \"series\": \"XC20\",\n    \"gvwr\": 9000,\n    \"overloadInLbs\": 9000\n  },\n  \"vin\": \"WVGBV75N19W507096\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1e6a3b05-a239-4450-bce3-4f3f1843bd6c",
+          "name": "Get details of a specific vehicle",
+          "request": {
+            "name": "Get details of a specific vehicle",
+            "description": {
+              "content": "Get details of a specific vehicle",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fleet",
+                ":fleetId",
+                "vehicle",
+                ":vin"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fleetId",
+                  "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "vin",
+                  "description": "(Required) Vehicle identification number"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4aead6ac-866b-4092-867e-4ccbb686cabb",
+              "name": "A successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle",
+                    ":vin"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vin",
+                      "description": "(Required) Vehicle identification number"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"vin\": \"WVGBV75N19W507096\",\n    \"assetId\": \"Vehicle 1\",\n    \"geolocation\": {\n      \"timestamp\": 1577836800,\n      \"latitude\": 37.5550874,\n      \"longitude\": -122.3000345\n    },\n    \"tires\": [\n      {\n        \"timestamp\": 1577836800,\n        \"tirePosition\": \"LEFT_9_INNER\",\n        \"sensorId\": \"string\",\n        \"pressure\": 31.5,\n        \"temperature\": 27.2,\n        \"treadClass\": \"LOW\",\n        \"treadInMm\": 9191.529374319322,\n        \"tireTotalKm\": 6966.840475008589,\n        \"openEvents\": [\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"resolvedEvents\": [\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      {\n        \"timestamp\": 1577836800,\n        \"tirePosition\": \"RIGHT_2_INNER_INNER\",\n        \"sensorId\": \"string\",\n        \"pressure\": 31.5,\n        \"temperature\": 27.2,\n        \"treadClass\": \"MEDIUM\",\n        \"treadInMm\": 8360.78619025676,\n        \"tireTotalKm\": 1107.3641820720393,\n        \"openEvents\": [\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"resolvedEvents\": [\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"vin\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"tirePosition\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"eventTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"resolutionTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      }\n    ]\n  },\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91bc49ca-b0b6-4bef-925c-a16f3c600fa3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle",
+                    ":vin"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vin",
+                      "description": "(Required) Vehicle identification number"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "776906e1-8a1a-4224-9e24-38e0f33fc855",
+              "name": "Vehicle not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    ":fleetId",
+                    "vehicle",
+                    ":vin"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fleetId",
+                      "description": "(Required) Unique identifier for the fleet. Typically formatted as revvo-XXXX. This can be found in your admin / integrations / revvo API setup page"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "vin",
+                      "description": "(Required) Vehicle identification number"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"displayErrorMessage\": \"Unexpected error found\",\n  \"internalErrorCode\": \"_3\",\n  \"success\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3da5c395-2a73-4d20-9d94-36c2d0f6c6c8",
+    "name": "revvo-api Api-keys Vehicle API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Api key management (requires admin access)",
+      "type": "text/plain"
+    }
+  }
+}

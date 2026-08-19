@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "revvo-api Api-keys Event API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all events between two dates (up to 5 days in the past)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/fleet/:fleetId/events",
+            "params": [
+              {
+                "name": "fleetId",
+                "value": "",
+                "type": "path",
+                "description": "Fleet identifier"
+              },
+              {
+                "name": "fromTimestamp",
+                "value": "",
+                "type": "query",
+                "description": "Start Timestamp (epoch seconds) - Defaults to 5 days ago if not specified or an older date is provided"
+              },
+              {
+                "name": "toTimestamp",
+                "value": "",
+                "type": "query",
+                "description": "End Timestamp (epoch seconds) - Defaults to now if not specified or a future date is provided"
+              }
+            ]
+          },
+          "docs": "Get all events between two dates (up to 5 days in the past)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
