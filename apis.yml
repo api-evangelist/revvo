@@ -44,6 +44,15 @@ tags:
 - Telematics
 - IoT
 - Logistics
+tags_raw:
+- Company
+- Fleet Management
+- Transportation
+- Tire Management
+- TPMS
+- Telematics
+- IoT
+- Logistics
 - API
 maintainers:
 - FN: Kin Lane
@@ -57,6 +66,8 @@ apis:
   humanURL: https://www.revvo.ai/product/revvo-api/
   baseURL: https://api.revvo.ai/v0
   tags:
+  - APIKeys
+  tags_raw:
   - Api-keys
   properties:
   - type: OpenAPI
@@ -79,6 +90,8 @@ apis:
   humanURL: https://www.revvo.ai/product/revvo-api/
   baseURL: https://api.revvo.ai/v0
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
