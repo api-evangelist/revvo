@@ -231,6 +231,9 @@ apis:
   - type: Conformance
     url: conformance/revvo-conformance.yml
 common:
+- type: CapabilityMap
+  url: capabilities/revvo-capability-edges.yml
+  name: Revvo Business Capability Map
 - type: Website
   url: https://www.revvo.ai
 - type: DeveloperPortal

@@ -1,0 +1,66 @@
+slug: revvo
+provider: Revvo
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Tire Operation
+  spec_file: revvo-tire-operation-api-openapi.yml
+  capability_id: BC-2430.20
+  capability_id_l1: BC-2430
+  capability_name: Fleet Maintenance Management
+  confidence: 0.85
+  evidence: POST /fleet/{fleetId}/vehicle/{assetId}/tire/replace replaceTire 'Replace tire(s) on a vehicle';
+    recordTireMeasurement 'Record manual tire measurement(s)'
+  reason: Tire replacement and measurement recording are corrective/preventive maintenance actions on
+    fleet vehicles.
+- tag: Device
+  spec_file: revvo-device-api-openapi.yml
+  capability_id: BC-2430.40
+  capability_id_l1: BC-2430
+  capability_name: Fleet Telematics and Monitoring
+  confidence: 0.82
+  evidence: registerDevicesForVehicle Register devices (gateway and/or sensors) to vehicle; registerSensor
+    Register sensor to vehicle tire; schema tirePosition
+  reason: Registration and lookup of TPMS gateways/sensors attached to fleet vehicles and tire positions
+    is fleet telematics and asset condition monitoring.
+- tag: Event
+  spec_file: revvo-event-api-openapi.yml
+  capability_id: BC-2430.40
+  capability_id_l1: BC-2430
+  capability_name: Fleet Telematics and Monitoring
+  confidence: 0.82
+  evidence: GET /fleet/{fleetId}/events getEvents 'Get all events between two dates' with schemas EventListInner,
+    tirePosition_1 — TPMS sensor pressure/temperature/tread alerts
+  reason: Tire/vehicle sensor events on a fleet telematics platform; continuous monitoring of asset condition
+    maps to Fleet Telematics and Monitoring, not generic observability.
+- tag: Fleet
+  spec_file: revvo-fleet-api-openapi.yml
+  capability_id: BC-2430.40
+  capability_id_l1: BC-2430
+  capability_name: Fleet Telematics and Monitoring
+  confidence: 0.8
+  evidence: getFleetStatus 'Get details of all vehicles in the fleet' with schemas VehicleStatus, TireStatusListInner,
+    geolocation, treadClass
+  reason: Fleet-wide vehicle and tire status including geolocation is asset position/condition monitoring
+    under Fleet & Mobile Asset Management.
+- tag: Vehicle
+  spec_file: revvo-vehicle-api-openapi.yml
+  capability_id: BC-2430
+  capability_id_l1: BC-2430
+  capability_name: Fleet & Mobile Asset Management
+  confidence: 0.75
+  evidence: POST /fleet/{fleetId}/vehicle vehicle 'Create new vehicle'; schemas VehicleAxleDetails, fuelType,
+    tireTemplate
+  reason: Vehicle master records (axles, fuel type, tire templates) within a fleet platform — Fleet &
+    Mobile Asset Management at L1; no single L2 clearly named (registry spans acquisition, maintenance,
+    monitoring).
