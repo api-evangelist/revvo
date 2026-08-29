@@ -4,8 +4,14 @@ info:
   version: 1.0.0
   summary: Authenticate and read tire events/alerts for a fleet over a time window.
 sourceDescriptions:
-- name: revvo
-  url: ../openapi/revvo-api-openapi-original.yml
+- name: authApi
+  url: ../openapi/revvo-auth-api-openapi.yml
+  type: openapi
+- name: eventApi
+  url: ../openapi/revvo-event-api-openapi.yml
+  type: openapi
+- name: fleetApi
+  url: ../openapi/revvo-fleet-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: pullTireEvents
@@ -13,10 +19,10 @@ workflows:
   inputs:
     type: object
     properties:
-      apiKey: { type: string }
-      fleetId: { type: string }
-      fromTimestamp: { type: string }
-      toTimestamp: { type: string }
+      apiKey: {type: string}
+      fleetId: {type: string}
+      fromTimestamp: {type: string}
+      toTimestamp: {type: string}
   steps:
   - stepId: authenticate
     operationId: authToken

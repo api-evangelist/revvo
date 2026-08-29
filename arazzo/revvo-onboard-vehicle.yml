@@ -4,8 +4,14 @@ info:
   version: 1.0.0
   summary: Authenticate, create a vehicle, register its gateway and sensors, then verify.
 sourceDescriptions:
-- name: revvo
-  url: ../openapi/revvo-api-openapi-original.yml
+- name: authApi
+  url: ../openapi/revvo-auth-api-openapi.yml
+  type: openapi
+- name: deviceApi
+  url: ../openapi/revvo-device-api-openapi.yml
+  type: openapi
+- name: vehicleApi
+  url: ../openapi/revvo-vehicle-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: onboardVehicle
@@ -13,13 +19,13 @@ workflows:
   inputs:
     type: object
     properties:
-      apiKey: { type: string }
-      fleetId: { type: string }
-      vin: { type: string }
-      assetId: { type: string }
-      template: { type: string }
-      gatewayMacAddress: { type: string }
-      gatewayInstallLocation: { type: string }
+      apiKey: {type: string}
+      fleetId: {type: string}
+      vin: {type: string}
+      assetId: {type: string}
+      template: {type: string}
+      gatewayMacAddress: {type: string}
+      gatewayInstallLocation: {type: string}
   steps:
   - stepId: authenticate
     operationId: authToken
