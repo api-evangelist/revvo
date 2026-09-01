@@ -78,7 +78,7 @@ apis:
   humanURL: https://www.revvo.ai/product/revvo-api/
   baseURL: https://api.revvo.ai/v0
   tags:
-  - Api-keys
+  - APIKeys
   tags_raw:
   - Api-keys
   properties:
