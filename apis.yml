@@ -215,6 +215,8 @@ apis:
   humanURL: https://www.revvo.ai/product/revvo-api/
   baseURL: https://api.revvo.ai/v0
   tags:
+  - Vehicles
+  tags_raw:
   - Vehicle
   properties:
   - type: OpenAPI
