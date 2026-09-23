@@ -1,8 +1,8 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: revvo-api Api-keys Auth API
+  title: revvo-api Auth API
   version: '0.0'
-  description: Api key management (requires admin access)
+  description: Get authorization token using an API key
 tags:
 - name: Auth
   description: Get authorization token using an API key

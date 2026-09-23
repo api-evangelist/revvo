@@ -1,16 +1,16 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: revvo-api Api-keys API
+  title: revvo-api API Keys API
   version: '0.0'
   description: Api key management (requires admin access)
 tags:
-- name: Api-keys
+- name: API Keys
   description: Api key management (requires admin access)
 paths:
   /api-keys/fleet/{fleetId}:
     get:
       tags:
-      - Api-keys
+      - API Keys
       summary: Get details of existing API keys
       description: List all existing API keys
       operationId: getApiKeys
@@ -34,9 +34,8 @@ paths:
       - bearerAuth: []
     put:
       tags:
-      - Api-keys
+      - API Keys
       summary: Creates a new API key
-      description: Creates a new API key
       operationId: addApiKey
       parameters:
       - name: fleetId
@@ -57,9 +56,8 @@ paths:
   /api-keys/fleet/{fleetId}/key-id/{keyId}:
     delete:
       tags:
-      - Api-keys
+      - API Keys
       summary: Delete an existing API key
-      description: Delete an existing API key
       operationId: deleteApiKey
       parameters:
       - name: fleetId

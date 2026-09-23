@@ -1,8 +1,8 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: revvo-api Api-keys Event API
+  title: revvo-api Event API
   version: '0.0'
-  description: Api key management (requires admin access)
+  description: The Event API
 tags:
 - name: Event
   description: The Event API
@@ -46,61 +46,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    GetEvents200Response:
-      type: object
-      properties:
-        value:
-          type: array
-          nullable: true
-          items:
-            $ref: '#/components/schemas/EventListInner'
-        success:
-          type: boolean
-          description: 'true'
-          example: true
-    GetEvents400Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type: boolean
-          description: 'false'
-          nullable: true
-          example: false
-    EventListInner:
-      type: object
-      properties:
-        vin:
-          type: string
-          description: VIN
-          nullable: true
-          example: WVGBV75N19W507096
-        tirePosition:
-          nullable: true
-          allOf:
-          - $ref: '#/components/schemas/tirePosition_1'
-        eventTime:
-          type: integer
-          description: Timestamp in epoch seconds
-          format: int64
-          nullable: true
-          example: 1577836800
-        type:
-          description: Get type
-          nullable: true
-          allOf:
-          - $ref: '#/components/schemas/type'
-        resolutionTime:
-          type: integer
-          description: Timestamp in epoch seconds or null if the event is not resolved
-          format: int64
-          nullable: true
-          example: 1577836800
-      description: EventListInner
     tirePosition_1:
       type: string
       description: 'Tire position on the vehicle: \[SIDE\]_\[AXLE_NUMBER\] with an optional _\[INNER/OUTER\] suffix, plus SPARE_\[N\].'
@@ -280,6 +225,51 @@ components:
       - RIGHT_12_INNER_OUTER
       - RIGHT_12_INNER_INNER
       x-type: String
+    EventListInner:
+      type: object
+      properties:
+        vin:
+          type:
+          - string
+          - 'null'
+          description: VIN
+          example: WVGBV75N19W507096
+        tirePosition:
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        eventTime:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds
+          format: int64
+          example: 1577836800
+        type:
+          description: Get type
+          allOf:
+          - $ref: '#/components/schemas/type'
+        resolutionTime:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds or null if the event is not resolved
+          format: int64
+          example: 1577836800
+      description: EventListInner
+    GetEvents400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
     type:
       type: string
       description: Event type
@@ -299,6 +289,19 @@ components:
       - SUSPECTED_SERVICE_FROM_DEFLATION
       - SUSPECTED_TIRE_ROTATION
       x-type: String
+    GetEvents200Response:
+      type: object
+      properties:
+        value:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EventListInner'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
     InternalErrorCode:
       type: string
       description: Internal Error Code

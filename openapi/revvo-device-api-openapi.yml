@@ -1,8 +1,8 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: revvo-api Api-keys Device API
+  title: revvo-api Device API
   version: '0.0'
-  description: Api key management (requires admin access)
+  description: The Device API
 tags:
 - name: Device
   description: The Device API
@@ -12,7 +12,6 @@ paths:
       tags:
       - Device
       summary: Register devices (gateway and/or sensors) to vehicle
-      description: Register devices (gateway and/or sensors) to vehicle
       operationId: registerDevicesForVehicle
       parameters:
       - name: fleetId
@@ -56,7 +55,6 @@ paths:
       tags:
       - Device
       summary: Register gateway to vehicle
-      description: Register gateway to vehicle
       operationId: registerGateway
       parameters:
       - name: fleetId
@@ -141,7 +139,6 @@ paths:
       tags:
       - Device
       summary: Register sensor to vehicle tire
-      description: Register sensor to vehicle tire
       operationId: registerSensor
       parameters:
       - name: fleetId
@@ -186,50 +183,305 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    RegisterGatewayBody:
-      required:
-      - assetId
-      - gatewayLocation
+    GetDevices200Response:
       type: object
       properties:
-        gatewayId:
-          type: string
-          description: ID of the gateway
-          nullable: true
-          example: T1161230000
+        value:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Device'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+    tirePosition:
+      type: string
+      description: Tire position of sensor installation
+      example: LEFT_1
+      enum:
+      - FRONT_LEFT
+      - FRONT_RIGHT
+      - REAR_LEFT
+      - REAR_RIGHT
+      - EXTERNAL
+      - OBD2
+      - DEVICE
+      - UNKNOWN
+      - FRONT
+      - REAR
+      - LEFT_1
+      - LEFT_1_OUTER
+      - LEFT_1_INNER
+      - RIGHT_1
+      - RIGHT_1_INNER
+      - RIGHT_1_OUTER
+      - LEFT_2
+      - LEFT_2_OUTER
+      - LEFT_2_INNER
+      - RIGHT_2
+      - RIGHT_2_INNER
+      - RIGHT_2_OUTER
+      - LEFT_3
+      - LEFT_3_OUTER
+      - LEFT_3_INNER
+      - RIGHT_3
+      - RIGHT_3_INNER
+      - RIGHT_3_OUTER
+      - LEFT_4
+      - LEFT_4_OUTER
+      - LEFT_4_INNER
+      - RIGHT_4
+      - RIGHT_4_INNER
+      - RIGHT_4_OUTER
+      - LEFT_5
+      - LEFT_5_OUTER
+      - LEFT_5_INNER
+      - RIGHT_5
+      - RIGHT_5_INNER
+      - RIGHT_5_OUTER
+      - LEFT_6
+      - LEFT_6_OUTER
+      - LEFT_6_INNER
+      - RIGHT_6
+      - RIGHT_6_INNER
+      - RIGHT_6_OUTER
+      - LEFT_7
+      - LEFT_7_OUTER
+      - LEFT_7_INNER
+      - RIGHT_7
+      - RIGHT_7_INNER
+      - RIGHT_7_OUTER
+      - LEFT_8
+      - LEFT_8_OUTER
+      - LEFT_8_INNER
+      - RIGHT_8
+      - RIGHT_8_INNER
+      - RIGHT_8_OUTER
+      - LEFT_9
+      - LEFT_9_OUTER
+      - LEFT_9_INNER
+      - RIGHT_9
+      - RIGHT_9_INNER
+      - RIGHT_9_OUTER
+      - LEFT_10
+      - LEFT_10_OUTER
+      - LEFT_10_INNER
+      - RIGHT_10
+      - RIGHT_10_INNER
+      - RIGHT_10_OUTER
+      - LEFT_11
+      - LEFT_11_OUTER
+      - LEFT_11_INNER
+      - RIGHT_11
+      - RIGHT_11_INNER
+      - RIGHT_11_OUTER
+      - LEFT_12
+      - LEFT_12_OUTER
+      - LEFT_12_INNER
+      - RIGHT_12
+      - RIGHT_12_INNER
+      - RIGHT_12_OUTER
+      - SPARE_1
+      - SPARE_2
+      - SPARE_3
+      - SPARE_4
+      - SPARE_5
+      - SPARE_6
+      - LEFT_1_OUTER_OUTER
+      - LEFT_1_OUTER_INNER
+      - LEFT_1_INNER_OUTER
+      - LEFT_1_INNER_INNER
+      - RIGHT_1_OUTER_OUTER
+      - RIGHT_1_OUTER_INNER
+      - RIGHT_1_INNER_OUTER
+      - RIGHT_1_INNER_INNER
+      - LEFT_2_OUTER_OUTER
+      - LEFT_2_OUTER_INNER
+      - LEFT_2_INNER_OUTER
+      - LEFT_2_INNER_INNER
+      - RIGHT_2_OUTER_OUTER
+      - RIGHT_2_OUTER_INNER
+      - RIGHT_2_INNER_OUTER
+      - RIGHT_2_INNER_INNER
+      - LEFT_3_OUTER_OUTER
+      - LEFT_3_OUTER_INNER
+      - LEFT_3_INNER_OUTER
+      - LEFT_3_INNER_INNER
+      - RIGHT_3_OUTER_OUTER
+      - RIGHT_3_OUTER_INNER
+      - RIGHT_3_INNER_OUTER
+      - RIGHT_3_INNER_INNER
+      - LEFT_4_OUTER_OUTER
+      - LEFT_4_OUTER_INNER
+      - LEFT_4_INNER_OUTER
+      - LEFT_4_INNER_INNER
+      - RIGHT_4_OUTER_OUTER
+      - RIGHT_4_OUTER_INNER
+      - RIGHT_4_INNER_OUTER
+      - RIGHT_4_INNER_INNER
+      - LEFT_5_OUTER_OUTER
+      - LEFT_5_OUTER_INNER
+      - LEFT_5_INNER_OUTER
+      - LEFT_5_INNER_INNER
+      - RIGHT_5_OUTER_OUTER
+      - RIGHT_5_OUTER_INNER
+      - RIGHT_5_INNER_OUTER
+      - RIGHT_5_INNER_INNER
+      - LEFT_6_OUTER_OUTER
+      - LEFT_6_OUTER_INNER
+      - LEFT_6_INNER_OUTER
+      - LEFT_6_INNER_INNER
+      - RIGHT_6_OUTER_OUTER
+      - RIGHT_6_OUTER_INNER
+      - RIGHT_6_INNER_OUTER
+      - RIGHT_6_INNER_INNER
+      - LEFT_7_OUTER_OUTER
+      - LEFT_7_OUTER_INNER
+      - LEFT_7_INNER_OUTER
+      - LEFT_7_INNER_INNER
+      - RIGHT_7_OUTER_OUTER
+      - RIGHT_7_OUTER_INNER
+      - RIGHT_7_INNER_OUTER
+      - RIGHT_7_INNER_INNER
+      - LEFT_8_OUTER_OUTER
+      - LEFT_8_OUTER_INNER
+      - LEFT_8_INNER_OUTER
+      - LEFT_8_INNER_INNER
+      - RIGHT_8_OUTER_OUTER
+      - RIGHT_8_OUTER_INNER
+      - RIGHT_8_INNER_OUTER
+      - RIGHT_8_INNER_INNER
+      - LEFT_9_OUTER_OUTER
+      - LEFT_9_OUTER_INNER
+      - LEFT_9_INNER_OUTER
+      - LEFT_9_INNER_INNER
+      - RIGHT_9_OUTER_OUTER
+      - RIGHT_9_OUTER_INNER
+      - RIGHT_9_INNER_OUTER
+      - RIGHT_9_INNER_INNER
+      - LEFT_10_OUTER_OUTER
+      - LEFT_10_OUTER_INNER
+      - LEFT_10_INNER_OUTER
+      - LEFT_10_INNER_INNER
+      - RIGHT_10_OUTER_OUTER
+      - RIGHT_10_OUTER_INNER
+      - RIGHT_10_INNER_OUTER
+      - RIGHT_10_INNER_INNER
+      - LEFT_11_OUTER_OUTER
+      - LEFT_11_OUTER_INNER
+      - LEFT_11_INNER_OUTER
+      - LEFT_11_INNER_INNER
+      - RIGHT_11_OUTER_OUTER
+      - RIGHT_11_OUTER_INNER
+      - RIGHT_11_INNER_OUTER
+      - RIGHT_11_INNER_INNER
+      - LEFT_12_OUTER_OUTER
+      - LEFT_12_OUTER_INNER
+      - LEFT_12_INNER_OUTER
+      - LEFT_12_INNER_INNER
+      - RIGHT_12_OUTER_OUTER
+      - RIGHT_12_OUTER_INNER
+      - RIGHT_12_INNER_OUTER
+      - RIGHT_12_INNER_INNER
+      x-deprecated:
+      - FRONT_LEFT
+      - FRONT_RIGHT
+      - REAR_LEFT
+      - REAR_RIGHT
+    RegisterSensorBody:
+      required:
+      - assetId
+      - tirePosition
+      type: object
+      properties:
+        sensorId:
+          type:
+          - string
+          - 'null'
+          description: ID of the sensor
+          example: S102000ABCD
         assetId:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Vehicle asset identifier
-          nullable: true
           example: Vehicle 1
-        gatewayLocation:
-          description: Location of the gateway installation
-          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+        tirePosition:
+          description: Tire position of sensor installation
+          example: LEFT_1
           allOf:
-          - $ref: '#/components/schemas/gatewayLocation'
-      description: RegisterGatewayBody
+          - $ref: '#/components/schemas/tirePosition'
+      description: RegisterSensorBody
+    GetDevices400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
+    gatewayInstallLocation:
+      type: string
+      description: Install location for the gateway; required when gatewayMacAddress is provided
+      enum:
+      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
+      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
+      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
+      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
+      - CAR_FRONT_LEFT_OBD2
+      - CAR_FRONT_CENTER_OBD2
+      - CAR_FRONT_RIGHT_OBD2
+      - CAR_REAR_LEFT_TRUNK
+      - CAR_REAR_CENTER_TRUNK
+      - CAR_REAR_RIGHT_TRUNK
+      - TRAILER_FRONT_LEFT_TOP
+      - TRAILER_FRONT_CENTER_TOP
+      - TRAILER_FRONT_RIGHT_TOP
+      - TRAILER_REAR_LEFT_TOP
+      - TRAILER_REAR_CENTER_TOP
+      - TRAILER_REAR_RIGHT_TOP
+      - TRAILER_MIDDLE_LEFT_UNDERSIDE
+      - TRAILER_MIDDLE_CENTER_UNDERSIDE
+      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
+      - TRAILER_REAR_LEFT_UNDERSIDE
+      - TRAILER_REAR_CENTER_UNDERSIDE
+      - TRAILER_REAR_RIGHT_UNDERSIDE
+      - TRUCK_LEFT_SLEEPER_BERTH
+      - TRUCK_CENTER_SLEEPER_BERTH
+      - TRUCK_RIGHT_SLEEPER_BERTH
     RegisterDevicesForVehicleBody:
       required:
       - assetId
       type: object
       properties:
         assetId:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Vehicle asset identifier
-          nullable: true
         gatewayMacAddress:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Optional gateway MAC address; if provided, gatewayInstallLocation is required
-          nullable: true
         gatewayInstallLocation:
           description: Install location for the gateway; required when gatewayMacAddress is provided
-          nullable: true
           allOf:
           - $ref: '#/components/schemas/gatewayInstallLocation'
         tirePositionToSensorMacAddress:
-          type: object
+          type:
+          - object
+          - 'null'
           description: Map of tire position (e.g. LEFT_1, RIGHT_1) to sensor MAC address; all positions must exist on the vehicle
-          nullable: true
           allOf:
           - type: object
             properties:
@@ -602,20 +854,30 @@ components:
               RIGHT_12_INNER_INNER:
                 type: string
       description: Request body for registering devices (gateway and/or sensors) to a vehicle in one call.
-    DeviceRegistration404Response:
+    RegisterGatewayBody:
+      required:
+      - assetId
+      - gatewayLocation
       type: object
       properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type: boolean
-          description: 'false'
-          nullable: true
-          example: false
-      description: DeviceRegistration404Response
+        gatewayId:
+          type:
+          - string
+          - 'null'
+          description: ID of the gateway
+          example: T1161230000
+        assetId:
+          type:
+          - string
+          - 'null'
+          description: Vehicle asset identifier
+          example: Vehicle 1
+        gatewayLocation:
+          description: Location of the gateway installation
+          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+          allOf:
+          - $ref: '#/components/schemas/gatewayLocation'
+      description: RegisterGatewayBody
     DeviceRegistration200Response:
       required:
       - value
@@ -629,70 +891,10 @@ components:
           description: 'true'
           example: true
       description: DeviceRegistration200Response
-    RegisterSensorBody:
-      required:
-      - assetId
-      - tirePosition
-      type: object
-      properties:
-        sensorId:
-          type: string
-          description: ID of the sensor
-          nullable: true
-          example: S102000ABCD
-        assetId:
-          type: string
-          description: Vehicle asset identifier
-          nullable: true
-          example: Vehicle 1
-        tirePosition:
-          description: Tire position of sensor installation
-          example: LEFT_1
-          allOf:
-          - $ref: '#/components/schemas/tirePosition'
-      description: RegisterSensorBody
-    Device:
-      type: object
-      properties:
-        externalId:
-          type: string
-          description: Device's External ID
-          nullable: true
-          example: 111000ABCD
-        macAddress:
-          type: string
-          description: MAC Address
-          nullable: true
-          example: DE:AD:BE:EF:00:00
-      description: Device
-    GetDevices200Response:
-      type: object
-      properties:
-        value:
-          type: array
-          nullable: true
-          items:
-            $ref: '#/components/schemas/Device'
-        success:
-          type: boolean
-          description: 'true'
-          example: true
-    GetDevices400Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type: boolean
-          description: 'false'
-          nullable: true
-          example: false
-    gatewayInstallLocation:
+    gatewayLocation:
       type: string
-      description: Install location for the gateway; required when gatewayMacAddress is provided
+      description: Location of the gateway installation
+      example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
       enum:
       - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
       - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
@@ -729,205 +931,28 @@ components:
         internalErrorCode:
           $ref: '#/components/schemas/InternalErrorCode'
         success:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
           description: 'false'
-          nullable: true
           example: false
       description: DeviceRegistration400Response
-    tirePosition:
-      type: string
-      description: Tire position of sensor installation
-      example: LEFT_1
-      enum:
-      - FRONT_LEFT
-      - FRONT_RIGHT
-      - REAR_LEFT
-      - REAR_RIGHT
-      - EXTERNAL
-      - OBD2
-      - DEVICE
-      - UNKNOWN
-      - FRONT
-      - REAR
-      - LEFT_1
-      - LEFT_1_OUTER
-      - LEFT_1_INNER
-      - RIGHT_1
-      - RIGHT_1_INNER
-      - RIGHT_1_OUTER
-      - LEFT_2
-      - LEFT_2_OUTER
-      - LEFT_2_INNER
-      - RIGHT_2
-      - RIGHT_2_INNER
-      - RIGHT_2_OUTER
-      - LEFT_3
-      - LEFT_3_OUTER
-      - LEFT_3_INNER
-      - RIGHT_3
-      - RIGHT_3_INNER
-      - RIGHT_3_OUTER
-      - LEFT_4
-      - LEFT_4_OUTER
-      - LEFT_4_INNER
-      - RIGHT_4
-      - RIGHT_4_INNER
-      - RIGHT_4_OUTER
-      - LEFT_5
-      - LEFT_5_OUTER
-      - LEFT_5_INNER
-      - RIGHT_5
-      - RIGHT_5_INNER
-      - RIGHT_5_OUTER
-      - LEFT_6
-      - LEFT_6_OUTER
-      - LEFT_6_INNER
-      - RIGHT_6
-      - RIGHT_6_INNER
-      - RIGHT_6_OUTER
-      - LEFT_7
-      - LEFT_7_OUTER
-      - LEFT_7_INNER
-      - RIGHT_7
-      - RIGHT_7_INNER
-      - RIGHT_7_OUTER
-      - LEFT_8
-      - LEFT_8_OUTER
-      - LEFT_8_INNER
-      - RIGHT_8
-      - RIGHT_8_INNER
-      - RIGHT_8_OUTER
-      - LEFT_9
-      - LEFT_9_OUTER
-      - LEFT_9_INNER
-      - RIGHT_9
-      - RIGHT_9_INNER
-      - RIGHT_9_OUTER
-      - LEFT_10
-      - LEFT_10_OUTER
-      - LEFT_10_INNER
-      - RIGHT_10
-      - RIGHT_10_INNER
-      - RIGHT_10_OUTER
-      - LEFT_11
-      - LEFT_11_OUTER
-      - LEFT_11_INNER
-      - RIGHT_11
-      - RIGHT_11_INNER
-      - RIGHT_11_OUTER
-      - LEFT_12
-      - LEFT_12_OUTER
-      - LEFT_12_INNER
-      - RIGHT_12
-      - RIGHT_12_INNER
-      - RIGHT_12_OUTER
-      - SPARE_1
-      - SPARE_2
-      - SPARE_3
-      - SPARE_4
-      - SPARE_5
-      - SPARE_6
-      - LEFT_1_OUTER_OUTER
-      - LEFT_1_OUTER_INNER
-      - LEFT_1_INNER_OUTER
-      - LEFT_1_INNER_INNER
-      - RIGHT_1_OUTER_OUTER
-      - RIGHT_1_OUTER_INNER
-      - RIGHT_1_INNER_OUTER
-      - RIGHT_1_INNER_INNER
-      - LEFT_2_OUTER_OUTER
-      - LEFT_2_OUTER_INNER
-      - LEFT_2_INNER_OUTER
-      - LEFT_2_INNER_INNER
-      - RIGHT_2_OUTER_OUTER
-      - RIGHT_2_OUTER_INNER
-      - RIGHT_2_INNER_OUTER
-      - RIGHT_2_INNER_INNER
-      - LEFT_3_OUTER_OUTER
-      - LEFT_3_OUTER_INNER
-      - LEFT_3_INNER_OUTER
-      - LEFT_3_INNER_INNER
-      - RIGHT_3_OUTER_OUTER
-      - RIGHT_3_OUTER_INNER
-      - RIGHT_3_INNER_OUTER
-      - RIGHT_3_INNER_INNER
-      - LEFT_4_OUTER_OUTER
-      - LEFT_4_OUTER_INNER
-      - LEFT_4_INNER_OUTER
-      - LEFT_4_INNER_INNER
-      - RIGHT_4_OUTER_OUTER
-      - RIGHT_4_OUTER_INNER
-      - RIGHT_4_INNER_OUTER
-      - RIGHT_4_INNER_INNER
-      - LEFT_5_OUTER_OUTER
-      - LEFT_5_OUTER_INNER
-      - LEFT_5_INNER_OUTER
-      - LEFT_5_INNER_INNER
-      - RIGHT_5_OUTER_OUTER
-      - RIGHT_5_OUTER_INNER
-      - RIGHT_5_INNER_OUTER
-      - RIGHT_5_INNER_INNER
-      - LEFT_6_OUTER_OUTER
-      - LEFT_6_OUTER_INNER
-      - LEFT_6_INNER_OUTER
-      - LEFT_6_INNER_INNER
-      - RIGHT_6_OUTER_OUTER
-      - RIGHT_6_OUTER_INNER
-      - RIGHT_6_INNER_OUTER
-      - RIGHT_6_INNER_INNER
-      - LEFT_7_OUTER_OUTER
-      - LEFT_7_OUTER_INNER
-      - LEFT_7_INNER_OUTER
-      - LEFT_7_INNER_INNER
-      - RIGHT_7_OUTER_OUTER
-      - RIGHT_7_OUTER_INNER
-      - RIGHT_7_INNER_OUTER
-      - RIGHT_7_INNER_INNER
-      - LEFT_8_OUTER_OUTER
-      - LEFT_8_OUTER_INNER
-      - LEFT_8_INNER_OUTER
-      - LEFT_8_INNER_INNER
-      - RIGHT_8_OUTER_OUTER
-      - RIGHT_8_OUTER_INNER
-      - RIGHT_8_INNER_OUTER
-      - RIGHT_8_INNER_INNER
-      - LEFT_9_OUTER_OUTER
-      - LEFT_9_OUTER_INNER
-      - LEFT_9_INNER_OUTER
-      - LEFT_9_INNER_INNER
-      - RIGHT_9_OUTER_OUTER
-      - RIGHT_9_OUTER_INNER
-      - RIGHT_9_INNER_OUTER
-      - RIGHT_9_INNER_INNER
-      - LEFT_10_OUTER_OUTER
-      - LEFT_10_OUTER_INNER
-      - LEFT_10_INNER_OUTER
-      - LEFT_10_INNER_INNER
-      - RIGHT_10_OUTER_OUTER
-      - RIGHT_10_OUTER_INNER
-      - RIGHT_10_INNER_OUTER
-      - RIGHT_10_INNER_INNER
-      - LEFT_11_OUTER_OUTER
-      - LEFT_11_OUTER_INNER
-      - LEFT_11_INNER_OUTER
-      - LEFT_11_INNER_INNER
-      - RIGHT_11_OUTER_OUTER
-      - RIGHT_11_OUTER_INNER
-      - RIGHT_11_INNER_OUTER
-      - RIGHT_11_INNER_INNER
-      - LEFT_12_OUTER_OUTER
-      - LEFT_12_OUTER_INNER
-      - LEFT_12_INNER_OUTER
-      - LEFT_12_INNER_INNER
-      - RIGHT_12_OUTER_OUTER
-      - RIGHT_12_OUTER_INNER
-      - RIGHT_12_INNER_OUTER
-      - RIGHT_12_INNER_INNER
-      x-deprecated:
-      - FRONT_LEFT
-      - FRONT_RIGHT
-      - REAR_LEFT
-      - REAR_RIGHT
+    Device:
+      type: object
+      properties:
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Device's External ID
+          example: 111000ABCD
+        macAddress:
+          type:
+          - string
+          - 'null'
+          description: MAC Address
+          example: DE:AD:BE:EF:00:00
+      description: Device
     InternalErrorCode:
       type: string
       description: Internal Error Code
@@ -937,37 +962,21 @@ components:
       - _3
       - _4
       x-type: String
-    gatewayLocation:
-      type: string
-      description: Location of the gateway installation
-      example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
-      enum:
-      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
-      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
-      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
-      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
-      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
-      - CAR_FRONT_LEFT_OBD2
-      - CAR_FRONT_CENTER_OBD2
-      - CAR_FRONT_RIGHT_OBD2
-      - CAR_REAR_LEFT_TRUNK
-      - CAR_REAR_CENTER_TRUNK
-      - CAR_REAR_RIGHT_TRUNK
-      - TRAILER_FRONT_LEFT_TOP
-      - TRAILER_FRONT_CENTER_TOP
-      - TRAILER_FRONT_RIGHT_TOP
-      - TRAILER_REAR_LEFT_TOP
-      - TRAILER_REAR_CENTER_TOP
-      - TRAILER_REAR_RIGHT_TOP
-      - TRAILER_MIDDLE_LEFT_UNDERSIDE
-      - TRAILER_MIDDLE_CENTER_UNDERSIDE
-      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
-      - TRAILER_REAR_LEFT_UNDERSIDE
-      - TRAILER_REAR_CENTER_UNDERSIDE
-      - TRAILER_REAR_RIGHT_UNDERSIDE
-      - TRUCK_LEFT_SLEEPER_BERTH
-      - TRUCK_CENTER_SLEEPER_BERTH
-      - TRUCK_RIGHT_SLEEPER_BERTH
+    DeviceRegistration404Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
+      description: DeviceRegistration404Response
   securitySchemes:
     bearerAuth:
       type: http

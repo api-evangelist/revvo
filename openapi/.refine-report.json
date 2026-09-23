@@ -1,13 +1,7 @@
 {
   "provider": "revvo",
   "sources": [
-    "revvo-api-keys-api-openapi.yml",
-    "revvo-auth-api-openapi.yml",
-    "revvo-device-api-openapi.yml",
-    "revvo-event-api-openapi.yml",
-    "revvo-fleet-api-openapi.yml",
-    "revvo-tire-operation-api-openapi.yml",
-    "revvo-vehicle-api-openapi.yml"
+    "_original/revvo-api-openapi-original.yml"
   ],
   "outputs": [
     "revvo-api-keys-api-openapi.yml",
@@ -21,6 +15,18 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "revvo-api-openapi-original.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "revvo-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revvo-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revvo-device-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revvo-event-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revvo-fleet-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revvo-tire-operation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revvo-vehicle-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
