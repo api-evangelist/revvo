@@ -49,7 +49,7 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    geolocation:
+    TireStatusListInner:
       type: object
       properties:
         timestamp:
@@ -59,56 +59,75 @@ components:
           description: Timestamp in epoch seconds
           format: int64
           example: 1577836800
-        latitude:
+        tirePosition:
+          description: Get tirePosition
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        sensorId:
+          type:
+          - string
+          - 'null'
+          description: Get sensorId
+        pressure:
           type:
           - number
           - 'null'
-          description: Latitude
-          example: 37.5550874
-        longitude:
+          description: Pressure in PSI
+          example: 31.5
+        temperature:
           type:
           - number
           - 'null'
-          description: Longitude
-          example: -122.3000345
-      description: Geolocation
-    GetFleetStatus200Response:
-      type: object
-      properties:
-        value:
+          description: Temperature in Celsius
+          example: 27.2
+        treadClass:
+          description: Get treadClass
+          allOf:
+          - $ref: '#/components/schemas/treadClass'
+        treadInMm:
+          type:
+          - number
+          - 'null'
+          format: double
+        tireTotalKm:
+          type:
+          - number
+          - 'null'
+          format: double
+        openEvents:
           type:
           - array
           - 'null'
-          description: Get value
+          description: Get openEvents
           items:
-            $ref: '#/components/schemas/VehicleStatus'
-        valueTimestamp:
+            $ref: '#/components/schemas/EventListInner'
+        resolvedEvents:
           type:
-          - integer
+          - array
           - 'null'
-          description: The actual timestamp of the data returned in the value property (as seconds since epoch)
-          format: int64
-        displayErrorMessage:
-          type:
-          - string
-          - 'null'
-          description: Get displayErrorMessage
-          example: Error contacting servers. Please try again later.
-        internalErrorMessage:
-          type:
-          - string
-          - 'null'
-          description: Get internalErrorMessage
-          example: Failed loading tires, please contact the server team.
-        internalErrorCode:
-          description: Get internalErrorCode
-          allOf:
-          - $ref: '#/components/schemas/internalErrorCode'
-        success:
-          type: boolean
-          description: 'true'
-          example: true
-      description: GetFleetStatus200Response
+          description: Get resolvedEvents
+          items:
+            $ref: '#/components/schemas/EventListInner'
+      description: TireStatusListInner
+    type:
+      type: string
+      description: Event type
+      enum:
+      - LOW_PRESSURE
+      - CRITICAL_LOW_PRESSURE
+      - LOW_PRESSURE_IN_MOTION
+      - CRITICAL_LOW_PRESSURE_IN_MOTION
+      - LOW_TREAD
+      - CRITICAL_LOW_TREAD
+      - LOW_PRESSURE_FROM_TEMP
+      - INVALID_SENSOR_DATA
+      - DEFLATED
+      - LEAK
+      - HIGH_TEMPERATURE
+      - HIGH_PRESSURE
+      - SUSPECTED_SERVICE_FROM_DEFLATION
+      - SUSPECTED_TIRE_ROTATION
+      x-type: String
     tirePosition_1:
       type: string
       description: 'Tire position on the vehicle: \[SIDE\]_\[AXLE_NUMBER\] with an optional _\[INNER/OUTER\] suffix, plus SPARE_\[N\].'
@@ -288,6 +307,93 @@ components:
       - RIGHT_12_INNER_OUTER
       - RIGHT_12_INNER_INNER
       x-type: String
+    geolocation:
+      type: object
+      properties:
+        timestamp:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds
+          format: int64
+          example: 1577836800
+        latitude:
+          type:
+          - number
+          - 'null'
+          description: Latitude
+          example: 37.5550874
+        longitude:
+          type:
+          - number
+          - 'null'
+          description: Longitude
+          example: -122.3000345
+      description: Geolocation
+    GetFleetStatus200Response:
+      type: object
+      properties:
+        value:
+          type:
+          - array
+          - 'null'
+          description: Get value
+          items:
+            $ref: '#/components/schemas/VehicleStatus'
+        valueTimestamp:
+          type:
+          - integer
+          - 'null'
+          description: The actual timestamp of the data returned in the value property (as seconds since epoch)
+          format: int64
+        displayErrorMessage:
+          type:
+          - string
+          - 'null'
+          description: Get displayErrorMessage
+          example: Error contacting servers. Please try again later.
+        internalErrorMessage:
+          type:
+          - string
+          - 'null'
+          description: Get internalErrorMessage
+          example: Failed loading tires, please contact the server team.
+        internalErrorCode:
+          description: Get internalErrorCode
+          allOf:
+          - $ref: '#/components/schemas/internalErrorCode'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+      description: GetFleetStatus200Response
+    VehicleStatus:
+      type: object
+      properties:
+        vin:
+          type:
+          - string
+          - 'null'
+          description: VIN
+          example: WVGBV75N19W507096
+        assetId:
+          type:
+          - string
+          - 'null'
+          description: Vehicle asset identifier
+          example: Vehicle 1
+        geolocation:
+          description: Get geolocation
+          allOf:
+          - $ref: '#/components/schemas/geolocation'
+        tires:
+          type:
+          - array
+          - 'null'
+          description: Get tires
+          items:
+            $ref: '#/components/schemas/TireStatusListInner'
+      description: VehicleStatus
     treadClass:
       type: string
       description: Tread class
@@ -329,33 +435,6 @@ components:
           format: int64
           example: 1577836800
       description: EventListInner
-    VehicleStatus:
-      type: object
-      properties:
-        vin:
-          type:
-          - string
-          - 'null'
-          description: VIN
-          example: WVGBV75N19W507096
-        assetId:
-          type:
-          - string
-          - 'null'
-          description: Vehicle asset identifier
-          example: Vehicle 1
-        geolocation:
-          description: Get geolocation
-          allOf:
-          - $ref: '#/components/schemas/geolocation'
-        tires:
-          type:
-          - array
-          - 'null'
-          description: Get tires
-          items:
-            $ref: '#/components/schemas/TireStatusListInner'
-      description: VehicleStatus
     internalErrorCode:
       type: string
       description: Internal Error Code
@@ -365,85 +444,6 @@ components:
       - _3
       - _4
       x-type: String
-    type:
-      type: string
-      description: Event type
-      enum:
-      - LOW_PRESSURE
-      - CRITICAL_LOW_PRESSURE
-      - LOW_PRESSURE_IN_MOTION
-      - CRITICAL_LOW_PRESSURE_IN_MOTION
-      - LOW_TREAD
-      - CRITICAL_LOW_TREAD
-      - LOW_PRESSURE_FROM_TEMP
-      - INVALID_SENSOR_DATA
-      - DEFLATED
-      - LEAK
-      - HIGH_TEMPERATURE
-      - HIGH_PRESSURE
-      - SUSPECTED_SERVICE_FROM_DEFLATION
-      - SUSPECTED_TIRE_ROTATION
-      x-type: String
-    TireStatusListInner:
-      type: object
-      properties:
-        timestamp:
-          type:
-          - integer
-          - 'null'
-          description: Timestamp in epoch seconds
-          format: int64
-          example: 1577836800
-        tirePosition:
-          description: Get tirePosition
-          allOf:
-          - $ref: '#/components/schemas/tirePosition_1'
-        sensorId:
-          type:
-          - string
-          - 'null'
-          description: Get sensorId
-        pressure:
-          type:
-          - number
-          - 'null'
-          description: Pressure in PSI
-          example: 31.5
-        temperature:
-          type:
-          - number
-          - 'null'
-          description: Temperature in Celsius
-          example: 27.2
-        treadClass:
-          description: Get treadClass
-          allOf:
-          - $ref: '#/components/schemas/treadClass'
-        treadInMm:
-          type:
-          - number
-          - 'null'
-          format: double
-        tireTotalKm:
-          type:
-          - number
-          - 'null'
-          format: double
-        openEvents:
-          type:
-          - array
-          - 'null'
-          description: Get openEvents
-          items:
-            $ref: '#/components/schemas/EventListInner'
-        resolvedEvents:
-          type:
-          - array
-          - 'null'
-          description: Get resolvedEvents
-          items:
-            $ref: '#/components/schemas/EventListInner'
-      description: TireStatusListInner
   securitySchemes:
     bearerAuth:
       type: http
