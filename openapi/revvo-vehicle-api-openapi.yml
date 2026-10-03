@@ -119,52 +119,81 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    AxleTypeApiModel:
-      type: string
-      enum:
-      - STEER
-      - DRIVE
-      - TRAILER
-      - RAISED
-      - DEAD
-    GetVehicle404Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type:
-          - boolean
-          - 'null'
-          description: 'false'
-          example: false
-      description: GetVehicle404Response
-    CreateVehicleBody:
+    tireTemplate:
       required:
-      - assetId
-      - template
+      - maxColdInflationPressureInPsi
+      - maxTreadDepth32nds
+      - tireBrand
+      - tireModel
+      - tireSizeCode
       type: object
       properties:
-        vin:
-          type:
-          - string
-          - 'null'
-          description: VIN
-          example: WVGBV75N19W507096
-        assetId:
-          type:
-          - string
-          - 'null'
-          description: Vehicle asset identifier
-          example: Vehicle 1
-        template:
-          description: Template details of the vehicle
+        tireBrand:
+          type: string
+          description: Tire Brand
+          example: Hankook
+        tireModel:
+          type: string
+          description: Tire Model
+          example: Dynapro AT2 Xtreme RF12
+        tireSizeCode:
+          type: string
+          description: Tire Size Code
+          example: 215/65Rr17
+        maxColdInflationPressureInPsi:
+          type: number
+          description: Max cold inflation pressure for tire
+          format: double
+          example: 120
+        maxTreadDepth32nds:
+          type: number
+          description: Tread depth in 32nds from factory
+          format: double
+          example: 18
+      description: Tire template to replace the tire with
+    gatewayLocation:
+      type: string
+      description: Location of the gateway installation
+      example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      enum:
+      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
+      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
+      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
+      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
+      - CAR_FRONT_LEFT_OBD2
+      - CAR_FRONT_CENTER_OBD2
+      - CAR_FRONT_RIGHT_OBD2
+      - CAR_REAR_LEFT_TRUNK
+      - CAR_REAR_CENTER_TRUNK
+      - CAR_REAR_RIGHT_TRUNK
+      - TRAILER_FRONT_LEFT_TOP
+      - TRAILER_FRONT_CENTER_TOP
+      - TRAILER_FRONT_RIGHT_TOP
+      - TRAILER_REAR_LEFT_TOP
+      - TRAILER_REAR_CENTER_TOP
+      - TRAILER_REAR_RIGHT_TOP
+      - TRAILER_MIDDLE_LEFT_UNDERSIDE
+      - TRAILER_MIDDLE_CENTER_UNDERSIDE
+      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
+      - TRAILER_REAR_LEFT_UNDERSIDE
+      - TRAILER_REAR_CENTER_UNDERSIDE
+      - TRAILER_REAR_RIGHT_UNDERSIDE
+      - TRUCK_LEFT_SLEEPER_BERTH
+      - TRUCK_CENTER_SLEEPER_BERTH
+      - TRUCK_RIGHT_SLEEPER_BERTH
+    GetVehicle200Response:
+      type: object
+      properties:
+        value:
+          description: Get value
           allOf:
-          - $ref: '#/components/schemas/template'
-      description: CreateVehicleBody
+          - $ref: '#/components/schemas/value'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+      description: GetVehicle200Response
     CreateVehicle400Response:
       type: object
       properties:
@@ -180,6 +209,294 @@ components:
           description: 'false'
           example: false
       description: CreateVehicle400Response
+    type:
+      type: string
+      description: Event type
+      enum:
+      - LOW_PRESSURE
+      - CRITICAL_LOW_PRESSURE
+      - LOW_PRESSURE_IN_MOTION
+      - CRITICAL_LOW_PRESSURE_IN_MOTION
+      - LOW_TREAD
+      - CRITICAL_LOW_TREAD
+      - LOW_PRESSURE_FROM_TEMP
+      - INVALID_SENSOR_DATA
+      - DEFLATED
+      - LEAK
+      - HIGH_TEMPERATURE
+      - HIGH_PRESSURE
+      - SUSPECTED_SERVICE_FROM_DEFLATION
+      - SUSPECTED_TIRE_ROTATION
+      x-type: String
+    geolocation:
+      type: object
+      properties:
+        timestamp:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds
+          format: int64
+          example: 1577836800
+        latitude:
+          type:
+          - number
+          - 'null'
+          description: Latitude
+          example: 37.5550874
+        longitude:
+          type:
+          - number
+          - 'null'
+          description: Longitude
+          example: -122.3000345
+      description: Geolocation
+    EventListInner:
+      type: object
+      properties:
+        vin:
+          type:
+          - string
+          - 'null'
+          description: VIN
+          example: WVGBV75N19W507096
+        tirePosition:
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        eventTime:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds
+          format: int64
+          example: 1577836800
+        type:
+          description: Get type
+          allOf:
+          - $ref: '#/components/schemas/type'
+        resolutionTime:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds or null if the event is not resolved
+          format: int64
+          example: 1577836800
+      description: EventListInner
+    CreateVehicle201Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: string
+          description: Get value
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+      description: CreateVehicle201Response
+    template:
+      required:
+      - axleDetails
+      - displayType
+      - driveType
+      - fuelType
+      - gatewayLocation
+      - make
+      - model
+      - tireCountByAxle
+      - year
+      type: object
+      properties:
+        tireCountByAxle:
+          type: array
+          description: Number of tires per axle in order
+          example:
+          - 2
+          - 4
+          items:
+            type: integer
+            format: int32
+        axleDetails:
+          type: array
+          description: List of all detailed axle specifications
+          items:
+            $ref: '#/components/schemas/VehicleAxleDetails'
+        make:
+          type: string
+          description: Vehicle Manufacturer
+          example: Volvo
+        model:
+          type: string
+          description: Vehicle Model
+          example: VNL
+        year:
+          type: string
+          description: Vehicle Manufacturing Year
+          example: '2024'
+        series:
+          type:
+          - string
+          - 'null'
+          description: Vehicle Series
+          example: XC20
+        driveType:
+          type: string
+          description: Drive Type
+          example: 6x4
+        displayType:
+          description: Vehicle Display Type
+          example: TRACTOR_2_4
+          allOf:
+          - $ref: '#/components/schemas/displayType'
+        fuelType:
+          description: Vehicle Fuel Type
+          example: GASOLINE
+          allOf:
+          - $ref: '#/components/schemas/fuelType'
+        gatewayLocation:
+          description: Gateway Installation Locaton
+          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
+          allOf:
+          - $ref: '#/components/schemas/gatewayLocation'
+        gvwr:
+          type:
+          - number
+          - 'null'
+          description: Gross Vehicle Weight Rating in Pounds
+          format: double
+          example: 9000
+        overloadInLbs:
+          type:
+          - number
+          - 'null'
+          description: Gross Vehicle Weight Rating in Pounds
+          format: double
+          example: 9000
+      description: Template details of the vehicle
+    displayType:
+      type: string
+      description: Vehicle Display Type
+      example: TRACTOR_2_4
+      enum:
+      - CAR
+      - VAN
+      - TRUCK
+      - SUV
+      - CARGO_VAN
+      - LOADER
+      - TRACTOR
+      - TRACTOR_2_2
+      - TRACTOR_2_4
+      - TRACTOR_2_2_2
+      - TRAILER
+      - TANKER
+      - DRY_VAN
+      - REEFER
+      - CONTAINER
+      - BUS
+      - REFUSE_TRUCK
+      - FRONT_LOADER_WASTE_TRUCK
+      - SIDE_LOADER_WASTE_TRUCK
+      - BOX_TRUCK
+      - BOX_TRUCK_BLUE
+      - AMBULANCE
+      - FIRE_TRUCK
+      - VAN_BLUE
+      - DUMP_TRUCK
+    VehicleAxleDetails:
+      required:
+      - axleTypes
+      - critHighPressurePercent
+      - critLowPressurePercent
+      - critLowTreadIn32nds
+      - highPressurePercent
+      - highTreadIn32nds
+      - lowPressurePercent
+      - lowTreadIn32nds
+      - rcip
+      - tireTemplate
+      type: object
+      properties:
+        axleNumber:
+          type:
+          - integer
+          - 'null'
+          description: Axle number by canonical count. 1, 2, 3, and so on. Required except for super single axle.
+          format: int32
+          example: 1
+        isSuperSingle:
+          type:
+          - boolean
+          - 'null'
+          description: Super Single Axle Details. Can be applied to any axle number. axleNumber can be null.
+          example: true
+        axleTypes:
+          type: array
+          description: Axle type
+          example:
+          - RAISED
+          items:
+            $ref: '#/components/schemas/AxleTypeApiModel'
+        critLowPressurePercent:
+          type: number
+          description: '% of RCIP for Critical Low Pressure Event'
+          format: double
+          example: 0.8
+        lowPressurePercent:
+          type: number
+          description: '% of RCIP for Low Pressure Event'
+          format: double
+          example: 0.9
+        rcip:
+          type: number
+          description: Recommended cold inflation pressure in PSI
+          format: double
+          example: 100
+        highPressurePercent:
+          type: number
+          description: '% of RCIP for High Pressure Event'
+          format: double
+          example: 1.25
+        critHighPressurePercent:
+          type: number
+          description: '% of RCIP for Ciritcal High Pressure Event'
+          format: double
+          example: 1.35
+        critLowTreadIn32nds:
+          type: number
+          description: Threshold for Critical Low Tread Event in 32nds
+          format: double
+          example: 3
+        lowTreadIn32nds:
+          type: number
+          description: Threshold for Low Tread Event in 32nds
+          format: double
+          example: 5
+        highTreadIn32nds:
+          type: number
+          description: High Tread Classification Threshold in 32nds
+          format: double
+          example: 10
+        gawr:
+          type:
+          - number
+          - 'null'
+          description: Gross Axle Weight Rating in Pounds
+          format: double
+          example: 4000
+        overloadInLbs:
+          type:
+          - number
+          - 'null'
+          description: Axle Overload Event Threshold in Pounds
+          format: double
+          example: 8500
+        tireTemplate:
+          description: Tire details for axle
+          allOf:
+          - $ref: '#/components/schemas/tireTemplate'
+      description: VehicleAxleDetails
     value:
       type: object
       properties:
@@ -207,6 +524,93 @@ components:
           items:
             $ref: '#/components/schemas/TireStatusListInner'
       description: VehicleStatus
+    AxleTypeApiModel:
+      type: string
+      enum:
+      - STEER
+      - DRIVE
+      - TRAILER
+      - RAISED
+      - DEAD
+    treadClass:
+      type: string
+      description: Tread class
+      enum:
+      - CRITICAL_LOW
+      - LOW
+      - MEDIUM
+      - HIGH
+      - UNKNOWN
+      x-type: String
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
+    TireStatusListInner:
+      type: object
+      properties:
+        timestamp:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds
+          format: int64
+          example: 1577836800
+        tirePosition:
+          description: Get tirePosition
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        sensorId:
+          type:
+          - string
+          - 'null'
+          description: Get sensorId
+        pressure:
+          type:
+          - number
+          - 'null'
+          description: Pressure in PSI
+          example: 31.5
+        temperature:
+          type:
+          - number
+          - 'null'
+          description: Temperature in Celsius
+          example: 27.2
+        treadClass:
+          description: Get treadClass
+          allOf:
+          - $ref: '#/components/schemas/treadClass'
+        treadInMm:
+          type:
+          - number
+          - 'null'
+          format: double
+        tireTotalKm:
+          type:
+          - number
+          - 'null'
+          format: double
+        openEvents:
+          type:
+          - array
+          - 'null'
+          description: Get openEvents
+          items:
+            $ref: '#/components/schemas/EventListInner'
+        resolvedEvents:
+          type:
+          - array
+          - 'null'
+          description: Get resolvedEvents
+          items:
+            $ref: '#/components/schemas/EventListInner'
+      description: TireStatusListInner
     tirePosition_1:
       type: string
       description: 'Tire position on the vehicle: \[SIDE\]_\[AXLE_NUMBER\] with an optional _\[INNER/OUTER\] suffix, plus SPARE_\[N\].'
@@ -386,315 +790,25 @@ components:
       - RIGHT_12_INNER_OUTER
       - RIGHT_12_INNER_INNER
       x-type: String
-    template:
-      required:
-      - axleDetails
-      - displayType
-      - driveType
-      - fuelType
-      - gatewayLocation
-      - make
-      - model
-      - tireCountByAxle
-      - year
+    GetVehicle404Response:
       type: object
       properties:
-        tireCountByAxle:
-          type: array
-          description: Number of tires per axle in order
-          example:
-          - 2
-          - 4
-          items:
-            type: integer
-            format: int32
-        axleDetails:
-          type: array
-          description: List of all detailed axle specifications
-          items:
-            $ref: '#/components/schemas/VehicleAxleDetails'
-        make:
+        displayErrorMessage:
           type: string
-          description: Vehicle Manufacturer
-          example: Volvo
-        model:
-          type: string
-          description: Vehicle Model
-          example: VNL
-        year:
-          type: string
-          description: Vehicle Manufacturing Year
-          example: '2024'
-        series:
-          type:
-          - string
-          - 'null'
-          description: Vehicle Series
-          example: XC20
-        driveType:
-          type: string
-          description: Drive Type
-          example: 6x4
-        displayType:
-          description: Vehicle Display Type
-          example: TRACTOR_2_4
-          allOf:
-          - $ref: '#/components/schemas/displayType'
-        fuelType:
-          description: Vehicle Fuel Type
-          example: GASOLINE
-          allOf:
-          - $ref: '#/components/schemas/fuelType'
-        gatewayLocation:
-          description: Gateway Installation Locaton
-          example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
-          allOf:
-          - $ref: '#/components/schemas/gatewayLocation'
-        gvwr:
-          type:
-          - number
-          - 'null'
-          description: Gross Vehicle Weight Rating in Pounds
-          format: double
-          example: 9000
-        overloadInLbs:
-          type:
-          - number
-          - 'null'
-          description: Gross Vehicle Weight Rating in Pounds
-          format: double
-          example: 9000
-      description: Template details of the vehicle
-    GetVehicle200Response:
-      type: object
-      properties:
-        value:
-          description: Get value
-          allOf:
-          - $ref: '#/components/schemas/value'
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
         success:
-          type: boolean
-          description: 'true'
-          example: true
-      description: GetVehicle200Response
-    tireTemplate:
-      required:
-      - maxColdInflationPressureInPsi
-      - maxTreadDepth32nds
-      - tireBrand
-      - tireModel
-      - tireSizeCode
-      type: object
-      properties:
-        tireBrand:
-          type: string
-          description: Tire Brand
-          example: Hankook
-        tireModel:
-          type: string
-          description: Tire Model
-          example: Dynapro AT2 Xtreme RF12
-        tireSizeCode:
-          type: string
-          description: Tire Size Code
-          example: 215/65Rr17
-        maxColdInflationPressureInPsi:
-          type: number
-          description: Max cold inflation pressure for tire
-          format: double
-          example: 120
-        maxTreadDepth32nds:
-          type: number
-          description: Tread depth in 32nds from factory
-          format: double
-          example: 18
-      description: Tire template to replace the tire with
-    InternalErrorCode:
-      type: string
-      description: Internal Error Code
-      enum:
-      - _1
-      - _2
-      - _3
-      - _4
-      x-type: String
-    TireStatusListInner:
-      type: object
-      properties:
-        timestamp:
-          type:
-          - integer
-          - 'null'
-          description: Timestamp in epoch seconds
-          format: int64
-          example: 1577836800
-        tirePosition:
-          description: Get tirePosition
-          allOf:
-          - $ref: '#/components/schemas/tirePosition_1'
-        sensorId:
-          type:
-          - string
-          - 'null'
-          description: Get sensorId
-        pressure:
-          type:
-          - number
-          - 'null'
-          description: Pressure in PSI
-          example: 31.5
-        temperature:
-          type:
-          - number
-          - 'null'
-          description: Temperature in Celsius
-          example: 27.2
-        treadClass:
-          description: Get treadClass
-          allOf:
-          - $ref: '#/components/schemas/treadClass'
-        treadInMm:
-          type:
-          - number
-          - 'null'
-          format: double
-        tireTotalKm:
-          type:
-          - number
-          - 'null'
-          format: double
-        openEvents:
-          type:
-          - array
-          - 'null'
-          description: Get openEvents
-          items:
-            $ref: '#/components/schemas/EventListInner'
-        resolvedEvents:
-          type:
-          - array
-          - 'null'
-          description: Get resolvedEvents
-          items:
-            $ref: '#/components/schemas/EventListInner'
-      description: TireStatusListInner
-    geolocation:
-      type: object
-      properties:
-        timestamp:
-          type:
-          - integer
-          - 'null'
-          description: Timestamp in epoch seconds
-          format: int64
-          example: 1577836800
-        latitude:
-          type:
-          - number
-          - 'null'
-          description: Latitude
-          example: 37.5550874
-        longitude:
-          type:
-          - number
-          - 'null'
-          description: Longitude
-          example: -122.3000345
-      description: Geolocation
-    VehicleAxleDetails:
-      required:
-      - axleTypes
-      - critHighPressurePercent
-      - critLowPressurePercent
-      - critLowTreadIn32nds
-      - highPressurePercent
-      - highTreadIn32nds
-      - lowPressurePercent
-      - lowTreadIn32nds
-      - rcip
-      - tireTemplate
-      type: object
-      properties:
-        axleNumber:
-          type:
-          - integer
-          - 'null'
-          description: Axle number by canonical count. 1, 2, 3, and so on. Required except for super single axle.
-          format: int32
-          example: 1
-        isSuperSingle:
           type:
           - boolean
           - 'null'
-          description: Super Single Axle Details. Can be applied to any axle number. axleNumber can be null.
-          example: true
-        axleTypes:
-          type: array
-          description: Axle type
-          example:
-          - RAISED
-          items:
-            $ref: '#/components/schemas/AxleTypeApiModel'
-        critLowPressurePercent:
-          type: number
-          description: '% of RCIP for Critical Low Pressure Event'
-          format: double
-          example: 0.8
-        lowPressurePercent:
-          type: number
-          description: '% of RCIP for Low Pressure Event'
-          format: double
-          example: 0.9
-        rcip:
-          type: number
-          description: Recommended cold inflation pressure in PSI
-          format: double
-          example: 100
-        highPressurePercent:
-          type: number
-          description: '% of RCIP for High Pressure Event'
-          format: double
-          example: 1.25
-        critHighPressurePercent:
-          type: number
-          description: '% of RCIP for Ciritcal High Pressure Event'
-          format: double
-          example: 1.35
-        critLowTreadIn32nds:
-          type: number
-          description: Threshold for Critical Low Tread Event in 32nds
-          format: double
-          example: 3
-        lowTreadIn32nds:
-          type: number
-          description: Threshold for Low Tread Event in 32nds
-          format: double
-          example: 5
-        highTreadIn32nds:
-          type: number
-          description: High Tread Classification Threshold in 32nds
-          format: double
-          example: 10
-        gawr:
-          type:
-          - number
-          - 'null'
-          description: Gross Axle Weight Rating in Pounds
-          format: double
-          example: 4000
-        overloadInLbs:
-          type:
-          - number
-          - 'null'
-          description: Axle Overload Event Threshold in Pounds
-          format: double
-          example: 8500
-        tireTemplate:
-          description: Tire details for axle
-          allOf:
-          - $ref: '#/components/schemas/tireTemplate'
-      description: VehicleAxleDetails
-    EventListInner:
+          description: 'false'
+          example: false
+      description: GetVehicle404Response
+    CreateVehicleBody:
+      required:
+      - assetId
+      - template
       type: object
       properties:
         vin:
@@ -703,131 +817,17 @@ components:
           - 'null'
           description: VIN
           example: WVGBV75N19W507096
-        tirePosition:
-          allOf:
-          - $ref: '#/components/schemas/tirePosition_1'
-        eventTime:
+        assetId:
           type:
-          - integer
+          - string
           - 'null'
-          description: Timestamp in epoch seconds
-          format: int64
-          example: 1577836800
-        type:
-          description: Get type
+          description: Vehicle asset identifier
+          example: Vehicle 1
+        template:
+          description: Template details of the vehicle
           allOf:
-          - $ref: '#/components/schemas/type'
-        resolutionTime:
-          type:
-          - integer
-          - 'null'
-          description: Timestamp in epoch seconds or null if the event is not resolved
-          format: int64
-          example: 1577836800
-      description: EventListInner
-    gatewayLocation:
-      type: string
-      description: Location of the gateway installation
-      example: TRUCK_FRONT_LEFT_UNDER_DASHBOARD
-      enum:
-      - TRUCK_FRONT_LEFT_UNDER_DASHBOARD
-      - TRUCK_FRONT_CENTER_UNDER_DASHBOARD
-      - TRUCK_FRONT_RIGHT_UNDER_DASHBOARD
-      - TRUCK_FRONT_LEFT_BEHIND_DRIVER_SEAT
-      - TRUCK_FRONT_RIGHT_BEHIND_DRIVER_SEAT
-      - CAR_FRONT_LEFT_OBD2
-      - CAR_FRONT_CENTER_OBD2
-      - CAR_FRONT_RIGHT_OBD2
-      - CAR_REAR_LEFT_TRUNK
-      - CAR_REAR_CENTER_TRUNK
-      - CAR_REAR_RIGHT_TRUNK
-      - TRAILER_FRONT_LEFT_TOP
-      - TRAILER_FRONT_CENTER_TOP
-      - TRAILER_FRONT_RIGHT_TOP
-      - TRAILER_REAR_LEFT_TOP
-      - TRAILER_REAR_CENTER_TOP
-      - TRAILER_REAR_RIGHT_TOP
-      - TRAILER_MIDDLE_LEFT_UNDERSIDE
-      - TRAILER_MIDDLE_CENTER_UNDERSIDE
-      - TRAILER_MIDDLE_RIGHT_UNDERSIDE
-      - TRAILER_REAR_LEFT_UNDERSIDE
-      - TRAILER_REAR_CENTER_UNDERSIDE
-      - TRAILER_REAR_RIGHT_UNDERSIDE
-      - TRUCK_LEFT_SLEEPER_BERTH
-      - TRUCK_CENTER_SLEEPER_BERTH
-      - TRUCK_RIGHT_SLEEPER_BERTH
-    CreateVehicle201Response:
-      required:
-      - value
-      type: object
-      properties:
-        value:
-          type: string
-          description: Get value
-        success:
-          type: boolean
-          description: 'true'
-          example: true
-      description: CreateVehicle201Response
-    type:
-      type: string
-      description: Event type
-      enum:
-      - LOW_PRESSURE
-      - CRITICAL_LOW_PRESSURE
-      - LOW_PRESSURE_IN_MOTION
-      - CRITICAL_LOW_PRESSURE_IN_MOTION
-      - LOW_TREAD
-      - CRITICAL_LOW_TREAD
-      - LOW_PRESSURE_FROM_TEMP
-      - INVALID_SENSOR_DATA
-      - DEFLATED
-      - LEAK
-      - HIGH_TEMPERATURE
-      - HIGH_PRESSURE
-      - SUSPECTED_SERVICE_FROM_DEFLATION
-      - SUSPECTED_TIRE_ROTATION
-      x-type: String
-    displayType:
-      type: string
-      description: Vehicle Display Type
-      example: TRACTOR_2_4
-      enum:
-      - CAR
-      - VAN
-      - TRUCK
-      - SUV
-      - CARGO_VAN
-      - LOADER
-      - TRACTOR
-      - TRACTOR_2_2
-      - TRACTOR_2_4
-      - TRACTOR_2_2_2
-      - TRAILER
-      - TANKER
-      - DRY_VAN
-      - REEFER
-      - CONTAINER
-      - BUS
-      - REFUSE_TRUCK
-      - FRONT_LOADER_WASTE_TRUCK
-      - SIDE_LOADER_WASTE_TRUCK
-      - BOX_TRUCK
-      - BOX_TRUCK_BLUE
-      - AMBULANCE
-      - FIRE_TRUCK
-      - VAN_BLUE
-      - DUMP_TRUCK
-    treadClass:
-      type: string
-      description: Tread class
-      enum:
-      - CRITICAL_LOW
-      - LOW
-      - MEDIUM
-      - HIGH
-      - UNKNOWN
-      x-type: String
+          - $ref: '#/components/schemas/template'
+      description: CreateVehicleBody
     fuelType:
       type: string
       description: Vehicle Fuel Type

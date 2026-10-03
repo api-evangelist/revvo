@@ -46,14 +46,24 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    InternalErrorCode:
+    type:
       type: string
-      description: Internal Error Code
+      description: Event type
       enum:
-      - _1
-      - _2
-      - _3
-      - _4
+      - LOW_PRESSURE
+      - CRITICAL_LOW_PRESSURE
+      - LOW_PRESSURE_IN_MOTION
+      - CRITICAL_LOW_PRESSURE_IN_MOTION
+      - LOW_TREAD
+      - CRITICAL_LOW_TREAD
+      - LOW_PRESSURE_FROM_TEMP
+      - INVALID_SENSOR_DATA
+      - DEFLATED
+      - LEAK
+      - HIGH_TEMPERATURE
+      - HIGH_PRESSURE
+      - SUSPECTED_SERVICE_FROM_DEFLATION
+      - SUSPECTED_TIRE_ROTATION
       x-type: String
     GetEvents400Response:
       type: object
@@ -69,19 +79,46 @@ components:
           - 'null'
           description: 'false'
           example: false
-    GetEvents200Response:
+    EventListInner:
       type: object
       properties:
-        value:
+        vin:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/EventListInner'
-        success:
-          type: boolean
-          description: 'true'
-          example: true
+          description: VIN
+          example: WVGBV75N19W507096
+        tirePosition:
+          allOf:
+          - $ref: '#/components/schemas/tirePosition_1'
+        eventTime:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds
+          format: int64
+          example: 1577836800
+        type:
+          description: Get type
+          allOf:
+          - $ref: '#/components/schemas/type'
+        resolutionTime:
+          type:
+          - integer
+          - 'null'
+          description: Timestamp in epoch seconds or null if the event is not resolved
+          format: int64
+          example: 1577836800
+      description: EventListInner
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
     tirePosition_1:
       type: string
       description: 'Tire position on the vehicle: \[SIDE\]_\[AXLE_NUMBER\] with an optional _\[INNER/OUTER\] suffix, plus SPARE_\[N\].'
@@ -261,56 +298,19 @@ components:
       - RIGHT_12_INNER_OUTER
       - RIGHT_12_INNER_INNER
       x-type: String
-    type:
-      type: string
-      description: Event type
-      enum:
-      - LOW_PRESSURE
-      - CRITICAL_LOW_PRESSURE
-      - LOW_PRESSURE_IN_MOTION
-      - CRITICAL_LOW_PRESSURE_IN_MOTION
-      - LOW_TREAD
-      - CRITICAL_LOW_TREAD
-      - LOW_PRESSURE_FROM_TEMP
-      - INVALID_SENSOR_DATA
-      - DEFLATED
-      - LEAK
-      - HIGH_TEMPERATURE
-      - HIGH_PRESSURE
-      - SUSPECTED_SERVICE_FROM_DEFLATION
-      - SUSPECTED_TIRE_ROTATION
-      x-type: String
-    EventListInner:
+    GetEvents200Response:
       type: object
       properties:
-        vin:
+        value:
           type:
-          - string
+          - array
           - 'null'
-          description: VIN
-          example: WVGBV75N19W507096
-        tirePosition:
-          allOf:
-          - $ref: '#/components/schemas/tirePosition_1'
-        eventTime:
-          type:
-          - integer
-          - 'null'
-          description: Timestamp in epoch seconds
-          format: int64
-          example: 1577836800
-        type:
-          description: Get type
-          allOf:
-          - $ref: '#/components/schemas/type'
-        resolutionTime:
-          type:
-          - integer
-          - 'null'
-          description: Timestamp in epoch seconds or null if the event is not resolved
-          format: int64
-          example: 1577836800
-      description: EventListInner
+          items:
+            $ref: '#/components/schemas/EventListInner'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
   securitySchemes:
     bearerAuth:
       type: http

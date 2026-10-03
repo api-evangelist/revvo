@@ -79,15 +79,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    GetApiKey200Response:
-      required:
-      - value
-      type: object
-      properties:
-        value:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKeyData'
     ApiKeyData:
       required:
       - creationTimestamp
@@ -103,6 +94,15 @@ components:
         expirationTimestamp:
           type: integer
           format: int64
+    GetApiKey200Response:
+      required:
+      - value
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeyData'
   securitySchemes:
     bearerAuth:
       type: http
