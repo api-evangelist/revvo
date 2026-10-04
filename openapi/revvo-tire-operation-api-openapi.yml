@@ -108,21 +108,6 @@ paths:
       - bearerAuth: []
 components:
   schemas:
-    TireMeasurementDetails:
-      required:
-      - treadDepthMm
-      type: object
-      properties:
-        treadDepthMm:
-          type: number
-          description: Tread depth in millimeters
-          format: double
-        tireCasingId:
-          type:
-          - string
-          - 'null'
-          description: Optional tire casing identifier
-      description: 'TireMeasurementDetails Details for a single manual tire measurement: tread depth and optional tire casing id.'
     TireReplacementDetails:
       required:
       - tireTemplate
@@ -133,38 +118,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/tireTemplate'
       description: TireReplacementDetails Details for a single tire replacement, including the template to replace it with.
-    tireTemplate:
-      required:
-      - maxColdInflationPressureInPsi
-      - maxTreadDepth32nds
-      - tireBrand
-      - tireModel
-      - tireSizeCode
-      type: object
-      properties:
-        tireBrand:
-          type: string
-          description: Tire Brand
-          example: Hankook
-        tireModel:
-          type: string
-          description: Tire Model
-          example: Dynapro AT2 Xtreme RF12
-        tireSizeCode:
-          type: string
-          description: Tire Size Code
-          example: 215/65Rr17
-        maxColdInflationPressureInPsi:
-          type: number
-          description: Max cold inflation pressure for tire
-          format: double
-          example: 120
-        maxTreadDepth32nds:
-          type: number
-          description: Tread depth in 32nds from factory
-          format: double
-          example: 18
-      description: Tire template to replace the tire with
     TireMeasurementBody:
       required:
       - measurements
@@ -545,30 +498,6 @@ components:
               RIGHT_12_INNER_INNER:
                 $ref: '#/components/schemas/TireMeasurementDetails'
       description: 'TireMeasurementBody Request body for recording manual tire measurements: a map from tire position to measurement details.'
-    Generic400Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type:
-          - boolean
-          - 'null'
-          description: 'false'
-          example: false
-      description: Generic400Response
-    InternalErrorCode:
-      type: string
-      description: Internal Error Code
-      enum:
-      - _1
-      - _2
-      - _3
-      - _4
-      x-type: String
     GetVehicle404Response:
       type: object
       properties:
@@ -584,6 +513,77 @@ components:
           description: 'false'
           example: false
       description: GetVehicle404Response
+    TireMeasurementDetails:
+      required:
+      - treadDepthMm
+      type: object
+      properties:
+        treadDepthMm:
+          type: number
+          description: Tread depth in millimeters
+          format: double
+        tireCasingId:
+          type:
+          - string
+          - 'null'
+          description: Optional tire casing identifier
+      description: 'TireMeasurementDetails Details for a single manual tire measurement: tread depth and optional tire casing id.'
+    Generic400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
+      description: Generic400Response
+    tireTemplate:
+      required:
+      - maxColdInflationPressureInPsi
+      - maxTreadDepth32nds
+      - tireBrand
+      - tireModel
+      - tireSizeCode
+      type: object
+      properties:
+        tireBrand:
+          type: string
+          description: Tire Brand
+          example: Hankook
+        tireModel:
+          type: string
+          description: Tire Model
+          example: Dynapro AT2 Xtreme RF12
+        tireSizeCode:
+          type: string
+          description: Tire Size Code
+          example: 215/65Rr17
+        maxColdInflationPressureInPsi:
+          type: number
+          description: Max cold inflation pressure for tire
+          format: double
+          example: 120
+        maxTreadDepth32nds:
+          type: number
+          description: Tread depth in 32nds from factory
+          format: double
+          example: 18
+      description: Tire template to replace the tire with
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
     TireReplacementBody:
       required:
       - replacements

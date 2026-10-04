@@ -183,6 +183,48 @@ paths:
       - bearerAuth: []
 components:
   schemas:
+    GetDevices200Response:
+      type: object
+      properties:
+        value:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Device'
+        success:
+          type: boolean
+          description: 'true'
+          example: true
+    GetDevices400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
+    DeviceRegistration404Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
+      description: DeviceRegistration404Response
     gatewayInstallLocation:
       type: string
       description: Install location for the gateway; required when gatewayMacAddress is provided
@@ -213,6 +255,37 @@ components:
       - TRUCK_LEFT_SLEEPER_BERTH
       - TRUCK_CENTER_SLEEPER_BERTH
       - TRUCK_RIGHT_SLEEPER_BERTH
+    DeviceRegistration400Response:
+      type: object
+      properties:
+        displayErrorMessage:
+          type: string
+          example: Unexpected error found
+        internalErrorCode:
+          $ref: '#/components/schemas/InternalErrorCode'
+        success:
+          type:
+          - boolean
+          - 'null'
+          description: 'false'
+          example: false
+      description: DeviceRegistration400Response
+    Device:
+      type: object
+      properties:
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Device's External ID
+          example: 111000ABCD
+        macAddress:
+          type:
+          - string
+          - 'null'
+          description: MAC Address
+          example: DE:AD:BE:EF:00:00
+      description: Device
     RegisterDevicesForVehicleBody:
       required:
       - assetId
@@ -640,83 +713,6 @@ components:
       - TRUCK_LEFT_SLEEPER_BERTH
       - TRUCK_CENTER_SLEEPER_BERTH
       - TRUCK_RIGHT_SLEEPER_BERTH
-    DeviceRegistration400Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type:
-          - boolean
-          - 'null'
-          description: 'false'
-          example: false
-      description: DeviceRegistration400Response
-    GetDevices400Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type:
-          - boolean
-          - 'null'
-          description: 'false'
-          example: false
-    RegisterSensorBody:
-      required:
-      - assetId
-      - tirePosition
-      type: object
-      properties:
-        sensorId:
-          type:
-          - string
-          - 'null'
-          description: ID of the sensor
-          example: S102000ABCD
-        assetId:
-          type:
-          - string
-          - 'null'
-          description: Vehicle asset identifier
-          example: Vehicle 1
-        tirePosition:
-          description: Tire position of sensor installation
-          example: LEFT_1
-          allOf:
-          - $ref: '#/components/schemas/tirePosition'
-      description: RegisterSensorBody
-    DeviceRegistration404Response:
-      type: object
-      properties:
-        displayErrorMessage:
-          type: string
-          example: Unexpected error found
-        internalErrorCode:
-          $ref: '#/components/schemas/InternalErrorCode'
-        success:
-          type:
-          - boolean
-          - 'null'
-          description: 'false'
-          example: false
-      description: DeviceRegistration404Response
-    InternalErrorCode:
-      type: string
-      description: Internal Error Code
-      enum:
-      - _1
-      - _2
-      - _3
-      - _4
-      x-type: String
     tirePosition:
       type: string
       description: Tire position of sensor installation
@@ -911,19 +907,19 @@ components:
       - FRONT_RIGHT
       - REAR_LEFT
       - REAR_RIGHT
-    GetDevices200Response:
+    DeviceRegistration200Response:
+      required:
+      - value
       type: object
       properties:
         value:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Device'
+          type: string
+          description: Get value
         success:
           type: boolean
           description: 'true'
           example: true
+      description: DeviceRegistration200Response
     RegisterGatewayBody:
       required:
       - assetId
@@ -948,35 +944,39 @@ components:
           allOf:
           - $ref: '#/components/schemas/gatewayLocation'
       description: RegisterGatewayBody
-    DeviceRegistration200Response:
+    RegisterSensorBody:
       required:
-      - value
+      - assetId
+      - tirePosition
       type: object
       properties:
-        value:
-          type: string
-          description: Get value
-        success:
-          type: boolean
-          description: 'true'
-          example: true
-      description: DeviceRegistration200Response
-    Device:
-      type: object
-      properties:
-        externalId:
+        sensorId:
           type:
           - string
           - 'null'
-          description: Device's External ID
-          example: 111000ABCD
-        macAddress:
+          description: ID of the sensor
+          example: S102000ABCD
+        assetId:
           type:
           - string
           - 'null'
-          description: MAC Address
-          example: DE:AD:BE:EF:00:00
-      description: Device
+          description: Vehicle asset identifier
+          example: Vehicle 1
+        tirePosition:
+          description: Tire position of sensor installation
+          example: LEFT_1
+          allOf:
+          - $ref: '#/components/schemas/tirePosition'
+      description: RegisterSensorBody
+    InternalErrorCode:
+      type: string
+      description: Internal Error Code
+      enum:
+      - _1
+      - _2
+      - _3
+      - _4
+      x-type: String
   securitySchemes:
     bearerAuth:
       type: http
