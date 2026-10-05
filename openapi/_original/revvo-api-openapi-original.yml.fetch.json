@@ -1,0 +1,12 @@
+{
+ "url": "https://api.revvo.ai/swagger/revvo-api-0.0.yml",
+ "requested_url": "https://api.revvo.ai/swagger/revvo-api-0.0.yml",
+ "status": 200,
+ "content_type": "text/html",
+ "bytes": 100772,
+ "sha256": "aee1aeb14e7ad0c5b0b677bacdcb9798748176ad8d359d7b325d28f3bcd5f633",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
