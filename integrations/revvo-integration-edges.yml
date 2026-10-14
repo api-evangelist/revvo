@@ -1,0 +1,41 @@
+generated: '2026-10-14'
+method: searched
+checked:
+- geotab/integrations/geotab-integration-edges.yml
+- samsara/integrations/samsara-integration-edges.yml
+source:
+- geotab/integrations/geotab-integration-edges.yml
+- samsara/integrations/samsara-integration-edges.yml
+edges:
+- partner_name: Geotab (own)
+  partner: geotab
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.geotab.com/partner/revvo-technologies/
+  mirror_of: geotab/integrations/geotab-integration-edges.yml
+  apps:
+  - Revvo Technologies
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+- partner_name: Samsara (own)
+  partner: samsara
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.samsara.com/resources/marketplace/revvo
+  mirror_of: samsara/integrations/samsara-integration-edges.yml
+  apps:
+  - Revvo
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
