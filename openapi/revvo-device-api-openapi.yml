@@ -982,3 +982,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+x-provenance:
+  method: harvested
+  publisher: Revvo
+  source: https://api.revvo.ai/swagger/revvo-api-0.0.yml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
